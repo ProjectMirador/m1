@@ -30,7 +30,7 @@ module.exports = function(grunt) {
       ],
 
       sources = [
-        // source files
+        // mirador source files
         'js/src/mirador.js',
         'js/src/manifestsLoader.js',
         'js/src/viewer.js',
