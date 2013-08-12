@@ -1,4 +1,4 @@
-//! Mirador 0.7
+//! Mirador 0.7.0
 //! Built on 2013-08-12
 /*! jQuery v1.9.1 | (c) 2005, 2012 jQuery Foundation, Inc. | jquery.org/license
 //@ sourceMappingURL=jquery.min.map
