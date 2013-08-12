@@ -1,3 +1,8 @@
+h1.header {
+  background: transparent url('../images/icon-mirador_fb0025.png') left center no-repeat;
+  padding-left: 26px;
+}
+
 .mirador-demo ul {
   list-style:none;
   padding:0;
