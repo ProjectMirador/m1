@@ -1,0 +1,206 @@
+(function($) {
+
+  $.Viewer = function(options) {
+
+    jQuery.extend(true, this, {
+      id:                     options.id,
+      hash:                   options.id,
+      data:                   null,
+      element:                null,
+      canvas:                 null,
+      layout:                 null,
+      mainMenu:               null,
+      numManifestsLoaded:     0,
+      showStatusBar:          $.DEFAULT_SETTINGS.statusBar.show,
+      statusBar:              null,
+      widgets:                [],
+      manifests:              {},
+      collectionsListingCls:  'listing-collections',
+      workspaceAutoSave:      $.DEFAULT_SETTINGS.workspaceAutoSave,
+
+      lastWidgetPosition: {
+        x: 'left',
+        y: 'top',
+        offset: 0
+      }
+
+    }, $.DEFAULT_SETTINGS, options);
+
+    this.element = this.element || jQuery('#' + this.id);
+
+    if (this.data) {
+      this.create();
+    }
+
+    // Add event coordinator, "lockController" to Mirador Namespace. This object
+    // manages zoom events on imageView viewObjects. Must be loaded asynchronously to allow
+    // viewport objects to finish being constructed from ajax requests.
+    this.lockController = new $.LockController();
+
+    if (this.workspaceAutoSave) {
+      this.saveController = new $.SaveController();
+    }
+  };
+
+
+  $.Viewer.prototype = {
+
+    create: function() {
+      // add main menu
+      this.mainMenu = new $.MainMenu({ appendTo: this.element });
+
+      // add viewer area
+      this.canvas =
+        jQuery('<div/>')
+          .addClass('mirador-viewer')
+          .appendTo(this.element);
+
+      this.canvas.height(this.canvas.height() - this.mainMenu.element.outerHeight(true));
+
+      // add status bar
+      if (this.showStatusBar) {
+        this.statusBar = new $.StatusBar({ appendTo: this.element });
+        this.canvas.height(this.canvas.height() - this.statusBar.element.outerHeight(true));
+      }
+
+      // add layout configuration
+      this.layout = new $.Layout();
+
+    },
+
+
+    renderWidgetsForCollection: function(collection) {
+      var _this = this;
+
+      jQuery.each(collection.widgets, function(index, config) {
+
+        if (!jQuery.isEmptyObject(config) && $.isValidView(config.type)) {
+          config.manifestId = $.getManifestIdByUri(collection.manifestUri);
+          _this.addWidget(config);
+        }
+
+      });
+    },
+
+
+    addWidget: function(config) {
+      jQuery.extend(true, config, {
+        appendTo: this.canvas,
+        id: 'mirador-widget-' + (+new Date()),
+        position: {
+          my: this.getWidgetPosition()
+        }
+      });
+
+      this.widgets.push(new $.Widget(config));
+    },
+
+
+    removeWidget: function(id) {
+      jQuery.each($.viewer.widgets, function(index, widget) {
+        if (widget && widget.id === id) {
+          $.viewer.widgets.splice(index, 1);
+        }
+      });
+    },
+
+
+    loadImageView: function(manifestId, openAt) {
+      $.viewer.addWidget({
+        height: $.DEFAULT_SETTINGS.imageView.height,
+        manifestId: manifestId,
+        openAt: openAt,
+        type: 'imageView',
+        width: $.DEFAULT_SETTINGS.imageView.width
+      });
+    },
+
+
+    loadScrollView: function(manifestId) {
+      $.viewer.addWidget({
+        height: $.DEFAULT_SETTINGS.scrollView.height,
+        manifestId: manifestId,
+        type: 'scrollView',
+        width: $.DEFAULT_SETTINGS.scrollView.width
+      });
+    },
+
+
+    loadThumbnailsView: function(manifestId) {
+      $.viewer.addWidget({
+        height: $.DEFAULT_SETTINGS.thumbnailsView.height,
+        manifestId: manifestId,
+        type: 'thumbnailsView',
+        width: $.DEFAULT_SETTINGS.thumbnailsView.width
+      });
+    },
+
+
+    loadMetadataView: function(manifestId) {
+      $.viewer.addWidget({
+        height: $.DEFAULT_SETTINGS.metadataView.height,
+        manifestId: manifestId,
+        type: 'metadataView',
+        width: $.DEFAULT_SETTINGS.metadataView.width
+      });
+    },
+
+
+    getWidgetPosition: function() {
+      var offsetIncrement = 25,
+      positionX = this.lastWidgetPosition.x + '+' + this.lastWidgetPosition.offset,
+      positionY = this.lastWidgetPosition.y + '+' + this.lastWidgetPosition.offset;
+
+      this.lastWidgetPosition.offset += offsetIncrement;
+
+      return positionX + ' ' + positionY;
+    },
+
+
+    updateLoadWindowContent: function() {
+      var tplData = {
+        cssCls:  this.collectionsListingCls,
+        collections: []
+      };
+
+      if (!jQuery.isEmptyObject($.manifests)) {
+        jQuery.each($.manifests, function(manifestId, manifest) {
+          tplData.collections.push({
+            manifestId:       manifestId,
+            collectionTitle:  $.getCollectionTitle(manifest.metadata),
+            imageTitles:      $.getImageTitles(manifest.sequences[0].imagesList)
+          });
+        });
+
+        // sort listing by collection title
+        tplData.collections = tplData.collections.sort(function(a, b) {
+          return a.collectionTitle.localeCompare(b.collectionTitle);
+        });
+
+        $.loadWindowContent = jQuery($.Templates.mainMenu.loadWindowContent(tplData));
+      }
+    },
+
+
+    addStatusBarMessage: function(position, content, delay, hide) {
+      var elTextFrame = this.statusBar.element.find('.mirador-status-bar-msg-' + position);
+
+      if (isNaN(delay)) {
+        delay = 0;
+      }
+
+      if (hide && typeof hide !== 'boolean') {
+        hide = true;
+      }
+
+      elTextFrame.text(content);
+
+      if (hide) {
+        setTimeout(function() { elTextFrame.fadeOut(); }, delay);
+      }
+
+    }
+
+  };
+
+}(Mirador));
