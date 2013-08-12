@@ -13,8 +13,6 @@ All command-line operations for building and testing Mirador Viewer are scripted
 1. On the command line, go in to the mirador folder
 1. Run `npm install`
 
-You're set... continue reading for build and test instructions.
-
 ### Building from Source
 
 To build, just run (on the command line, in the mirador folder):
