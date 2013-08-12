@@ -25,9 +25,9 @@ If you want Grunt to watch your source files and rebuild every time you change o
 
 The built files appear in the `build` folder.
 
-### Testing 
+### Testing
 
-Our test framework is based on [Jasmine](http://pivotal.github.io/jasmine/) and [PhantomJS](http://phantomjs.org/), and code coverage tool is [istanbul](http://gotwarlost.github.io/istanbul/). 
+Our test framework is based on [Jasmine](http://pivotal.github.io/jasmine/) and [PhantomJS](http://phantomjs.org/), and code coverage tool is [istanbul](http://gotwarlost.github.io/istanbul/).
 These packages are installed when you run npm install. As of now, we have limited tests and coverage. We'll be adding more soon. To run tests on the command line:
 
     grunt test
@@ -39,6 +39,10 @@ For coverage reports:
 Or you can run both tests and coverage by:
 
     grunt test coverage
+
+Grunt `server` task can be used to start a static server at application root dir as base path and port (default: 8000)
+
+    grunt server
 
 
 ### Contributions
