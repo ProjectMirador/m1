@@ -1,9 +1,10 @@
-bkp
-dev.html
 .grunt/
-node_modules/
 _SpecRunner.html
+bkp
+css/discovery.css
+dev.html
 discovery.html
 js/discovery
-css/discovery.css
+node_modules/
 npm-debug.log
+reports/

@@ -9,6 +9,8 @@ describe('Mirador widget layout options | layout.js', function() {
 
     $ = Mirador;
 
+    $.viewer.layout = new $.Layout();
+
   });
 
 
