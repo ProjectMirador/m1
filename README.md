@@ -42,7 +42,7 @@ Or you can run both tests and coverage by:
 
     grunt test coverage
 
-Grunt `server` task can be used to start a static server with application root dir as base path. Ddefault port is 8000
+Grunt `server` task can be used to start a static server with application root dir as base path. Default port is 8000
 
     grunt server
 
