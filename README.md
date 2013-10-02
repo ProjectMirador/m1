@@ -49,21 +49,22 @@ The `grunt server` task can be used to start a static server with application ro
 We welcome your inputs and contributions!
 
 ### Release Notes
-## 0.8.0 
-Version 0.8.0 introduces usability improvements, a repaired save-state feature, and brings the viewer in line with IIIF Specificatoin 1.0, and implements image choice for individual canvases. 
-1. ### Image choice
+#### 0.8.0 
+Version 0.8.0 introduces usability improvements, a repaired save-state feature, and brings the viewer in line with IIIF Specificatoin 1.0, and implements image choice for individual canvases.   
+
+1. **Image choice**  
 In manuscripts for whose pages multi-spectral and post-processed images have been produced and exposed through the IIIF Metadata 1.0 API, an image view toolbar control has been added to toggle between these
-different images covering the canvase. 
-1. ### reliable loading restored 
+different images covering the canvases.
+1. **reliable loading restored**  
 A bug in which some of the manuscript sources were being lost in the initialisation, caused by the use of date-seeded non-unique identifiers, was remedied. This bug was
 also preserving winnowed manifests in the state representation, causing successive reloads to present fewer and fewer manuscripts.
-1. ### IIIF API compatibility 
-Updates to the IIIF Image and Metadata APIs were implemented, bringing the viewer to IIIF I-1.0/M-1.1 status.
-1. ### scale-factors fix 
+1. **IIIF API compatibility**  
+ Updates to the IIIF Image and Metadata APIs were implemented, bringing the viewer to IIIF I-1.0/M-1.1 status.
+1. **scale-factors fix**  
 Developers at the British Library discovered that using alternative IIIF-compliant scale factor parameters resulted in display errors in Mirador. These have been corrected
 to allow all valid scale factor expressions.
-1. ### save state restored
+1. **save state restored**  
 As covered above, save-state is now working, and the ability to erase the current saved session and revert to the repository-provided load configuration has been made
 straight-forward with a simple button in the top-right. 
-1. ### Hierarchical listings in load list
+1. **Hierarchical listings in load list**  
 The "Load Window" menu item has been reorganised to group manuscripts by institution, making the multi-repository nature of the viewer more transparent to viewers.
