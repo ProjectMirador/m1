@@ -3,15 +3,18 @@
   $.MainMenu = function(options) {
 
     jQuery.extend(true, this, {
-      element:                  null,
-      mainMenuHeight:           $.DEFAULT_SETTINGS.mainMenu.height,
-      mainMenuWidth:            $.DEFAULT_SETTINGS.mainMenu.width,
-      windowOptionsMenu:        null,
-      loadWindow:               null,
-      mainMenuBarCls:           'mirador-main-menu-bar',
-      mainMenuCls:              'mirador-main-menu',
-      windowOptionsMenuCls:     'window-options-menu',
-      collectionsListingCls:    'listing-collections'
+      element:                    null,
+      mainMenuHeight:             $.DEFAULT_SETTINGS.mainMenu.height,
+      mainMenuWidth:              $.DEFAULT_SETTINGS.mainMenu.width,
+      windowOptionsMenu:          null,
+      loadWindow:                 null,
+      clearLocalStorage:          '',
+      mainMenuBarCls:             'mirador-main-menu-bar',
+      mainMenuCls:                'mirador-main-menu',
+      windowOptionsMenuCls:       'mirador-window-options-menu',
+      clearLocalStorageCls:       'clear-local-storage',
+      clearLocalStorageDialogCls: 'mirador-main-menu-clear-local-storage',
+      collectionsListingCls:      'mirador-listing-collections'
     }, options);
 
     this.element  = this.element || jQuery('<div/>');
@@ -34,7 +37,22 @@
         mainMenuCls: this.mainMenuCls
       }));
 
+      this.windowOptionsMenu = new $.MainMenuWindowOptions({
+        windowOptionsMenuCls: this.windowOptionsMenuCls
+      });
+
       $.loadWindowContent = "Loading...";
+
+      this.loadWindow = new $.MainMenuLoadWindow({
+        collectionsListingCls:  this.collectionsListingCls,
+      });
+
+      this.clearLocalStorage = $.Templates.mainMenu.clearLocalStorage({
+        cssCls: this.clearLocalStorageDialogCls,
+        selectorClearLocalStorage: '.' + this.mainMenuCls + ' .' + this.clearLocalStorageCls
+      });
+
+
     },
 
 
@@ -43,6 +61,7 @@
           selectorBookmarkWorkspace = '.bookmark-workspace',
           selectorLoadWindow        = '.load-window',
           selectorWindowOptions     = '.window-options',
+          selectorClearLocalStorage = '.' + this.clearLocalStorageCls,
           selectorWindowOptionsMenu = '.' + this.mainMenuBarCls + ' .' + this.windowOptionsMenuCls,
           _this = this;
 
@@ -51,47 +70,34 @@
       });
 
       // menu 'Load Window'
-      elMainMenu.on('click', selectorLoadWindow, function() {
-        if (_this.windowOptionsMenu) {
-          _this.windowOptionsMenu.destroy();
-        }
-
-        if (!_this.loadWindow) {
-          _this.loadWindow = new $.MainMenuLoadWindow({
-            collectionsListingCls:  _this.collectionsListingCls,
-            loadWindowContent:      _this.loadWindowContent,
-            mainMenuCls:            _this.mainMenuCls,
-            parent:                 _this
-          });
-        } else {
-          _this.loadWindow.destroy();
-        }
-
-        event.stopPropagation();
+      elMainMenu.find(selectorLoadWindow).tooltipster({
+        arrow: true,
+        content: _this.loadWindow.element,
+        interactive: true,
+        position: 'bottom',
+        theme: '.tooltipster-mirador'
       });
 
       // Window Options
-      elMainMenu.on('click', selectorWindowOptions, function(event) {
-        if (_this.loadWindow) {
-          _this.loadWindow.destroy();
-        }
-
-        if (!_this.windowOptionsMenu) {
-          _this.windowOptionsMenu = new $.MainMenuWindowOptions({
-            windowOptionsMenuCls: _this.windowOptionsMenuCls,
-            mainMenuCls:          _this.mainMenuCls,
-            parent:               _this
-          });
-        } else {
-          _this.windowOptionsMenu.destroy();
-        }
-
-        event.stopPropagation();
+      elMainMenu.find(selectorWindowOptions).tooltipster({
+        arrow: true,
+        content: _this.windowOptionsMenu.element,
+        interactive: true,
+        theme: '.tooltipster-mirador'
       });
 
-      jQuery(document).on('mousedown', function(event) {
-        // TODO : Close opened menus/windows
+      // menu 'Clear Local Storage'
+      elMainMenu.find(selectorClearLocalStorage).tooltipster({
+        arrow: true,
+        content: _this.clearLocalStorage,
+        interactive: true,
+        theme: '.tooltipster-mirador'
       });
+      // elMainMenu.on('click', selectorClearLocalStorage, function() {
+      //   localStorage.clear();
+      //   location.reload();
+      // });
+
     }
 
   };

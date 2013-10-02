@@ -87,9 +87,7 @@
 	        containment: this.containerCls, // The element the dialog is constrained to.
 	      });
 
-
 	    this.element.dialog('option', 'id', this.id);
-
 
 			this.toolbar = new $.WidgetToolbar({
 				parent: this,
@@ -187,12 +185,14 @@
 
 
 		setSize: function(w, h) {
+      var widget = this;
 			this.element.dialog('option', 'width', w);
 			this.element.dialog('option', 'height', h);
 
 			this.element.trigger('dialogresize');
-			this.element.trigger('dialogresizestop');
-		},
+      this.element.trigger('dialogresizestop');
+      // setTimeout(function(){if (widget.type === 'imageView') {console.log("type detected");widget.viewObj.osd.viewport.goHome();}},100);
+    },
 
 
 		setPositionAndSize: function(x, y, w, h) {
