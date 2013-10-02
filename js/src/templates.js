@@ -23,6 +23,12 @@
               '<span class="icon-window-options"></span>Window Options',
             '</a>',
           '</li>',
+          '<li>',
+            '<a href="javascript:;" class="clear-local-storage" title="Clear saved workspace and reload">',
+              '<span class="icon-clear-local-storage"></span>',
+            '</a>',
+          '</li>',
+
         '</ul>'
       ].join('')),
 
@@ -36,7 +42,7 @@
           '<li><a class="stack-all-vertically-3-cols" href="javascript:;">Stack Vertically (3 columns)</a></li>',
           '<li class="ui-state-disabled"><a href="javascript:;">Open Recent</a></li>',
           '<li><a class="close-all" href="javascript:;">Close All</a></li>',
-        '</ul>'
+        '</ul>',
       ].join('')),
 
       // template for rendering load window's manuscripts' select box and images list
@@ -45,20 +51,37 @@
           '<legend>Available/Loaded manuscripts</legend>',
           '<select>',
             '{{#collections}}',
-              '<option value="select-{{manifestId}}">{{collectionTitle}}</option>',
+              '<optgroup label="{{location}}">',
+                '{{#list}}',
+                  '<option value="select-{{manifestId}}">{{collectionTitle}}</option>',
+                '{{/list}}',
+              '</optgroup>',
             '{{/collections}}',
           '</select><br/>',
           '<a href="javascript:;" class="mirador-btn mirador-icon-thumbnails-view"></a>',
           '<a href="javascript:;" class="mirador-btn mirador-icon-scroll-view"></a>',
           '<a href="javascript:;" class="mirador-btn mirador-icon-metadata-view"></a>',
           '{{#collections}}',
-            '<ul class="ul-{{manifestId}}">',
-              '{{#imageTitles}}',
-                '<li><a href="javascript:;" class="image-{{../manifestId}}">{{trimTitlePrefix title}}</a></li>',
-              '{{/imageTitles}}',
-            '</ul>',
+            '{{#list}}',
+              '<ul class="ul-{{manifestId}}">',
+                '{{#imageTitles}}',
+                  '<li><a href="javascript:;" class="image-{{../manifestId}}">{{trimTitlePrefix title}}</a></li>',
+                '{{/imageTitles}}',
+              '</ul>',
+            '{{/list}}',
           '{{/collections}}',
         '</fieldset>'
+      ].join('')),
+
+      // template for rendering clear local storage dialog
+      clearLocalStorage: Handlebars.compile([
+        '<div class="{{cssCls}}">',
+          '<p>Do you want to delete your saved workspace, and reload the viewer?</p>',
+          '<p>',
+            '<a class="btn-cancel" href="javascript: jQuery(\'{{selectorClearLocalStorage}}\').tooltipster(\'hide\');">Cancel</a>',
+            '<a class="btn-clear" href="javascript: localStorage.clear(); location.reload();">Clear</a>',
+          '</p>',
+        '</div>'
       ].join(''))
 
     },
@@ -91,6 +114,7 @@
       // template for rendering tool bar with nav links
       navToolbar: Handlebars.compile([
         '<div class="{{navToolbarCls}}">',
+          '<a href="javascript:;" class="mirador-btn mirador-icon-choices"></a>',
           '<a href="javascript:;" class="mirador-btn mirador-icon-metadata-view"></a>',
           '<a href="javascript:;" class="mirador-btn mirador-icon-scroll-view"></a>',
           '<a href="javascript:;" class="mirador-btn mirador-icon-thumbnails-view"></a>',
@@ -103,19 +127,28 @@
         '<div class="{{statusbarCls}}">',
           '<a href="javascript:;" class="mirador-btn mirador-icon-lock"></a>',
           '<div class="mirador-image-dimensions">',
-              '<textarea rows="1" class="mirador-image-view-physical-dimensions x">400</textarea>',
-              '<span>✕</span>',
-              '<textarea rows="1" class="mirador-image-view-physical-dimensions y">500</textarea>',
-              '<span class="units">mm',
-                  '<select class="unit-selector">',
-                      '<option value="mm">millimeters</option>',
-                      '<option value="cm">centimeters</option>',
-                      '<option value="m">meters</option>',
-                  '</select>',
-              '</span>',
+            '<textarea rows="1" class="mirador-image-view-physical-dimensions x">400</textarea>',
+            '<span>✕</span>',
+            '<textarea rows="1" class="mirador-image-view-physical-dimensions y">500</textarea>',
+            '<span class="units">mm',
+              '<select class="unit-selector">',
+                '<option value="mm">millimeters</option>',
+                '<option value="cm">centimeters</option>',
+                '<option value="m">meters</option>',
+              '</select>',
+            '</span>',
           '</div>',
         '</div>'
+      ].join('')),
+
+      imageChoices: Handlebars.compile([
+        '<ul class="mirador-image-view-choices">',
+          '{{#choicesInfo}}',
+            '<li><a href="javascript:;" class="mirador-image-view-choice" data-choice="{{label}}" data-image-url="{{imageUrl}}">{{label}}</a></li>',
+          '{{/choicesInfo}}',
+        '</ul>',
       ].join(''))
+
     },
 
 

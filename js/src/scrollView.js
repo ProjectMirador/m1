@@ -37,7 +37,7 @@
 
         attrs[domId] = {};
         attrs[domId].aspectRatio = (image.width / image.height).toFixed(2);
-        attrs[domId].infoJsonUrl = $.getIiifUri(image.imageUrl) + '/info.json';
+        attrs[domId].infoJsonUrl = $.Iiif.getUri(image.imageUrl) + '/info.json';
         attrs[domId].imageUrl    = image.imageUrl;
       });
 
@@ -154,7 +154,8 @@
 
         if (isInViewport) {
           imageUrl = _this.imagesList.attrs[domId].imageUrl;
-          imgSrc   = $.getIiifUriWithHeight(imageUrl, jQuery(elImageInstance).height());
+          imgSrc   = $.Iiif.getUriWithHeight(imageUrl, jQuery(elImageInstance).height());
+
           elStaticThumb.attr('src', imgSrc);
         }
 
@@ -164,13 +165,17 @@
 
 
     showOsdContent: function(domId, elStaticThumb, elEnableZoom) {
+      var infoJson;
+
       elEnableZoom.hide();
       elStaticThumb.hide();
+
+      infoJson = $.getJsonFromUrl(this.imagesList.attrs[domId].infoJsonUrl, false);
 
       $.OpenSeadragon({
         'id':           domId + '-osd',
         'toolbar':      domId + '-osd-toolbar',
-        'tileSources':  this.imagesList.attrs[domId].infoJsonUrl
+        'tileSources':  $.Iiif.prepJsonForOsd(infoJson)
       });
 
       // hide browser based full-screen icon

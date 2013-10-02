@@ -26,11 +26,12 @@ module.exports = function(grunt) {
         'js/lib/jquery-ui.dialogextend.min.js',
         'js/lib/handlebars.js',
         'js/lib/openseadragon.min.js',
+        'js/lib/jquery.tooltipster.min.js',
         'js/lib/d3.v3.min.js',
       ],
 
       sources = [
-        // mirador source files
+        // source files
         'js/src/mirador.js',
         'js/src/manifestsLoader.js',
         'js/src/viewer.js',
@@ -47,6 +48,7 @@ module.exports = function(grunt) {
         'js/src/widget.js',
         'js/src/widgetToolbar.js',
         'js/src/lockController.js',
+        'js/src/iiif.js',
         'js/src/imageView.js',
         'js/src/scrollView.js',
         'js/src/metadataView.js',
@@ -87,7 +89,7 @@ module.exports = function(grunt) {
         dest: distribution
       },
       css: {
-        src: [ 'css/normalize.css', 'css/jquery-ui.custom.css', 'css/mirador.css'],
+        src: [ 'css/normalize.css', 'css/jquery-ui.custom.css', 'css/mirador.css', 'css/tooltipster.css', 'css/tooltipster-mirador.css'],
         dest: 'css/mirador-combined.css'
       }
     },
@@ -156,7 +158,7 @@ module.exports = function(grunt) {
       all: {
         options: { livereload: true },
         files: [ 'Gruntfile.js', 'js/src/*.js', 'images/*', 'css/*' ],
-        tasks: 'build'
+        tasks: 'dev_build'
       }
     },
 
@@ -205,7 +207,6 @@ module.exports = function(grunt) {
     }
   });
 
-
   // ----------
   // Copy:release task.
   // Copies the contents of the build folder into the release folder.
@@ -222,7 +223,12 @@ module.exports = function(grunt) {
   // ----------
   // Build task.
   // Cleans out the build folder and builds the code and images into it, checking lint.
-  grunt.registerTask('build', [ 'clean:build', 'git-describe', 'concat', 'cssmin', 'copy', 'uglify' ]);
+  grunt.registerTask('build', [ 'clean:build', 'git-describe', 'jshint', 'concat', 'cssmin', 'copy', 'uglify' ]);
+  
+  // ----------
+  // Dev Build task.
+  // Build, but skip the time-consuming and obscurantist minification and uglification.
+  grunt.registerTask('dev_build', [ 'clean:build', 'git-describe', 'jshint', 'concat', 'copy' ]);
 
   // ----------
   // Package task.

@@ -11,7 +11,8 @@
       thumbsListingCls:     '',
       thumbsMaxHeight:      $.DEFAULT_SETTINGS.thumbnailsView.thumbsMaxHeight,
       thumbsMinHeight:      $.DEFAULT_SETTINGS.thumbnailsView.thumbsMinHeight,
-      thumbsDefaultHeight:  $.DEFAULT_SETTINGS.thumbnailsView.thumbsMinHeight + (( $.DEFAULT_SETTINGS.thumbnailsView.thumbsMaxHeight - $.DEFAULT_SETTINGS.thumbnailsView.thumbsMinHeight ) * $.DEFAULT_SETTINGS.thumbnailsView.thumbsDefaultZoom),
+      thumbsDefaultZoom:    $.DEFAULT_SETTINGS.thumbnailsView.thumbsDefaultZoom,
+      thumbsDefaultHeight:  this.thumbsMinHeight,
       parent:               null,
       navToolbarCls:        'mirador-thumbnails-view-nav-toolbar'
     }, options);
@@ -24,6 +25,8 @@
     render: function() {
       this.sliderId         = this.parent.element.attr('id') + '-thumbs-slider';
       this.thumbsListingCls = this.parent.element.attr('id') + '-thumbs-listing';
+
+      this.thumbsDefaultHeight = this.thumbsMinHeight + ((this.thumbsMaxHeight - this.thumbsMinHeight) * this.thumbsDefaultZoom);
 
       this.element.html('');
       this.addToolbarNav();
@@ -42,7 +45,7 @@
 
       tplData.thumbs = jQuery.map(this.imagesList, function(image, index) {
         return {
-          thumbUrl: $.getIiifUriWithHeight(image.imageUrl, _this.thumbsMaxHeight),
+          thumbUrl: $.Iiif.getUriWithHeight(image.imageUrl, _this.thumbsMaxHeight),
           title:    image.title
         };
       });

@@ -28,7 +28,7 @@ window.Mirador = window.Mirador || function(config) {
    */
   $.DEFAULT_SETTINGS = {
 
-    'workspaceAutoSave': false,
+    'workspaceAutoSave': true,
     'initialLayout': 'cascade',
 
     'availableViews': {
@@ -115,6 +115,12 @@ window.Mirador = window.Mirador || function(config) {
     // parameters of saving system
     'saveController': {
       'saveInterval': 8000 // number of milliseconds between automatic saves.
+    },
+
+    // linked image views configuration
+    'lockController' : {
+      'lockProfile' : 'lazyZoom',
+      'notifyMaxMin' : false
     }
   };
 
@@ -137,7 +143,7 @@ window.Mirador = window.Mirador || function(config) {
   // Removes duplicates from an array.
   $.getUniques = function(arr) {
     var temp = {},
-        unique = [];
+    unique = [];
 
     for (var i = 0; i < arr.length; i++) {
       temp[arr[i]] = true;
@@ -164,6 +170,15 @@ window.Mirador = window.Mirador || function(config) {
 
   $.trimString = function(str) {
     return str.replace(/^\s+|\s+$/g, '');
+  };
+
+
+  $.trimStringBy = function(str, length) {
+    if (str.length > length) {
+      str = str.substr(0, length) + '...';
+    }
+
+    return str;
   };
 
 
@@ -195,24 +210,6 @@ window.Mirador = window.Mirador || function(config) {
   };
 
 
-  // Temporary method to create Stanford IIIF uri from Stanford stacks non-IIIF URI
-  $.getIiifUri = function(uri) {
-    var iiifUri = uri,
-    match = /http?:\/\/stacks.stanford.edu\/image\/(\w+\/\S+)/i.exec(uri);
-
-    if (match && match.length === 2) {
-      iiifUri = 'https://stacks.stanford.edu/image/iiif/' + encodeURIComponent(match[1]);
-    }
-
-    return iiifUri;
-  };
-
-
-  $.getIiifUriWithHeight = function(uri, height) {
-    return $.getIiifUri(uri) + '/full/,' + height + '/0/native.jpg';
-  };
-
-
   $.extractLabelFromAttribute = function(attr) {
     var label = attr;
 
@@ -229,7 +226,7 @@ window.Mirador = window.Mirador || function(config) {
 
   $.toString = function(obj, delimiter) {
     var str = '',
-        joint = delimiter || ' ';
+    joint = delimiter || ' ';
 
     if (jQuery.type(obj) === 'string') {
       str = obj;
@@ -287,6 +284,69 @@ window.Mirador = window.Mirador || function(config) {
     return data;
   };
 
+
+  $.genUUID = function() {
+    var idNum = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var r = Math.random() * 16|0, v = c == 'x' ? r : (r&0x3|0x8);
+      return v.toString(16);
+    });
+
+    return "uuid-" + idNum;
+  };
+
+
+  $.throttle = function(func, wait, options) {
+    var context, args, result;
+    var timeout = null;
+    var previous = 0;
+    options || (options = {});
+    var later = function() {
+      previous = options.leading === false ? 0 : new Date;
+      timeout = null;
+      result = func.apply(context, args);
+    };
+    return function() {
+      var now = new Date;
+      if (!previous && options.leading === false) previous = now;
+      var remaining = wait - (now - previous);
+      context = this;
+      args = arguments;
+      if (remaining <= 0) {
+        clearTimeout(timeout);
+        timeout = null;
+        previous = now;
+        result = func.apply(context, args);
+      } else if (!timeout && options.trailing !== false) {
+        timeout = setTimeout(later, remaining);
+      }
+      return result;
+    };
+  };
+
+  $.debounce = function(func, wait, immediate) {
+    var timeout, args, context, timestamp, result;
+    return function() {
+      context = this;
+      args = arguments;
+      timestamp = new Date();
+      var later = function() {
+        var last = (new Date()) - timestamp;
+        if (last < wait) {
+          timeout = setTimeout(later, wait - last);
+        } else {
+          timeout = null;
+          if (!immediate) result = func.apply(context, args);
+        }
+      };
+      var callNow = immediate && !timeout;
+      if (!timeout) {
+        timeout = setTimeout(later, wait);
+      }
+      if (callNow) result = func.apply(context, args);
+      return result;
+    };
+  };
+
 }(Mirador));
 
 
@@ -299,7 +359,7 @@ window.Mirador = window.Mirador || function(config) {
 jQuery.fn.scrollStop = function(callback) {
   $(this).scroll(function() {
     var self  = this,
-        $this = $(self);
+    $this = $(self);
 
     if ($this.data('scrollTimeout')) {
       clearTimeout($this.data('scrollTimeout'));

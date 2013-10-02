@@ -9,9 +9,9 @@
 
     getManifestsData: function(config) {
       var _this = this,
-          manifests = {},
-          loadingOrder = [],
-          arrDfds = [];
+      manifests = {},
+      loadingOrder = [],
+      arrDfds = [];
 
       jQuery.each(config.data, function(index, collection) {
         if (_this.hasWidgets(collection)) {
@@ -21,9 +21,8 @@
         }
       });
 
-
       jQuery.each(loadingOrder, function(index, order) {
-        var manifestId = 'manifest-' + (+new Date()),
+        var manifestId = 'manifest-' + ($.genUUID()),
             collection = config.data[order],
             dfd = jQuery.Deferred(),
             manifest;
@@ -38,7 +37,8 @@
               manifests[manifestId] = {
                 uri:        $.trimString(collection.manifestUri),
                 metadata:   manifest.metadata,
-                sequences:  manifest.sequences
+                sequences:  manifest.sequences,
+                location:   collection.location || '-'
               };
 
               if (_this.hasWidgets(collection)) {
@@ -53,8 +53,15 @@
       });
 
       jQuery.when.apply(null, arrDfds).done(function() {
+        var message = 'Loaded ' + $.viewer.numManifestsLoaded + ' of ' + (arrDfds.length) + ' manifests to viewer';
+
         $.viewer.updateLoadWindowContent();
-        $.viewer.addStatusBarMessage('left', 'Loaded ' + $.viewer.numManifestsLoaded + ' of ' + (arrDfds.length) + ' manifests to viewer', 1000, true);
+        $.viewer.addStatusBarMessage('left', message, 1000, true);
+
+      }).done(function() {
+        if ($.viewer.workspaceAutoSave) {
+          $.viewer.saveController.save();
+        }
       });
 
       return manifests;
