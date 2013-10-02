@@ -5,7 +5,6 @@
     jQuery.extend(true, this, {
       saveInterval: $.DEFAULT_SETTINGS.saveController.saveInterval
     });
-    this.save();
   };
 
   $.SaveController.prototype = {
@@ -72,7 +71,8 @@
         var manifestEntry = {
           manifestUri: $.manifests[item].uri,
           title: $.getTitlePrefix($.getMetadataByManifestId(item).details)[0],
-          widgets: []
+          widgets: [],
+          location: $.manifests[item].location || '-'
         };
 
         if ( widgetIndex.hasOwnProperty(item) ) {

@@ -14,8 +14,8 @@
       showStatusBar:          $.DEFAULT_SETTINGS.statusBar.show,
       statusBar:              null,
       widgets:                [],
-      manifests:              {},
-      collectionsListingCls:  'listing-collections',
+      collectionsListingCls:  'mirador-listing-collections',
+      mainMenuLoadWindowCls:  '.mirador-main-menu .load-window',
       workspaceAutoSave:      $.DEFAULT_SETTINGS.workspaceAutoSave,
 
       lastWidgetPosition: {
@@ -86,7 +86,7 @@
     addWidget: function(config) {
       jQuery.extend(true, config, {
         appendTo: this.canvas,
-        id: 'mirador-widget-' + (+new Date()),
+        id: 'mirador-widget-' + ($.genUUID()),
         position: {
           my: this.getWidgetPosition()
         }
@@ -159,26 +159,57 @@
 
     updateLoadWindowContent: function() {
       var tplData = {
-        cssCls:  this.collectionsListingCls,
-        collections: []
-      };
+            cssCls:  this.collectionsListingCls,
+            collections: []
+          },
+          groupedList = this.arrangeCollectionsFromManifests(),
+          locations = [];
+
+      // sort by location name
+      jQuery.each(groupedList, function(location, list) {
+        locations.push(location);
+      });
+
+      jQuery.each(locations.sort(), function(index, location) {
+        tplData.collections.push({
+          location: location,
+          list: groupedList[location]
+        })
+      });
+
+      $.loadWindowContent = jQuery($.Templates.mainMenu.loadWindowContent(tplData));
+
+      jQuery(this.mainMenuLoadWindowCls).tooltipster('update', $.loadWindowContent);
+    },
+
+
+    arrangeCollectionsFromManifests: function() {
+      var groupedList = {};
 
       if (!jQuery.isEmptyObject($.manifests)) {
         jQuery.each($.manifests, function(manifestId, manifest) {
-          tplData.collections.push({
+          var location = manifest.location;
+
+          if (typeof groupedList[location] === 'undefined') {
+            groupedList[location] = [];
+          }
+
+          groupedList[location].push({
             manifestId:       manifestId,
-            collectionTitle:  $.getCollectionTitle(manifest.metadata),
+            collectionTitle:  $.trimStringBy($.getCollectionTitle(manifest.metadata), 60),
             imageTitles:      $.getImageTitles(manifest.sequences[0].imagesList)
           });
         });
+      }
 
-        // sort listing by collection title
-        tplData.collections = tplData.collections.sort(function(a, b) {
+      // sort by collection title
+      jQuery.each(groupedList, function(location, list) {
+        groupedList[location] = groupedList[location].sort(function(a, b) {
           return a.collectionTitle.localeCompare(b.collectionTitle);
         });
+      });
 
-        $.loadWindowContent = jQuery($.Templates.mainMenu.loadWindowContent(tplData));
-      }
+      return groupedList;
     },
 
 

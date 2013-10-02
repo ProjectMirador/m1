@@ -62,21 +62,23 @@
       this.element.append(item);
     },
 
-    render: function(width) {
+    render: (function() {
 
+      return $.debounce( function(width) {
+        var scale = this.visualisation.scale,
+        axis = this.visualisation.axis,
+        xScaleFunction = this.visualisation.xScaleFunction,
+        newWidth = this.calculateScaleDimensions();
 
-      var scale = this.visualisation.scale,
-      axis = this.visualisation.axis,
-      xScaleFunction = this.visualisation.xScaleFunction,
-      newWidth = this.calculateScaleDimensions();
+        xScaleFunction.domain([0, d3.max(newWidth)]);
 
-      xScaleFunction.domain([0, d3.max(newWidth)]);
+        scale.select('.x.axis')
+        .transition()
+        .duration(850)
+        .call(axis);
+      }, 50);
 
-      scale.select('.x.axis')
-      .transition()
-      .duration(850)
-      .call(axis);
-    },
+    })(),
 
     calculateScaleDimensions: function() {
       _this = this;
@@ -101,7 +103,6 @@
       scaleSize = physicalViewportWidth*scaleRatio;
       return [scaleSize];
     },
-
 
     show: function() {
       this.element.fadeIn();

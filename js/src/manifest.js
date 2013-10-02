@@ -18,7 +18,6 @@
     this.loadManifestDataFromURI(dfd);
   };
 
-
   $.Manifest.prototype = {
 
     loadManifestDataFromURI: function(dfd) {
@@ -35,7 +34,6 @@
           _this.sequences = _this.parseSequences();
           _this.parseMetadata();
 
-          ++$.viewer.numManifestsLoaded;
           dfd.resolve(true);
         },
 
@@ -71,19 +69,18 @@
           imagesList = [];
 
       jQuery.each(sequence.canvases, function(index, canvas) {
-        if (canvas['@type'] === 'sc:Canvas') {
+        var images = [],
+            imageObj;
 
-          jQuery.each(canvas.resources, function(index, resource) {
-            if (resource.motivation === 'sc:painting') {
-              imagesList.push({
-                id:       resource.resource['@id'] || resource['@id'],
-                title:    resource.resource.label || resource.label || canvas.label || '',
-                height:   resource.resource.height || resource.height || 0,
-                width:    resource.resource.width || resource.width || 0,
-                aspectRatio: ( resource.resource.width || resource.width || 0 ) / ( resource.resource.height || resource.height || 0 ),
-                imageUrl: resource.resource.service['@id'].replace(/\/$/, ''),
-                canvasId: resource.on
-              });
+        if (canvas['@type'] === 'sc:Canvas') {
+          images = canvas.resources || canvas.images;
+
+          jQuery.each(images, function(index, image) {
+            if (image['@type'] === 'oa:Annotation') {
+              imageObj = _this.getImageObject(image);
+
+              imageObj.title = canvas.label || '';
+              imagesList.push(imageObj);
             }
           });
 
@@ -94,11 +91,79 @@
     },
 
 
+    getImageObject: function(image) {
+      var resource = image.resource,
+          imageObj;
+
+      if (resource.hasOwnProperty('@type') && resource['@type'] === 'oa:Choice') {
+        imageObj = this.getImageObjWithChoices(image.resource);
+
+      } else {
+        imageObj = this.getImageProperties(resource);
+      }
+
+      return(imageObj);
+    },
+
+
+    getImageProperties: function(image) {
+      var imageObj = {
+        height:       image.height || 0,
+        width:        image.width || 0,
+        imageUrl:     image.service['@id'].replace(/\/$/, ''),
+        choices:      [],
+        choiceLabel:  image.label || ''
+      };
+
+      imageObj.aspectRatio  = (imageObj.width / imageObj.height) || 1;
+
+      return imageObj;
+    },
+
+
+    getImageObjWithChoices: function(resource) {
+      var _this = this,
+          items = [],
+          imageObj,
+          choice,
+          choiceIndex = 1;
+
+      // remove after Rob converts 'item' object to an array
+      if (!jQuery.isArray(resource.item)) {
+        items.push(resource.item);
+      } else {
+        items = resource.item;
+      }
+
+      // get the default image object first
+      imageObj = this.getImageProperties(resource.default);
+
+      if (imageObj.choiceLabel === '') {
+        imageObj.choiceLabel = 'Choice ' + choiceIndex;
+      }
+
+      // iterate each choice and store in default object
+      jQuery.each(items, function(index, item) {
+        choice = _this.getImageProperties(item);
+
+        if (choice.choiceLabel === '') {
+          choiceIndex += 1;
+          choice.choiceLabel = 'Choice ' + choiceIndex;
+        }
+
+        imageObj.choices.push(choice);
+      });
+
+      return imageObj;
+    },
+
+
     parseMetadata: function() {
       this.parseMetadataAbout();
       this.parseMetadataDetails();
       this.parseMetadataRights();
       this.parseMetadataLinks();
+      ++$.viewer.numManifestsLoaded;
     },
 
 

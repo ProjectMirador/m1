@@ -1,5 +1,3 @@
-MIRADOR VIEWER CHANGELOG
-========================
-
-0.7.0:
+MIRADOR CHANGELOG
+=======================
 

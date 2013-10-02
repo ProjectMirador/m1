@@ -78,6 +78,8 @@
         y = canvas.top + (rowIndex * (_this.rowPadding + widgetHeight));
 
         widget.setPositionAndSize(x, y, widgetWidth, widgetHeight);
+        // console.log(widget);
+        // if (widget.type === 'imageView') {console.log("type detected"); widget.viewObj.osd.viewport.goHome();}
       });
 
     },
