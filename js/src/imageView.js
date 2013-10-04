@@ -28,7 +28,7 @@
     }, options);
 
 
-    if (this.openAt != null) {
+    if (this.openAt !== null) {
       this.currentImgIndex = this.getImageIndexByTitle(this.openAt);
     }
 
@@ -113,7 +113,7 @@
       choicesInfo.push({
         label: this.currentImg.choiceLabel,
         imageUrl: this.currentImg.imageUrl
-      })
+      });
 
       jQuery.each(this.currentImg.choices, function(index, choice) {
         choicesInfo.push({
@@ -178,8 +178,10 @@
 
 
     storeCurrentOsdBounds: function(dfd) {
-      this.osdBounds = this.parent.viewObj.osd.viewport.getBounds();
-      dfd.resolve();
+      _this = this;
+      dfd.resolve( function() {
+        _this.osdBounds = _this.parent.viewObj.osd.viewport.getBounds();
+      }());
     },
 
 

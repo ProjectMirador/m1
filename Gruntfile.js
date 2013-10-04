@@ -157,7 +157,7 @@ module.exports = function(grunt) {
     watch: {
       all: {
         options: { livereload: true },
-        files: [ 'Gruntfile.js', 'js/src/*.js', 'images/*', 'css/*' ],
+        files: [ 'Gruntfile.js', 'js/src/*.js', 'images/*', 'css/mirador.css' ],
         tasks: 'dev_build'
       }
     },
