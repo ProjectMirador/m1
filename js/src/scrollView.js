@@ -227,19 +227,18 @@
       elScrollFrame.on('mouseleave', function() { elScrollFrame.data('hover', false); });
 
       jQuery(document).on('keydown', function(event) {
-        var scrollWidth = _this.element.width();
+        var scrollWidth = _this.element.width(),
+            posLeft;
 
         if (elScrollFrame.data('hover')) {
 
-          if (event.keyCode === leftArrowKey) {
-            var posLeft = _this.element.scrollLeft();
+          posLeft = _this.element.scrollLeft();
 
+          if (event.keyCode === leftArrowKey) {
             _this.element.animate({ scrollLeft: posLeft - scrollWidth}, duration);
           }
 
           if (event.keyCode === rightArrowKey) {
-            var posLeft = _this.element.scrollLeft();
-
             _this.element.animate({ scrollLeft: posLeft + scrollWidth}, duration);
           }
         }

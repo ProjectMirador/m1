@@ -4,7 +4,7 @@
 
     jQuery.extend(true, this, {
       menuContent:           null,
-      windowOptionsMenuCls: 'window-options-menu',
+      windowOptionsMenuCls: 'window-options-menu'
     }, options);
 
     this.element = this.element || jQuery('<div/>');

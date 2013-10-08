@@ -174,7 +174,7 @@
         tplData.collections.push({
           location: location,
           list: groupedList[location]
-        })
+        });
       });
 
       $.loadWindowContent = jQuery($.Templates.mainMenu.loadWindowContent(tplData));

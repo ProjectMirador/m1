@@ -29,6 +29,9 @@ window.Mirador = window.Mirador || function(config) {
   $.DEFAULT_SETTINGS = {
 
     'workspaceAutoSave': true,
+
+    'showNoImageChoiceOption': true,
+
     'initialLayout': 'cascade',
 
     'availableViews': {
@@ -102,7 +105,7 @@ window.Mirador = window.Mirador || function(config) {
       'height': 400,
       'thumbsMaxHeight': 150,
       'thumbsMinHeight': 50,
-      'thumbsDefaultZoom': .5,
+      'thumbsDefaultZoom': 0.5,
       'width': 600
     },
 
@@ -154,7 +157,7 @@ window.Mirador = window.Mirador || function(config) {
     }
 
     return unique;
-  }
+  };
 
 
   $.getTitlePrefix = function(details) {
@@ -299,14 +302,18 @@ window.Mirador = window.Mirador || function(config) {
     var context, args, result;
     var timeout = null;
     var previous = 0;
-    options || (options = {});
+
+    if (typeof options !== 'undefined') {
+      options = {};
+    }
+
     var later = function() {
-      previous = options.leading === false ? 0 : new Date;
+      previous = options.leading === false ? 0 : new Date();
       timeout = null;
       result = func.apply(context, args);
     };
     return function() {
-      var now = new Date;
+      var now = new Date();
       if (!previous && options.leading === false) previous = now;
       var remaining = wait - (now - previous);
       context = this;

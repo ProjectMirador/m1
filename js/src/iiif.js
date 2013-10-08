@@ -23,31 +23,30 @@
 
     prepJsonForOsd: function(json) {
       var newScaleFactors = [],
-          regex
+          regex;
 
       if (!json.hasOwnProperty('image_host') && json.hasOwnProperty('@id')) {
-        json['image_host'] = json['@id'];
+        json.image_host = json['@id'];
       }
 
       if (json.hasOwnProperty('identifier')) {
-        regex = new RegExp('/?' + json['identifier'] + '/?', 'i');
+        regex = new RegExp('/?' + json.identifier + '/?', 'i');
 
-        json['image_host'] = json['image_host'].replace(regex, '');
+        json.image_host = json.image_host.replace(regex, '');
       }
 
-      if (json.hasOwnProperty('scale_factors') && jQuery.isArray(json['scale_factors'])) {
-        for (var i = 0; i < json['scale_factors'].length; i++) {
+      if (json.hasOwnProperty('scale_factors') && jQuery.isArray(json.scale_factors)) {
+        for (var i = 0; i < json.scale_factors.length; i++) {
           newScaleFactors.push(i);
         }
 
-        json['scale_factors'] = newScaleFactors;
-
+        json.scale_factors = newScaleFactors;
       }
 
       return json;
     }
 
-  }
+  };
 
 
 }(Mirador));

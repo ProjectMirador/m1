@@ -44,7 +44,7 @@
       $.loadWindowContent = "Loading...";
 
       this.loadWindow = new $.MainMenuLoadWindow({
-        collectionsListingCls:  this.collectionsListingCls,
+        collectionsListingCls:  this.collectionsListingCls
       });
 
       this.clearLocalStorage = $.Templates.mainMenu.clearLocalStorage({
