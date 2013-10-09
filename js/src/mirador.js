@@ -10,8 +10,6 @@ window.Mirador = window.Mirador || function(config) {
     Mirador.settingsLoader = new Mirador.SettingsLoader(config);
 
     config = Mirador.settingsLoader.config;
-    // console.log('Loaded Config:');
-    // console.log(config);
   }
 
   // Render viewer using loaded manifests data
@@ -32,7 +30,7 @@ window.Mirador = window.Mirador || function(config) {
 
     'showNoImageChoiceOption': true,
 
-    'initialLayout': 'cascade',
+    'initialLayout': 'stackAll3Columns',
 
     'availableViews': {
       'imageView': {
@@ -329,6 +327,7 @@ window.Mirador = window.Mirador || function(config) {
       return result;
     };
   };
+
 
   $.debounce = function(func, wait, immediate) {
     var timeout, args, context, timestamp, result;

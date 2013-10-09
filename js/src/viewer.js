@@ -8,6 +8,7 @@
       data:                   null,
       element:                null,
       canvas:                 null,
+      initialLayout:          $.DEFAULT_SETTINGS.initialLayout || 'cascade',
       layout:                 null,
       mainMenu:               null,
       numManifestsLoaded:     0,
@@ -73,13 +74,15 @@
       var _this = this;
 
       jQuery.each(collection.widgets, function(index, config) {
-
         if (!jQuery.isEmptyObject(config) && $.isValidView(config.type)) {
           config.manifestId = $.getManifestIdByUri(collection.manifestUri);
           _this.addWidget(config);
         }
-
       });
+
+      if (typeof this.initialLayout !== 'undefined') {
+        $.viewer.layout.applyLayout(this.initialLayout);
+      }
     },
 
 
