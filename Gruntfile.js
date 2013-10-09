@@ -89,7 +89,7 @@ module.exports = function(grunt) {
         dest: distribution
       },
       css: {
-        src: [ 'css/normalize.css', 'css/jquery-ui.custom.css', 'css/mirador.css', 'css/tooltipster.css', 'css/tooltipster-mirador.css'],
+        src: [ 'css/font-awesome.css', 'css/normalize.css', 'css/jquery-ui.custom.css', 'css/mirador.css', 'css/tooltipster.css', 'css/tooltipster-mirador.css'],
         dest: 'css/mirador-combined.css'
       }
     },

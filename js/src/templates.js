@@ -114,6 +114,7 @@
       // template for rendering tool bar with nav links
       navToolbar: Handlebars.compile([
         '<div class="{{navToolbarCls}}">',
+          '<a href="javascript:;" class="mirador-btn mirador-icon-annotations"><i class="icon-comments"></i></a>',
           '<a href="javascript:;" class="mirador-btn mirador-icon-choices"></a>',
           '<a href="javascript:;" class="mirador-btn mirador-icon-metadata-view"></a>',
           '<a href="javascript:;" class="mirador-btn mirador-icon-scroll-view"></a>',

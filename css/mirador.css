@@ -242,6 +242,7 @@
 ---------------------------------------------------------------------------- */
 
 .mirador-image-view-nav-toolbar {
+  position:relative;
   float: right;
   margin-right: 5px;
 }
@@ -322,6 +323,31 @@ text {
 .mirador-image-dimensions .unit-selector.active {
   display:block;
 }
+
+/* annotation list
+-----------------*/
+.annotationListPanel {
+  background-color: #f0f0f0;
+  width:150px;
+  height:100%;
+  position:absolute;
+  right:0;
+  top:0;
+  margin:0;
+  padding: 0px 10px;
+  z-index:2;
+}
+ul.annotationList {
+  height:300px;
+  overflow:scroll;
+  overflow-x:hidden;
+}
+ul.annotationList li {
+  list-style: none;
+}
+
+/* image choice controls
+------------------------*/ 
 
 .mirador-image-view-choices {
   list-style: none;
@@ -526,6 +552,13 @@ text {
   margin-top: 4px;
   margin-left: 3px;
 }
+
+a.mirador-icon-annotations [class^="icon-"] {
+  display:block;
+  position:absolute;
+}
+.mirador-viewer a.mirador-icon-annotations { background: none; color: rgb( 146, 145, 145 ); box-sizing: border-box; }
+.mirador-viewer a.mirador-icon-annotations:hover { color: black }
 
 .mirador-icon-previous { background-position: -80px -40px; }
 .mirador-icon-previous:hover { background-position: -80px -60px; }

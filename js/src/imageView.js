@@ -77,7 +77,7 @@
         _this.zoomLevel = _this.osd.viewport.getZoom();
 
         if (typeof osdBounds != 'undefined') {
-          _this.osd.viewport.fitBounds(osdBounds);
+          _this.osd.viewport.fitBounds(osdBounds, true);
         }
       });
 

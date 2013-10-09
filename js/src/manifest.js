@@ -80,6 +80,9 @@
               imageObj = _this.getImageObject(image);
 
               imageObj.title = canvas.label || '';
+              imageObj.annotations = jQuery.map(canvas.otherContent, function( annotation ){
+                return annotation['@id'];
+              });
               imagesList.push(imageObj);
             }
           });
@@ -94,7 +97,6 @@
     getImageObject: function(image) {
       var resource = image.resource,
           imageObj;
-
       if (resource.hasOwnProperty('@type') && resource['@type'] === 'oa:Choice') {
         imageObj = this.getImageObjWithChoices(image.resource);
 
