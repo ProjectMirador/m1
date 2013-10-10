@@ -3,7 +3,7 @@
 
   $.Iiif = {
 
-    // Temporary method to create Stanford IIIF uri from Stanford stacks non-IIIF URI
+    // Temporary method to create Stanford IIIF URI from Stanford stacks non-IIIF URI
     getUri: function(uri) {
       var iiifUri = uri,
       match = /http?:\/\/stacks.stanford.edu\/image\/(\w+\/\S+)/i.exec(uri);
@@ -17,33 +17,46 @@
 
 
     getUriWithHeight: function(uri, height) {
+      uri = uri.replace(/\/$/, '');
       return this.getUri(uri) + '/full/,' + height + '/0/native.jpg';
     },
 
 
     prepJsonForOsd: function(json) {
-      var newScaleFactors = [],
-          regex;
+      json.image_host = this.getImageHostUrl(json);
+      json.scale_factors = this.packageScaleFactors(json);
 
-      if (!json.hasOwnProperty('image_host') && json.hasOwnProperty('@id')) {
-        json.image_host = json['@id'];
+      return json;
+    },
+
+
+    getImageHostUrl: function(json) {
+      var regex;
+
+      if (!json.hasOwnProperty('image_host')) {
+
+        json.image_host = json.tilesUrl || json['@id'] || '';
+
+        if (json.hasOwnProperty('identifier')) {
+          regex = new RegExp('/?' + json.identifier + '/?$', 'i');
+          json.image_host = json.image_host.replace(regex, '');
+        }
       }
 
-      if (json.hasOwnProperty('identifier')) {
-        regex = new RegExp('/?' + json.identifier + '/?', 'i');
+      return json.image_host;
+    },
 
-        json.image_host = json.image_host.replace(regex, '');
-      }
+
+    packageScaleFactors: function(json) {
+      var newScaleFactors = [];
 
       if (json.hasOwnProperty('scale_factors') && jQuery.isArray(json.scale_factors)) {
         for (var i = 0; i < json.scale_factors.length; i++) {
           newScaleFactors.push(i);
         }
-
-        json.scale_factors = newScaleFactors;
       }
 
-      return json;
+      return newScaleFactors;
     }
 
   };

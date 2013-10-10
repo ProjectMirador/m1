@@ -97,7 +97,7 @@
 
     clearOpenSeadragonInstance: function() {
       this.element.find('.' + this.osdCls).remove();
-      this.element.find('.' + this.scaleCls).remove();
+      // this.element.find('.' + this.scaleCls).remove();
       this.osd = null;
 
       this.renderChoices();

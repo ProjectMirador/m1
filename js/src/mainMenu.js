@@ -93,10 +93,6 @@
         interactive: true,
         theme: '.tooltipster-mirador'
       });
-      // elMainMenu.on('click', selectorClearLocalStorage, function() {
-      //   localStorage.clear();
-      //   location.reload();
-      // });
 
     }
 
