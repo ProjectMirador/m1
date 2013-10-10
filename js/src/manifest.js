@@ -12,7 +12,9 @@
         details:  {},
         rights:   {},
         links:    {}
-      }
+      },
+
+      showNoImageChoiceOption: $.DEFAULT_SETTINGS.showNoImageChoiceOption
     });
 
     this.loadManifestDataFromURI(dfd);
@@ -102,6 +104,10 @@
         imageObj = this.getImageProperties(resource);
       }
 
+      if (this.showNoImageChoiceOption) {
+        imageObj.choices.push(this.getNoImageChoiceObj());
+      }
+
       return(imageObj);
     },
 
@@ -112,7 +118,7 @@
         width:        image.width || 0,
         imageUrl:     image.service['@id'].replace(/\/$/, ''),
         choices:      [],
-        choiceLabel:  image.label || ''
+        choiceLabel:  image.label || 'Default'
       };
 
       imageObj.aspectRatio  = (imageObj.width / imageObj.height) || 1;
@@ -136,7 +142,7 @@
       }
 
       // get the default image object first
-      imageObj = this.getImageProperties(resource.default);
+      imageObj = this.getImageProperties(resource['default']);
 
       if (imageObj.choiceLabel === '') {
         imageObj.choiceLabel = 'Choice ' + choiceIndex;
@@ -155,6 +161,18 @@
       });
 
       return imageObj;
+    },
+
+
+    getNoImageChoiceObj: function() {
+      return {
+        height:       0,
+        width:        0,
+        imageUrl:     null,
+        choices:      [],
+        choiceLabel:  'No Image',
+        aspectRatio:  1
+      };
     },
 
 

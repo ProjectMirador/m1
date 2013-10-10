@@ -94,19 +94,17 @@
       elThumbsFrame.on('mouseleave', function() { elThumbsFrame.data('hover', false); });
 
       jQuery(document).on('keydown', function(event) {
-        var scrollHeight = _this.parent.content.element.height();
+        var scrollHeight = _this.parent.content.element.height(),
+            posTop;
 
         if (elThumbsFrame.data('hover')) {
+          posTop = _this.element.scrollTop();
 
           if (event.keyCode === upArrowKey) {
-            var posTop = _this.element.scrollTop();
-
             _this.element.animate({ scrollTop: posTop - scrollHeight}, duration);
           }
 
           if (event.keyCode === downArrowKey) {
-            var posTop = _this.element.scrollTop();
-
             _this.element.animate({ scrollTop: posTop + scrollHeight}, duration);
           }
         }

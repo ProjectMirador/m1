@@ -23,14 +23,18 @@
       osdToolbarCls:    'mirador-osd-toolbar',
       parent:           null,
       scale:            null,
+      scaleCls:         'mirador-image-scale',
       selectedChoice:   '',
-      statusbarCls:     'mirador-image-view-statusbar'
+      statusbarCls:     'mirador-image-view-statusbar',
+      imageViewBgCls:   'mirador-image-view-bg'
     }, options);
 
 
-    if (this.openAt != null) {
+    if (this.openAt !== null) {
       this.currentImgIndex = this.getImageIndexByTitle(this.openAt);
     }
+
+    this.parent.element.find('.mirador-widget-content').addClass(this.imageViewBgCls);
 
     this.currentImg = this.imagesList[this.currentImgIndex];
   };
@@ -55,6 +59,7 @@
           _this = this;
 
       this.element.find('.' + this.osdCls).remove();
+
       this.addOpenSeadragonToolBar(osdToolBarId);
 
       infoJson = $.getJsonFromUrl(infoJsonUrl, false);
@@ -81,17 +86,21 @@
         }
       });
 
-
       this.parent.element.dialog('option', 'title', this.getTitle());
 
       // hide browser based full-screen icon
       this.parent.toolbar.element.find('.' + this.osdToolbarCls + ' button:last-child').hide();
 
-      this.clearChoices();
+      this.renderChoices();
+    },
 
-      if (this.currentImg.choices.length > 0) {
-        this.renderChoices();
-      }
+
+    clearOpenSeadragonInstance: function() {
+      this.element.find('.' + this.osdCls).remove();
+      // this.element.find('.' + this.scaleCls).remove();
+      this.osd = null;
+
+      this.renderChoices();
     },
 
 
@@ -110,39 +119,41 @@
       var _this = this,
           choicesInfo = [];
 
-      choicesInfo.push({
-        label: this.currentImg.choiceLabel,
-        imageUrl: this.currentImg.imageUrl
-      })
+      this.clearChoices();
 
-      jQuery.each(this.currentImg.choices, function(index, choice) {
+      if (this.currentImg.choices.length > 0) {
         choicesInfo.push({
-          label: choice.choiceLabel,
-          imageUrl: choice.imageUrl
+          label: this.currentImg.choiceLabel,
+          imageUrl: this.currentImg.imageUrl
         });
-      });
 
-      this.elemChoice.show();
-      this.selectedChoice = this.currentImg.choiceLabel;
+        jQuery.each(this.currentImg.choices, function(index, choice) {
+          choicesInfo.push({
+            label: choice.choiceLabel,
+            imageUrl: choice.imageUrl
+          });
+        });
 
-      this.elemChoice.tooltipster({
-        arrow: true,
-        content: $.Templates.imageView.imageChoices({ choicesInfo: choicesInfo }),
-        functionReady: function() { _this.addImageChoiceEvents(); },
-        interactive: true,
-        position: 'bottom',
-        theme: '.tooltipster-mirador'
-      });
+        this.elemChoice.show();
+        this.selectedChoice = this.currentImg.choiceLabel;
 
-      this.addImageChoiceEvents();
+        this.elemChoice.tooltipster({
+          arrow: true,
+          content: $.Templates.imageView.imageChoices({ choicesInfo: choicesInfo }),
+          functionReady: function() { _this.addImageChoiceEvents(); },
+          interactive: true,
+          position: 'bottom',
+          theme: '.tooltipster-mirador'
+        });
+
+        this.addImageChoiceEvents();
+      }
     },
 
 
     addImageChoiceEvents: function() {
       var _this = this,
           elemOptionChoices = jQuery(document).find('.mirador-image-view-choices');
-
-      // elemOptionChoices.css('max-height', this.parent.getHeight() + 'px');
 
       elemOptionChoices.find('li a').each(function(index) {
         jQuery(this).removeClass('mirador-image-view-choice-selected');
@@ -160,7 +171,11 @@
         _this.storeCurrentOsdBounds(dfd);
 
         dfd.done(function() {
-          _this.createOpenSeadragonInstance(selectedChoice.data('image-url'), _this.osdBounds);
+          if (selectedChoice.data('choice') !== 'No Image') {
+            _this.createOpenSeadragonInstance(selectedChoice.data('image-url'), _this.osdBounds);
+          } else {
+            _this.clearOpenSeadragonInstance();
+          }
         });
 
         _this.selectedChoice = selectedChoice.data('choice');
@@ -173,12 +188,18 @@
 
 
     clearChoices: function() {
+      if (this.elemChoice.data('plugin_tooltipster') !== '') {
+        this.elemChoice.tooltipster('destroy');
+      }
+
       this.elemChoice.hide();
     },
 
 
     storeCurrentOsdBounds: function(dfd) {
-      this.osdBounds = this.parent.viewObj.osd.viewport.getBounds();
+      if (this.parent.viewObj.osd !== null) {
+        this.osdBounds = this.parent.viewObj.osd.viewport.getBounds();
+      }
       dfd.resolve();
     },
 
@@ -372,7 +393,10 @@
     // Event Handlers
     broadcast: function() {
       this.scale.render();
-      this.zoomLevel = this.osd.viewport.getZoom();
+
+      if (this.osd !== null && this.osd.viewport !== null) {
+        this.zoomLevel = this.osd.viewport.getZoom();
+      }
 
       // This if statement detects if the view is both locked and
       // is a "leader" (the mouse is currently hovered over it
@@ -388,17 +412,20 @@
       console.log('reached: '+minmax);
     },
 
+
     lock: function() {
       this.locked = true;
       this.parent.element.parent().addClass('locked');
       $.viewer.lockController.addLockedView(this.parent.viewObj);
     },
 
+
     unlock: function() {
       this.locked = false;
       this.parent.element.parent().removeClass('locked');
       $.viewer.lockController.removeLockedView(this.parent.id);
     },
+
 
     dimensionChange: function(e) {
       // e.target.value = e.target.value.replace(/[^0-9\.]/g,'');

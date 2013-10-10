@@ -4,7 +4,9 @@ describe('Mirador Main | mirador.js', function() {
   beforeEach(function() {
     Mirador({
       id: 'abc',
-      data: []
+      data: [
+        { "manifestUri": "spec/data/Walters/bd183mz0176/manifest.json", "location": "Stanford University", "title": "MS 5", "widgets": [] }
+      ]
     });
 
     $ = Mirador;
@@ -63,6 +65,12 @@ describe('Mirador Main | mirador.js', function() {
     });
 
 
+    it('should trim string by given length and add ellipsis', function() {
+      expect($.trimStringBy('The painting is framed by illuminated borders', 25)).toEqual('The painting is framed by...');
+      expect($.trimStringBy('The painting is framed', 25)).toEqual('The painting is framed');
+    });
+
+
     it('should trim trailing whitespaces from a string', function() {
       expect($.trimString('  abc ')).toEqual('abc');
     });
@@ -92,6 +100,7 @@ describe('Mirador Main | mirador.js', function() {
     });
 
 
+    /*
     it('should return a Stanford IIIF URI given a Stanford stacks URI', function() {
       expect($.getIiifUri('http://stacks.stanford.edu/image/abc/def')).toEqual('https://stacks.stanford.edu/image/iiif/abc%2Fdef');
       expect($.getIiifUri('http://xyz.edu/image/abc')).toEqual('http://xyz.edu/image/abc');
@@ -101,6 +110,7 @@ describe('Mirador Main | mirador.js', function() {
     it('should return a new IIIF URI given a height', function() {
       expect($.getIiifUriWithHeight('http://xyz.edu/image', 150)).toEqual('http://xyz.edu/image/full/,150/0/native.jpg');
     });
+    */
 
     it('should extract label from a property attribute/key and titlecase it', function() {
       expect($.extractLabelFromAttribute('@id')).toEqual('Id');

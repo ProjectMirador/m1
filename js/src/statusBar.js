@@ -6,7 +6,7 @@
       element:          null,
       statusBarHeight:  $.DEFAULT_SETTINGS.statusBar.height,
       statusBarWidth:   $.DEFAULT_SETTINGS.statusBar.width,
-      statusBarBarCls:  'mirador-status-bar',
+      statusBarBarCls:  'mirador-status-bar'
     }, options);
 
     this.element  = this.element || jQuery('<div/>');

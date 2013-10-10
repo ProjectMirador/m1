@@ -44,7 +44,7 @@
       $.loadWindowContent = "Loading...";
 
       this.loadWindow = new $.MainMenuLoadWindow({
-        collectionsListingCls:  this.collectionsListingCls,
+        collectionsListingCls:  this.collectionsListingCls
       });
 
       this.clearLocalStorage = $.Templates.mainMenu.clearLocalStorage({
@@ -93,10 +93,6 @@
         interactive: true,
         theme: '.tooltipster-mirador'
       });
-      // elMainMenu.on('click', selectorClearLocalStorage, function() {
-      //   localStorage.clear();
-      //   location.reload();
-      // });
 
     }
 
