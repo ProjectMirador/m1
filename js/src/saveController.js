@@ -38,7 +38,7 @@
 
           })(widget.viewObj.osd.viewport.getBounds()),
           widgetState.dimensions = [],
-          widgetState.lockedViews = []
+          widgetState.lockedViews = [];
         }
         if (widgetState.type === "thumbnailsView") {
 

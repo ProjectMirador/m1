@@ -83,6 +83,7 @@
     calculateScaleDimensions: function() {
       _this = this;
       var scaleSize = null;
+      var viewportPercentWidth;
 
       // get width of viewport in pixels.
       // getBounds() returns an openseadragon Rect object.
@@ -93,7 +94,9 @@
       var scaleRatio = scalePixelWidth/viewportPixelWidth;
 
       // get width of viewport as a multiple of the image width.
-      var viewportPercentWidth = _this.parent.osd.viewport.getBounds().width;
+      if (_this.parent.osd !== null && _this.parent.osd.viewport !== null) {
+        viewportPercentWidth = _this.parent.osd.viewport.getBounds().width;
+      }
 
       // get width in absolute dimensions.
       // divide to get the phsyical width of current viewport.

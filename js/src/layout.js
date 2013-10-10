@@ -78,8 +78,6 @@
         y = canvas.top + (rowIndex * (_this.rowPadding + widgetHeight));
 
         widget.setPositionAndSize(x, y, widgetWidth, widgetHeight);
-        // console.log(widget);
-        // if (widget.type === 'imageView') {console.log("type detected"); widget.viewObj.osd.viewport.goHome();}
       });
 
     },
@@ -91,6 +89,35 @@
           widget.close();
         }
       });
+    },
+
+
+    applyLayout: function(layout) {
+
+      switch (layout) {
+        case 'cascade':
+          this.cascadeAll();
+          break;
+
+      case 'tileAllVertically':
+          this.tileAllVertically();
+          break;
+
+      case 'tileAllHorizontally':
+          this.tileAllHorizontally();
+          break;
+
+      case 'stackAll2Columns':
+          this.stackAllByColumns(2);
+          break;
+
+      case 'stackAll3Columns':
+          this.stackAllByColumns(3);
+          break;
+
+       default:
+        this.cascadeAll();
+      }
     }
 
   };

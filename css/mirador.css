@@ -246,6 +246,10 @@
   margin-right: 5px;
 }
 
+.mirador-image-view-bg {
+  background-color: #000;
+}
+
 .mirador-image-scale {
   bottom:25px;
   display:block;
