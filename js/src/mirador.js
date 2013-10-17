@@ -86,7 +86,12 @@ window.Mirador = window.Mirador || function(config) {
     // image view
     'imageView': {
       'height': 400,
-      'width': 350
+      'width': 350,
+      'annotationsList': {
+        'display':true,
+        'width': 200
+
+      }
     },
 
     // scroll view
@@ -102,7 +107,7 @@ window.Mirador = window.Mirador || function(config) {
       'height': 400,
       'thumbsMaxHeight': 150,
       'thumbsMinHeight': 50,
-      'thumbsDefaultZoom': .5,
+      'thumbsDefaultZoom': 0.5,
       'width': 600
     },
 

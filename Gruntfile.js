@@ -28,6 +28,7 @@ module.exports = function(grunt) {
         'js/lib/openseadragon.min.js',
         'js/lib/jquery.tooltipster.min.js',
         'js/lib/d3.v3.min.js',
+        'js/lib/uri.min.js'
       ],
 
       sources = [
@@ -44,7 +45,7 @@ module.exports = function(grunt) {
         'js/src/manifest.js',
         'js/src/imagesList.js',
         'js/src/normalSequence.js',
-        'js/src/imageAnnotations.js',
+        'js/src/AnnotationsLayer.js',
         'js/src/widget.js',
         'js/src/widgetToolbar.js',
         'js/src/lockController.js',
@@ -167,6 +168,7 @@ module.exports = function(grunt) {
         browser: true,
         eqeqeq: false,
         loopfunc: false,
+        jshintrc: '.jshintrc',
         globals: {
           Mirador: true
         }

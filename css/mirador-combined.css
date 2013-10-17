@@ -2935,6 +2935,7 @@ button.ui-button::-moz-focus-inner {
 .mirador-widget-content {
   overflow-y: auto;
   width: 100%;
+  position:relative;
 }
 
 
@@ -3051,23 +3052,82 @@ text {
 -----------------*/
 .annotationListPanel {
   background-color: #f0f0f0;
-  width:150px;
+  width:200px;
   height:100%;
   position:absolute;
   right:0;
   top:0;
   margin:0;
-  padding: 0px 10px;
+  padding: 0;
   z-index:2;
+  box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
+  border-left:1px solid gray;
 }
-ul.annotationList {
-  height:300px;
+.annotationPanelHeader {
+  padding: 0 10px;
+}
+.annotationListPanel ul {
+  position:absolute;
+  bottom:0;
+  top:80px;
+  border-top:1px solid white;
+  list-style: none;
   overflow:scroll;
   overflow-x:hidden;
+  margin-bottom:0;
+  padding:0;
 }
-ul.annotationList li {
-  list-style: none;
+.annotationListPanel ul li {
+  font-size:80%;
+  margin: 0;
+  padding: 10px;
+  border-bottom:1px solid white;
+  box-sizing: border-box;
+  transition: 0.3s ease-out;
 }
+.annotationListPanel ul li p {
+  margin:0;
+}
+.annotationListPanel ul li p:hover {
+  margin:0;
+  cursor:pointer;
+}
+.annotationListPanel ul li:hover {
+  transition: background-color 0.3s ease-out;
+  color:white;
+  background-color:gray;
+  cursor:pointer;
+  border-left: 3px solid orangered;
+  padding-left:-3px;
+}
+.annotationListPanel ul li a {
+  display:block;
+  position:absolute;
+  top: 0; 
+  bottom: 0; 
+  left: 0; 
+  right: 0; 
+}
+.annotationListPanel .resizeGrip {
+  position:absolute;
+  left:-7px;
+  bottom:0;
+  top:0;
+  width:12px;
+  z-index:3;
+  background:none;
+  display:block;
+  cursor:ew-resize;
+}
+.annotation {
+  border: 1px solid white;
+  box-shadow: 0px 0px 5px rgba(0,0,0,0.5);
+  box-sizing: border-box;
+}
+.annotation:hover {
+  border: 2px solid orangered;
+}
+
 
 /* image choice controls
 ------------------------*/ 
