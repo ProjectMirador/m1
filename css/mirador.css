@@ -353,6 +353,7 @@ text {
   overflow-x:hidden;
   margin-bottom:0;
   padding:0;
+  width:100%;
 }
 .annotationListPanel ul li {
   font-size:80%;
@@ -362,20 +363,19 @@ text {
   box-sizing: border-box;
   transition: 0.3s ease-out;
 }
-.annotationListPanel ul li p {
-  margin:0;
-}
-.annotationListPanel ul li p:hover {
-  margin:0;
-  cursor:pointer;
-}
 .annotationListPanel ul li:hover {
   transition: background-color 0.3s ease-out;
   color:white;
   background-color:gray;
   cursor:pointer;
   border-left: 3px solid orangered;
-  padding-left:-3px;
+}
+.annotationListPanel ul li p {
+  margin:0;
+}
+.annotationListPanel ul li p:hover {
+  margin:0;
+  cursor:pointer;
 }
 .annotationListPanel ul li a {
   display:block;
@@ -400,6 +400,10 @@ text {
   border: 1px solid white;
   box-shadow: 0px 0px 5px rgba(0,0,0,0.5);
   box-sizing: border-box;
+}
+.annotation.selected {
+  border: 3px solid orangered;
+  box-shadow: 0px 0px 5px rgba(0,0,0,0.5);
 }
 .annotation:hover {
   border: 2px solid orangered;

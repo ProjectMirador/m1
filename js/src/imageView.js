@@ -275,7 +275,10 @@
         this.currentImgIndex = next;
         this.currentImg = this.imagesList[next];
 
-        this.createOpenSeadragonInstance(this.currentImg.imageUrl);
+        infoJsonUrl = this.currentImg.imageUrl;
+
+        this.createOpenSeadragonInstance(infoJsonUrl);
+        
       }
     },
 

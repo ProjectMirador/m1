@@ -83,7 +83,10 @@
               imageObj.canvasWidth = canvas.width; 
               imageObj.canvasHeight = canvas.height; 
               if (canvas.otherContent) {  imageObj.annotations = jQuery.map(canvas.otherContent, function( annotation ){
-                return annotation['@id'];
+                if(annotation['@id'].indexOf(".json") >= 0) {
+                  return annotation['@id'];
+                }
+                return ( annotation['@id'] + ".json" );
               });
               }
               imagesList.push(imageObj);

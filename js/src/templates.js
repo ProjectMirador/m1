@@ -166,7 +166,7 @@
 
       annotationListing: (function() {
         var templateString = 
-          ['<li id="listing-{{id}}" class="annotationcard">',
+          ['<li id="listing-{{id}}" class="annotationListing">',
               '{{#if title}}',
               '<h3>{{title}}</h3>',
               '{{/if}}',
