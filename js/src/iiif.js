@@ -23,23 +23,28 @@
 
 
     prepJsonForOsd: function(json) {
-      json.image_host = this.getImageHostUrl(json);
-      json.scale_factors = this.packageScaleFactors(json);
+      json.image_host     = this.getImageHostUrl(json);
+      json.scale_factors  = this.packageScaleFactors(json);
+      json.profile        = json.profile.replace(/image-api\/1.\d/, 'image-api');
 
       return json;
     },
 
 
     getImageHostUrl: function(json) {
-      var regex;
+      var regex,
+          matches = [];
 
       if (!json.hasOwnProperty('image_host')) {
 
         json.image_host = json.tilesUrl || json['@id'] || '';
 
-        if (json.hasOwnProperty('identifier')) {
-          regex = new RegExp('/?' + json.identifier + '/?$', 'i');
-          json.image_host = json.image_host.replace(regex, '');
+        regex = new RegExp('(.*\/)(.*)$');
+        matches = regex.exec(json.image_host);
+
+        if (matches.length > 1) {
+          json.image_host = matches[1];
+          json.identifier = matches[2];
         }
       }
 
