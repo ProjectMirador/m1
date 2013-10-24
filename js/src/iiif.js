@@ -32,7 +32,7 @@
 
 
     getImageHostUrl: function(json) {
-      var regex
+      var regex,
           matches = [];
 
       if (!json.hasOwnProperty('image_host')) {
