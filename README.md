@@ -2,7 +2,7 @@
 
 An open-source, web-based 'multi-up' viewer that supports zoom-pan-rotate functionality, ability to display/compare simple images, and images with annotations.
 
-More information on the viewer and demo is at [http://dmstech.github.io/mirador/](http://dmstech.github.io/mirador/)
+More information on the viewer and demo is at [http://iiif.github.io/mirador/](http://iiif.github.io/mirador/)
 
 ### First Time Setup
 
