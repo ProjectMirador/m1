@@ -180,7 +180,7 @@
         });
       });
 
-      $.loadWindowContent = jQuery($.Templates.mainMenu.loadWindowContent(tplData));
+      $.loadWindowContent = $.Templates.mainMenu.loadWindowContent(tplData);
 
       jQuery(this.mainMenuLoadWindowCls).tooltipster('update', $.loadWindowContent);
     },
