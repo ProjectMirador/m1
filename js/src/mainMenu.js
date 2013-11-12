@@ -81,7 +81,7 @@
       // Window Options
       elMainMenu.find(selectorWindowOptions).tooltipster({
         arrow: true,
-        content: _this.windowOptionsMenu.element,
+        content: _this.windowOptionsMenu.html,
         interactive: true,
         theme: '.tooltipster-mirador'
       });
