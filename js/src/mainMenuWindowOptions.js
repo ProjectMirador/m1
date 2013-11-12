@@ -7,7 +7,7 @@
       windowOptionsMenuCls: 'window-options-menu'
     }, options);
 
-    this.element = this.element || jQuery('<div/>');
+    this.html = this.html || '<div/>';
 
     this.render();
     this.attachEvents();
@@ -17,9 +17,9 @@
   $.MainMenuWindowOptions.prototype = {
 
     render: function() {
-      this.element = jQuery($.Templates.mainMenu.windowOptionsMenu({
+      this.html = $.Templates.mainMenu.windowOptionsMenu({
         windowOptionsMenuCls: this.windowOptionsMenuCls
-      }));
+      });
     },
 
 
