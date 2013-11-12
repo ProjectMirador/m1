@@ -53,8 +53,8 @@
       // add viewer area
       this.canvas =
         jQuery('<div/>')
-          .addClass('mirador-viewer')
-          .appendTo(this.element);
+      .addClass('mirador-viewer')
+      .appendTo(this.element);
 
       this.canvas.height(this.canvas.height() - this.mainMenu.element.outerHeight(true));
 
@@ -101,7 +101,15 @@
 
     removeWidget: function(id) {
       jQuery.each($.viewer.widgets, function(index, widget) {
+
+        console.log(widget);
+
         if (widget && widget.id === id) {
+          if (widget.type === 'imageView') {
+            $.viewer.lockController.removeLockedView(widget.id);
+            console.log(widget.type);
+            console.log('removed image view');
+          }
           $.viewer.widgets.splice(index, 1);
         }
       });
@@ -162,11 +170,11 @@
 
     updateLoadWindowContent: function() {
       var tplData = {
-            cssCls:  this.collectionsListingCls,
-            collections: []
-          },
-          groupedList = this.arrangeCollectionsFromManifests(),
-          locations = [];
+        cssCls:  this.collectionsListingCls,
+        collections: []
+      },
+      groupedList = this.arrangeCollectionsFromManifests(),
+      locations = [];
 
       // sort by location name
       jQuery.each(groupedList, function(location, list) {
