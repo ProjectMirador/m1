@@ -233,10 +233,6 @@
 
       }
 
-    },
-
-    translateCoordinates: function() {
-
     }
   };
 

@@ -52,11 +52,11 @@
 
     createOpenSeadragonInstance: function(imageUrl, osdBounds) {
       var infoJsonUrl = $.Iiif.getUri(imageUrl) + '/info.json',
-          osdId = 'mirador-osd-' + $.genUUID(),
-          osdToolBarId = osdId + '-toolbar',
-          infoJson,
-          elemOsd,
-          _this = this;
+      osdId = 'mirador-osd-' + $.genUUID(),
+      osdToolBarId = osdId + '-toolbar',
+      infoJson,
+      elemOsd,
+      _this = this;
 
       this.element.find('.' + this.osdCls).remove();
 
@@ -66,9 +66,9 @@
 
       elemOsd =
         jQuery('<div/>')
-          .addClass(this.osdCls)
-          .attr('id', osdId)
-          .appendTo(this.element);
+      .addClass(this.osdCls)
+      .attr('id', osdId)
+      .appendTo(this.element);
 
       this.osd = $.OpenSeadragon({
         'id':           elemOsd.attr('id'),
@@ -117,7 +117,7 @@
 
     renderChoices: function() {
       var _this = this,
-          choicesInfo = [];
+      choicesInfo = [];
 
       this.clearChoices();
 
@@ -153,7 +153,7 @@
 
     addImageChoiceEvents: function() {
       var _this = this,
-          elemOptionChoices = jQuery(document).find('.mirador-image-view-choices');
+      elemOptionChoices = jQuery(document).find('.mirador-image-view-choices');
 
       elemOptionChoices.find('li a').each(function(index) {
         jQuery(this).removeClass('mirador-image-view-choice-selected');
@@ -166,7 +166,7 @@
 
       elemOptionChoices.on('click', 'li a', function(event) {
         var selectedChoice = jQuery(event.target),
-            dfd = jQuery.Deferred();
+        dfd = jQuery.Deferred();
 
         _this.storeCurrentOsdBounds(dfd);
 
@@ -235,7 +235,7 @@
 
     getImageIndexByTitle: function(title) {
       var _this = this,
-          imgIndex = 0;
+      imgIndex = 0;
 
       jQuery.each(this.imagesList, function(index, img) {
         if ($.trimString(img.title) === $.trimString(title)) {
@@ -275,7 +275,11 @@
 
     next: function() {
       var next = this.currentImgIndex + 1,
-          infoJsonUrl;
+      infoJsonUrl;
+      
+      if (this.locked) {
+        return;
+      }
 
       if (next < this.imagesList.length) {
         this.currentImgIndex = next;
@@ -288,7 +292,11 @@
 
     prev: function() {
       var prev = this.currentImgIndex - 1,
-          infoJsonUrl;
+      infoJsonUrl;
+      
+      if (this.locked) {
+        return;
+      }
 
       if (prev >= 0) {
         this.currentImgIndex = prev;
@@ -330,7 +338,7 @@
 
     attachOsdEvents: function() {
       var _this = this,
-          newWidth = null;
+      newWidth = null;
 
       this.osd.addHandler('zoom', function() { _this.broadcast(); });
       this.osd.addHandler('pan', function() { _this.broadcast(); });
@@ -339,12 +347,12 @@
 
     attachNavEvents: function() {
       var navToolbar = this.parent.toolbar.element.find('.' + this.navToolbarCls),
-          selectorMetadataView    = '.mirador-icon-metadata-view',
-          selectorScrollView      = '.mirador-icon-scroll-view',
-          selectorThumbnailsView  = '.mirador-icon-thumbnails-view',
-          selectorNext            = '.mirador-icon-next',
-          selectorPrevious        = '.mirador-icon-previous',
-          _this = this;
+      selectorMetadataView    = '.mirador-icon-metadata-view',
+      selectorScrollView      = '.mirador-icon-scroll-view',
+      selectorThumbnailsView  = '.mirador-icon-thumbnails-view',
+      selectorNext            = '.mirador-icon-next',
+      selectorPrevious        = '.mirador-icon-previous',
+      _this = this;
 
       navToolbar.on('click', selectorPrevious, function() {
         _this.prev();
@@ -371,10 +379,10 @@
 
     attachStatusbarEvents: function() {
       var statusbar = this.parent.statusbar.element.find('.' + this.statusbarCls),
-          lockCls = '.mirador-icon-lock',
-          dimensionCls = '.mirador-image-view-physical-dimensions',
-          unitCls = '.units',
-          _this = this;
+      lockCls = '.mirador-icon-lock',
+      dimensionCls = '.mirador-image-view-physical-dimensions',
+      unitCls = '.units',
+      _this = this;
 
       statusbar.on('click', lockCls, function() {
         if (_this.locked) {
