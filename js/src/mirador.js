@@ -10,8 +10,6 @@ window.Mirador = window.Mirador || function(config) {
     Mirador.settingsLoader = new Mirador.SettingsLoader(config);
 
     config = Mirador.settingsLoader.config;
-    // console.log('Loaded Config:');
-    // console.log(config);
   }
 
   // Render viewer using loaded manifests data
@@ -29,7 +27,10 @@ window.Mirador = window.Mirador || function(config) {
   $.DEFAULT_SETTINGS = {
 
     'workspaceAutoSave': true,
-    'initialLayout': 'cascade',
+
+    'showNoImageChoiceOption': true,
+
+    'initialLayout': 'stackAll3Columns',
 
     'availableViews': {
       'imageView': {
@@ -159,7 +160,7 @@ window.Mirador = window.Mirador || function(config) {
     }
 
     return unique;
-  }
+  };
 
 
   $.getTitlePrefix = function(details) {
@@ -304,14 +305,18 @@ window.Mirador = window.Mirador || function(config) {
     var context, args, result;
     var timeout = null;
     var previous = 0;
-    options || (options = {});
+
+    if (typeof options !== 'undefined') {
+      options = {};
+    }
+
     var later = function() {
-      previous = options.leading === false ? 0 : new Date;
+      previous = options.leading === false ? 0 : new Date();
       timeout = null;
       result = func.apply(context, args);
     };
     return function() {
-      var now = new Date;
+      var now = new Date();
       if (!previous && options.leading === false) previous = now;
       var remaining = wait - (now - previous);
       context = this;
@@ -327,6 +332,7 @@ window.Mirador = window.Mirador || function(config) {
       return result;
     };
   };
+
 
   $.debounce = function(func, wait, immediate) {
     var timeout, args, context, timestamp, result;

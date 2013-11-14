@@ -1,6 +1,8 @@
 # Mirador Viewer
 
-An open-source, web-based 'multi-up' viewer that supports zoom-pan-rotate functionality, ability to display/compare simple images, and images with annotations
+An open-source, web-based 'multi-up' viewer that supports zoom-pan-rotate functionality, ability to display/compare simple images, and images with annotations.
+
+More information on the viewer and demo is at [http://iiif.github.io/mirador/](http://iiif.github.io/mirador/)
 
 ### First Time Setup
 
@@ -68,3 +70,8 @@ As covered above, save-state is now working, and the ability to erase the curren
 straight-forward with a simple button in the top-right. 
 1. **Hierarchical listings in load list**  
 The "Load Window" menu item has been reorganised to group manuscripts by institution, making the multi-repository nature of the viewer more transparent to viewers.
+=======
+mirador
+=======
+
+Mirador project has been moved to http://github.com/IIIF/mirador. Home page is at http://iiif.github.io/mirador/

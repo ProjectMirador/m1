@@ -8,6 +8,7 @@
       data:                   null,
       element:                null,
       canvas:                 null,
+      initialLayout:          $.DEFAULT_SETTINGS.initialLayout || 'cascade',
       layout:                 null,
       mainMenu:               null,
       numManifestsLoaded:     0,
@@ -52,8 +53,8 @@
       // add viewer area
       this.canvas =
         jQuery('<div/>')
-          .addClass('mirador-viewer')
-          .appendTo(this.element);
+      .addClass('mirador-viewer')
+      .appendTo(this.element);
 
       this.canvas.height(this.canvas.height() - this.mainMenu.element.outerHeight(true));
 
@@ -73,13 +74,15 @@
       var _this = this;
 
       jQuery.each(collection.widgets, function(index, config) {
-
         if (!jQuery.isEmptyObject(config) && $.isValidView(config.type)) {
           config.manifestId = $.getManifestIdByUri(collection.manifestUri);
           _this.addWidget(config);
         }
-
       });
+
+      if (typeof this.initialLayout !== 'undefined') {
+        $.viewer.layout.applyLayout(this.initialLayout);
+      }
     },
 
 
@@ -98,7 +101,15 @@
 
     removeWidget: function(id) {
       jQuery.each($.viewer.widgets, function(index, widget) {
+
+        console.log(widget);
+
         if (widget && widget.id === id) {
+          if (widget.type === 'imageView') {
+            $.viewer.lockController.removeLockedView(widget.id);
+            console.log(widget.type);
+            console.log('removed image view');
+          }
           $.viewer.widgets.splice(index, 1);
         }
       });
@@ -159,11 +170,11 @@
 
     updateLoadWindowContent: function() {
       var tplData = {
-            cssCls:  this.collectionsListingCls,
-            collections: []
-          },
-          groupedList = this.arrangeCollectionsFromManifests(),
-          locations = [];
+        cssCls:  this.collectionsListingCls,
+        collections: []
+      },
+      groupedList = this.arrangeCollectionsFromManifests(),
+      locations = [];
 
       // sort by location name
       jQuery.each(groupedList, function(location, list) {
@@ -174,10 +185,10 @@
         tplData.collections.push({
           location: location,
           list: groupedList[location]
-        })
+        });
       });
 
-      $.loadWindowContent = jQuery($.Templates.mainMenu.loadWindowContent(tplData));
+      $.loadWindowContent = $.Templates.mainMenu.loadWindowContent(tplData);
 
       jQuery(this.mainMenuLoadWindowCls).tooltipster('update', $.loadWindowContent);
     },

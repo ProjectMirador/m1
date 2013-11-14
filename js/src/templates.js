@@ -42,7 +42,7 @@
           '<li><a class="stack-all-vertically-3-cols" href="javascript:;">Stack Vertically (3 columns)</a></li>',
           '<li class="ui-state-disabled"><a href="javascript:;">Open Recent</a></li>',
           '<li><a class="close-all" href="javascript:;">Close All</a></li>',
-        '</ul>',
+        '</ul>'
       ].join('')),
 
       // template for rendering load window's manuscripts' select box and images list
@@ -191,7 +191,7 @@
           '{{#choicesInfo}}',
             '<li><a href="javascript:;" class="mirador-image-view-choice" data-choice="{{label}}" data-image-url="{{imageUrl}}">{{label}}</a></li>',
           '{{/choicesInfo}}',
-        '</ul>',
+        '</ul>'
       ].join(''))
 
     },

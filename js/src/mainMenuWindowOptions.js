@@ -4,10 +4,10 @@
 
     jQuery.extend(true, this, {
       menuContent:           null,
-      windowOptionsMenuCls: 'window-options-menu',
+      windowOptionsMenuCls: 'window-options-menu'
     }, options);
 
-    this.element = this.element || jQuery('<div/>');
+    this.html = this.html || '<div/>';
 
     this.render();
     this.attachEvents();
@@ -17,42 +17,42 @@
   $.MainMenuWindowOptions.prototype = {
 
     render: function() {
-      this.element = jQuery($.Templates.mainMenu.windowOptionsMenu({
+      this.html = $.Templates.mainMenu.windowOptionsMenu({
         windowOptionsMenuCls: this.windowOptionsMenuCls
-      }));
+      });
     },
 
 
     attachEvents: function() {
-      var elCascadeAll          = this.element.find('.cascade-all'),
-          elTileAllVertically   = this.element.find('.tile-all-vertically'),
-          elTileAllHorizontally = this.element.find('.tile-all-horizontally'),
-          elStackAll2Cols       = this.element.find('.stack-all-vertically-2-cols'),
-          elStackAll3Cols       = this.element.find('.stack-all-vertically-3-cols'),
-          elCloseAll            = this.element.find('.close-all'),
+      var elCascadeAll          = '.' + this.windowOptionsMenuCls + ' .cascade-all',
+          elTileAllVertically   = '.' + this.windowOptionsMenuCls + ' .tile-all-vertically',
+          elTileAllHorizontally = '.' + this.windowOptionsMenuCls + ' .tile-all-horizontally',
+          elStackAll2Cols       = '.' + this.windowOptionsMenuCls + ' .stack-all-vertically-2-cols',
+          elStackAll3Cols       = '.' + this.windowOptionsMenuCls + ' .stack-all-vertically-3-cols',
+          elCloseAll            = '.' + this.windowOptionsMenuCls + ' .close-all',
           _this                 = this;
 
-      elCascadeAll.click(function() {
+      jQuery(document).on('click', elCascadeAll, function() {
         $.viewer.layout.cascadeAll();
       });
 
-      elTileAllVertically.click(function() {
+      jQuery(document).on('click', elTileAllVertically, function() {
         $.viewer.layout.tileAllVertically();
       });
 
-      elTileAllHorizontally.click(function() {
+      jQuery(document).on('click', elTileAllHorizontally, function() {
         $.viewer.layout.tileAllHorizontally();
       });
 
-      elStackAll2Cols.click(function() {
+      jQuery(document).on('click', elStackAll2Cols, function() {
         $.viewer.layout.stackAllByColumns(2);
       });
 
-      elStackAll3Cols.click(function() {
+      jQuery(document).on('click', elStackAll3Cols, function() {
         $.viewer.layout.stackAllByColumns(3);
       });
 
-      elCloseAll.click(function() {
+      jQuery(document).on('click', elCloseAll, function() {
         $.viewer.layout.closeAll();
       });
     }
