@@ -26,6 +26,10 @@
       scaleDimensions = this.calculateScaleDimensions();
       visPadding = 10;
 
+      if (this.height === null || this.width === null ) {
+        console.log("no dimensions");
+      }
+
       var w = this.width + visPadding*3;
       var h = this.height;
 

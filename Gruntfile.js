@@ -158,11 +158,7 @@ module.exports = function(grunt) {
     watch: {
       all: {
         options: { livereload: true },
-        <<<<<<< HEAD
-        files: [ 'Gruntfile.js', 'js/src/*.js', 'images/*', 'css/mirador.css' ],
-        =======
-          files: [ 'Gruntfile.js', 'js/src/*.js', 'images/*', 'css/jquery-ui.custom.css', 'css/jquery-ui.custom.min.css', 'css/mirador.css', 'css/normalize.css', 'css/tooltipster-mirador.css', 'css/tooltipster.css' ],
-        >>>>>>> master
+        files: [ 'Gruntfile.js', 'js/src/*.js', 'images/*', 'css/jquery-ui.custom.css', 'css/jquery-ui.custom.min.css', 'css/mirador.css', 'css/normalize.css', 'css/tooltipster-mirador.css', 'css/tooltipster.css' ],
         tasks: 'dev_build'
       }
     },

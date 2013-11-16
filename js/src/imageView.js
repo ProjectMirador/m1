@@ -7,8 +7,8 @@
       currentImgIndex:  0,
       element:          null,
       elemChoice:       null,
-      height:           500,
-      width:            400,
+      height:           null,
+      width:            null,
       units:            "mm",
       unitsLong:        "Millimetres",
       imagesList:       [],
@@ -223,7 +223,9 @@
 
     addStatusbarNav: function() {
       this.parent.statusbar.append($.Templates.imageView.statusbar({
-        statusbarCls: this.statusbarCls
+        statusbarCls: this.statusbarCls,
+        width: this.width,
+        height: this.height
       }));
 
       this.attachStatusbarEvents();
