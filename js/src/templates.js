@@ -174,7 +174,7 @@
           '</li>'
         ].join('');
         Handlebars.registerPartial('annotationListing', templateString);
-        return Handlebars.compile(templateString)
+        return Handlebars.compile(templateString);
       })(),
 
       annotationDetail: Handlebars.compile([
