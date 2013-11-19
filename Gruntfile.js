@@ -59,7 +59,12 @@ module.exports = function(grunt) {
     'js/src/openSeadragon.js',
     'js/src/scale.js',
     'js/src/settingsLoader.js',
-    'js/src/saveController.js'
+    'js/src/saveController.js',
+    'js/src/annotationBottomPanel.js',
+    'js/src/annotationLayerRegionController.js',
+    'js/src/annotationListing.js',
+    'js/src/annotationSidePanel.js',
+
   ],
 
   specs = 'spec/**/*js';
@@ -158,11 +163,7 @@ module.exports = function(grunt) {
     watch: {
       all: {
         options: { livereload: true },
-        <<<<<<< HEAD
-        files: [ 'Gruntfile.js', 'js/src/*.js', 'images/*', 'css/mirador.css' ],
-        =======
-          files: [ 'Gruntfile.js', 'js/src/*.js', 'images/*', 'css/jquery-ui.custom.css', 'css/jquery-ui.custom.min.css', 'css/mirador.css', 'css/normalize.css', 'css/tooltipster-mirador.css', 'css/tooltipster.css' ],
-        >>>>>>> master
+        files: [ 'Gruntfile.js', 'js/src/*.js', 'images/*', 'css/jquery-ui.custom.css', 'css/jquery-ui.custom.min.css', 'css/mirador.css', 'css/normalize.css', 'css/tooltipster-mirador.css', 'css/tooltipster.css' ],
         tasks: 'dev_build'
       }
     },
@@ -219,9 +220,9 @@ module.exports = function(grunt) {
   // Copies the contents of the build folder into the release folder.
   grunt.registerTask('copy:release', function() {
     grunt.file.recurse('build', function(abspath, rootdir, subdir, filename) {
-      var dest = releaseRoot
-      + (subdir ? subdir + '/' : '/')
-      + filename;
+      var dest = releaseRoot +
+      (subdir ? subdir + '/' : '/') +
+      filename;
 
       grunt.file.copy(abspath, dest);
     });

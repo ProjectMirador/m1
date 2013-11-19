@@ -3,17 +3,19 @@
   $.AnnotationsLayer = function(options) {
 
     jQuery.extend(true, this, {
-      element:           null,
-      sidePanelListing:  null,
+      sidePanel:  null,
       bottomPanel:       null,
       regionController:  null,
       width:             $.DEFAULT_SETTINGS.imageView.annotationsList.width,
       parent:            null,
+      stateEvents:       {},
       showList:          true,
       annotationUrls:    null,
       annotations:       [],
       commentAnnotations: 0,
       textAnnotations: 0,
+      visible:        false,
+      selectedAnnotation: null,
       annotationListCls: 'mirador-annotation-list'
     }, options);
 
@@ -24,10 +26,46 @@
   $.AnnotationsLayer.prototype = {
 
     create: function() {
-      this.getAnnotations();
-      this.element = jQuery($.Templates.imageView.annotationPanel({annotations: this.annotations})).resizable();
-      this.parent.element.append(this.element);
-      this.element.hide();
+      _this = this;
+      
+      // jQuery.when( this.getAnnotations() ).done( function() {
+      _this.sidePanel = new $.AnnotationLayerSidePanel({parent: _this});
+      _this.bottomPanel = new $.AnnotationBottomPanel({parent: _this});
+      _this.regionController = new $.AnnotationLayerRegionController({parent: _this});
+      // });
+      this.bindEvents();
+    },
+
+    get: function(prop) {
+      return this[prop];
+    },
+
+    set: function(prop, value) {
+      _this = this;
+      this[prop] = value;
+      _this.event(prop + ':set').publish(value);
+    },
+    
+    event: function(id) {
+
+      
+      var event = id && this.stateEvents[id];
+
+      if (!event) {
+
+        this.callbacks = jQuery.Callbacks();
+
+        event = {
+          publish: this.callbacks.fire,
+          subscribe: this.callbacks.add,
+          unsubscribe: this.callbacks.remove
+        };
+
+        if (id) {
+          this.stateEvents[id] = event;
+        }
+      }
+      return event;
     },
 
     getAnnotations: function() {
@@ -83,7 +121,6 @@
 
           error: function() {
             console.log('Failed loading ' + uri);
-            // dfd.resolve(false);
           }
         });
 
@@ -92,11 +129,24 @@
 
     bindEvents: function() {
       _this = this;
-      console.log('events bound');
-      jQuery('.annotation').on('click', _this.clickAnnotation);
-      jQuery('.annotation').on('hover', _this.hoverAnnotation);
-      jQuery('.annotationListing').on('click', _this.clickAnnotationListing);
-      jQuery('.annotationListing').on('hover', _this.hoverAnnotationListing);
+      // jQuery('.annotation').on('click', _this.clickAnnotation);
+      // jQuery('.annotation').on('hover', _this.hoverAnnotation);
+      // jQuery('.annotationListing').on('click', _this.clickAnnotationListing);
+      // jQuery('.annotationListing').on('hover', _this.hoverAnnotationListing);
+      _this.event('visible:set').subscribe( function(value) {
+        if (value === false) { _this.hide(); } else { _this.show(); }
+      });
+
+    },
+
+    setVisible: function() {
+      _this = this;
+
+      if (_this.get('visible') === false) {
+        _this.set("visible", true);
+      }  else {
+        _this.set("visible", false);
+      }
     },
 
     clickAnnotation: function() {
@@ -128,12 +178,11 @@
     },
 
     show: function() {
-      this.render();
-      this.element.fadeIn();
+      this.sidePanel.show();
     },
 
     hide: function() {
-      this.element.fadeOut();
+      this.sidePanel.hide();
     },
 
     render: function() {
@@ -141,14 +190,16 @@
       var templateData = {
         annotations: this.annotations,
         annotationCount: this.annotations.length,
-        imageAnnotationCount: this.commentAnnotations, //filtered
-        textAnnotationCount: this.textAnnotations //filtered
+        imageAnnotationCount: this.commentAnnotations, // filtered
+        textAnnotationCount: this.textAnnotations // filtered
       };
+      // console.log(templateData);
 
-      this.element.replaceWith($.Templates.imageView.annotationPanel(templateData)).resizable();
       jQuery.each(this.annotations, function(index, annotation) {
         var elemString = '<div class="annotation" id="'+ annotation.id + '">',
         elem = jQuery(elemString)[0];
+
+        // console.log(annotation);
 
         _this.parent.osd.drawer.addOverlay(elem, annotation.osdFrame);
       });

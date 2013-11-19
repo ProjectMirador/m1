@@ -392,13 +392,7 @@
       });
 
       navToolbar.on('click', selectorAnnotationsView, function() {
-        if ( _this.annotationsLayer.element.is(':visible') ) {
-          console.log('hidin');
-          _this.annotationsLayer.hide();
-        } else { 
-          _this.annotationsLayer.show(); 
-          console.log('showin');
-        }
+        _this.annotationsLayer.setVisible();
       });
 
     },
