@@ -293,6 +293,7 @@
       if (this.locked) {
         return;
       }
+      
 
       if (next < this.imagesList.length) {
         this.currentImgIndex = next;
@@ -301,7 +302,7 @@
         infoJsonUrl = this.currentImg.imageUrl;
 
         this.createOpenSeadragonInstance(infoJsonUrl);
-
+        this.annotationsLayer.set('annotationUrls', this.currentImg.annotations);
       }
     },
 
@@ -313,12 +314,14 @@
       if (this.locked) {
         return;
       }
+      
 
       if (prev >= 0) {
         this.currentImgIndex = prev;
         this.currentImg = this.imagesList[prev];
 
         this.createOpenSeadragonInstance(this.currentImg.imageUrl);
+        this.annotationsLayer.set('annotationUrls', this.currentImg.annotations);
       }
     },
 

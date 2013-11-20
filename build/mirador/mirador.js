@@ -4487,10 +4487,18 @@ jQuery.fn.scrollStop = function(callback) {
       // jQuery('.annotation').on('hover', _this.hoverAnnotation);
       // jQuery('.annotationListing').on('click', _this.clickAnnotationListing);
       // jQuery('.annotationListing').on('hover', _this.hoverAnnotationListing);
+      
+      // model events
       _this.event('visible:set').subscribe( function(value) {
+        console.log("visible property updated to true");
         if (value === false) { _this.hide(); } else { _this.show(); }
       });
-
+      _this.event('selected:set').subscribe( function(value) {
+        console.log("visible property updated to true");
+      });
+      _this.event('annotationUrls:set').subscribe( function(value) {
+        console.log("annotationUrls property updated" + value);
+      });
     },
 
     setVisible: function() {
@@ -5474,6 +5482,7 @@ jQuery.fn.scrollStop = function(callback) {
       if (this.locked) {
         return;
       }
+      
 
       if (next < this.imagesList.length) {
         this.currentImgIndex = next;
@@ -5482,7 +5491,7 @@ jQuery.fn.scrollStop = function(callback) {
         infoJsonUrl = this.currentImg.imageUrl;
 
         this.createOpenSeadragonInstance(infoJsonUrl);
-
+        this.annotationsLayer.set('annotationUrls', this.currentImg.annotations);
       }
     },
 
@@ -5494,12 +5503,14 @@ jQuery.fn.scrollStop = function(callback) {
       if (this.locked) {
         return;
       }
+      
 
       if (prev >= 0) {
         this.currentImgIndex = prev;
         this.currentImg = this.imagesList[prev];
 
         this.createOpenSeadragonInstance(this.currentImg.imageUrl);
+        this.annotationsLayer.set('annotationUrls', this.currentImg.annotations);
       }
     },
 
@@ -6689,7 +6700,10 @@ jQuery.fn.scrollStop = function(callback) {
 
   $.AnnotationListing = function(options) {
     jQuery.extend(true, this, {
-      element:null
+      element:null,
+      id: null,
+      title: null,
+      content: null
     }, options);
 
 
@@ -6699,11 +6713,20 @@ jQuery.fn.scrollStop = function(callback) {
   $.AnnotationListing.prototype = {
 
     create: function() {
-      var _this = this; 
-      
+      var _this = this, 
+      templateData = {
+        id: this.id,
+        title: this.title,
+        content: this.content
+      };
+      console.log("listing created");
+
+      this.element = jQuery($,Templates.AnnotationListing(templateData));
+      this.append();
     },
 
     append: function(item) {
+      this.parent.listShell.append(this.element);
     },
 
     render: function() {
@@ -6751,24 +6774,56 @@ jQuery.fn.scrollStop = function(callback) {
       this.element = jQuery($.Templates.imageView.annotationPanel(templateData));
       this.listShell = this.element.find('.annotationList');
       this.parent.parent.element.append(this.element);
-      // console.log(this.listShell); 
+      this.render();
+      this.element.hide();
     },
 
     append: function(item) {
     },
 
-    render: function() {
+    bindEvents: function() {
+    },
 
+    selectAnno : function(id) {
+    },
+
+    render: function() {
+      var templateData = {
+        annotations: this.parent.get('annotations'),
+        annotationCount: this.parent.get('annotations').length,
+        imageAnnotationCount: this.parent.get('commentAnnotations'), // filtered
+        textAnnotationCount: this.parent.get('textAnnotations') // filtered
+      };
+      // console.log(templateData);
+
+      this.listShell.empty();
+      jQuery.each(this.parent.get('annotations'), function(index, annotation) {
+        var elemString = '<div class="annotation" id="'+ annotation.id + '">',
+        elem = jQuery(elemString)[0];
+
+        // console.log(annotation);
+        new $.AnnotationListing({
+          id: $.genUUID(),
+          title: annotation.title,
+          content: annotation.content(),
+          parent: this
+        });
+
+        _this.parent.parent.osd.drawer.addOverlay(elem, annotation.osdFrame);
+      });
+      
+      this.bindEvents();
     },
 
     show: function() {
+      this.render();
       console.log("showing");
-      this.element.fadeIn();
+      this.element.stop().fadeIn();
     },
 
     hide: function() {
       console.log("hiding");
-      this.element.fadeOut();
+      this.element.stop().fadeOut();
     }
 
   };

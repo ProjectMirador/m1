@@ -133,10 +133,18 @@
       // jQuery('.annotation').on('hover', _this.hoverAnnotation);
       // jQuery('.annotationListing').on('click', _this.clickAnnotationListing);
       // jQuery('.annotationListing').on('hover', _this.hoverAnnotationListing);
+      
+      // model events
       _this.event('visible:set').subscribe( function(value) {
+        console.log("visible property updated to true");
         if (value === false) { _this.hide(); } else { _this.show(); }
       });
-
+      _this.event('selected:set').subscribe( function(value) {
+        console.log("visible property updated to true");
+      });
+      _this.event('annotationUrls:set').subscribe( function(value) {
+        console.log("annotationUrls property updated" + value);
+      });
     },
 
     setVisible: function() {

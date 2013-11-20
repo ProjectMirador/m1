@@ -26,24 +26,56 @@
       this.element = jQuery($.Templates.imageView.annotationPanel(templateData));
       this.listShell = this.element.find('.annotationList');
       this.parent.parent.element.append(this.element);
-      // console.log(this.listShell); 
+      this.render();
+      this.element.hide();
     },
 
     append: function(item) {
     },
 
-    render: function() {
+    bindEvents: function() {
+    },
 
+    selectAnno : function(id) {
+    },
+
+    render: function() {
+      var templateData = {
+        annotations: this.parent.get('annotations'),
+        annotationCount: this.parent.get('annotations').length,
+        imageAnnotationCount: this.parent.get('commentAnnotations'), // filtered
+        textAnnotationCount: this.parent.get('textAnnotations') // filtered
+      };
+      // console.log(templateData);
+
+      this.listShell.empty();
+      jQuery.each(this.parent.get('annotations'), function(index, annotation) {
+        var elemString = '<div class="annotation" id="'+ annotation.id + '">',
+        elem = jQuery(elemString)[0];
+
+        // console.log(annotation);
+        new $.AnnotationListing({
+          id: $.genUUID(),
+          title: annotation.title,
+          content: annotation.content(),
+          parent: this
+        });
+
+        _this.parent.parent.osd.drawer.addOverlay(elem, annotation.osdFrame);
+      });
+      
+      this.bindEvents();
     },
 
     show: function() {
+      this.render();
       console.log("showing");
-      this.element.fadeIn();
+      this.element.stop().fadeIn();
     },
 
     hide: function() {
       console.log("hiding");
-      this.element.fadeOut();
+      this.element.stop().fadeOut();
     }
 
   };
