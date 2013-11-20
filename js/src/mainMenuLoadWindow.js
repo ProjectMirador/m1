@@ -9,7 +9,6 @@
     }, options);
 
     this.element  = this.element || jQuery('<div/>');
-
     this.attachEvents();
   };
 
@@ -18,16 +17,17 @@
 
     // load window event handlers
     attachEvents: function() {
-      var selectorSelect          = '.' + this.collectionsListingCls + ' select',
-          selectorUl              = '.' + this.collectionsListingCls + ' ul',
-          selectorScrollView      = '.' + this.collectionsListingCls + ' a.mirador-icon-scroll-view',
-          selectorMetadataView    = '.' + this.collectionsListingCls + ' a.mirador-icon-metadata-view',
-          selectorThumbnailsView  = '.' + this.collectionsListingCls + ' a.mirador-icon-thumbnails-view',
+      var selectorListing         = '.' + this.collectionsListingCls,
+          selectorSelect          = selectorListing + ' select',
+          selectorUl              = selectorListing + ' ul',
+          selectorScrollView      = selectorListing + ' a.mirador-icon-scroll-view',
+          selectorMetadataView    = selectorListing + ' a.mirador-icon-metadata-view',
+          selectorThumbnailsView  = selectorListing + ' a.mirador-icon-thumbnails-view',
           _this                   = this;
 
       // attach onChange event handler for collections select list
       jQuery(document).on('change', selectorSelect, function() {
-        var manifestId = jQuery(this).val().replace(/^select-/, '');
+        var manifestId = jQuery(this).find('option:selected').data('manifest-id');
 
         jQuery(selectorUl).hide();
         jQuery(selectorUl + '.ul-' + manifestId).show();
@@ -35,33 +35,33 @@
 
       // attach click event handler for images in the list
       jQuery(document).on('click', selectorUl, function(event) {
-        var target = event.target;
+        var elemTarget = jQuery(event.target),
+            manifestId,
+            openAt;
 
-        if (/^image-manifest-uuid-/.test(target.className)) {
-          var manifestId = target.className.replace(/^image-/, ''),
-              openAt = target.text;
+        manifestId = elemTarget.data('manifest-id');
+        openAt = elemTarget.text() || '';
 
-          $.viewer.loadImageView(manifestId, openAt);
-        }
+        $.viewer.loadImageView(manifestId, openAt);
       });
 
       // attach click event for thumbnails view icon
       jQuery(document).on('click', selectorThumbnailsView, function() {
-        var manifestId = jQuery(selectorSelect).val().replace(/^select-/, '');
+        var manifestId = jQuery(selectorSelect).find('option:selected').data('manifest-id');
 
         $.viewer.loadThumbnailsView(manifestId);
       });
 
       // attach click event for scroll view icon
       jQuery(document).on('click', selectorScrollView, function() {
-        var manifestId = jQuery(selectorSelect).val().replace(/^select-/, '');
+        var manifestId = jQuery(selectorSelect).find('option:selected').data('manifest-id');
 
         $.viewer.loadScrollView(manifestId);
       });
 
       // attach click event for metadata view icon
       jQuery(document).on('click', selectorMetadataView, function() {
-        var manifestId = jQuery(selectorSelect).val().replace(/^select-/, '');
+        var manifestId = jQuery(selectorSelect).find('option:selected').data('manifest-id');
 
         $.viewer.loadMetadataView(manifestId);
       });

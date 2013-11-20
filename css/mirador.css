@@ -10,6 +10,7 @@
 
 .mirador-viewer {
   box-sizing: border-box;
+  -moz-border-sizing: border-box;
   height: 100%;
   width: 100%;
 }
@@ -127,6 +128,7 @@
 .mirador-listing-collections {
   /*background-color: #fff;*/
   border: 1px solid #aaa;
+  max-height: 90%;
 }
 
 .mirador-listing-collections select {
@@ -139,9 +141,8 @@
 
 .mirador-listing-collections ul {
   display: none;
-  max-height: 400px;
   overflow: auto;
-  padding: 0 5px;
+  padding: 0;
 }
 
 .mirador-listing-collections ul:first-of-type {
