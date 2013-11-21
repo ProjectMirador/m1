@@ -128,7 +128,6 @@
 .mirador-listing-collections {
   /*background-color: #fff;*/
   border: 1px solid #aaa;
-  max-height: 90%;
 }
 
 .mirador-listing-collections select {
@@ -155,6 +154,7 @@
   float: left;
   padding: 4px 2px;
   width: 60px;
+  word-wrap: break-word;
 }
 
 .mirador-listing-collections li a {

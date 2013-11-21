@@ -79,10 +79,10 @@
         theme: '.tooltipster-mirador',
 
         functionReady: function(origin, continueTooltip) {
-          var heightListing = jQuery('.' + _this.viewerCls).height() * 0.8;
+          var heightTooltipster = jQuery('.' + _this.viewerCls).height() * 0.8;
 
-          jQuery('.' + _this.collectionsListingCls).height(heightListing);
-          jQuery('.' + _this.collectionsListingCls + ' ul').height(heightListing - 70);
+          jQuery('.' + _this.collectionsListingCls).height(heightTooltipster);
+          jQuery('.' + _this.collectionsListingCls + ' ul').height(heightTooltipster - 70);
         }
 
       });
