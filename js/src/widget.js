@@ -136,6 +136,7 @@
         imagesList: this.imagesList,
         manifestId: this.manifestId,
         element:    this.content.element,
+        imageId:    this.imageId,
         openAt:     this.openAt,
         parent:     this
       });

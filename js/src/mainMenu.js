@@ -9,6 +9,7 @@
       windowOptionsMenu:          null,
       loadWindow:                 null,
       clearLocalStorage:          '',
+      viewerCls:                  'mirador-viewer',
       mainMenuBarCls:             'mirador-main-menu-bar',
       mainMenuCls:                'mirador-main-menu',
       windowOptionsMenuCls:       'mirador-window-options-menu',
@@ -75,7 +76,15 @@
         content: _this.loadWindow.element,
         interactive: true,
         position: 'bottom',
-        theme: '.tooltipster-mirador'
+        theme: '.tooltipster-mirador',
+
+        functionReady: function(origin, continueTooltip) {
+          var heightTooltipster = jQuery('.' + _this.viewerCls).height() * 0.8;
+
+          jQuery('.' + _this.collectionsListingCls).height(heightTooltipster);
+          jQuery('.' + _this.collectionsListingCls + ' ul').height(heightTooltipster - 70);
+        }
+
       });
 
       // Window Options
