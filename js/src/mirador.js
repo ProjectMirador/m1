@@ -140,6 +140,10 @@ window.Mirador = window.Mirador || function(config) {
     return (typeof obj === 'string') ? [obj] : obj;
   };
 
+  $.cls = function(name) {
+    return '.' + name;
+  }
+
 
   // Removes duplicates from an array.
   $.getUniques = function(arr) {
@@ -273,12 +277,13 @@ window.Mirador = window.Mirador || function(config) {
   };
 
 
-  $.getImageTitles = function(images) {
+  $.getImageTitlesAndIds = function(images) {
     var data = [];
 
     jQuery.each(images, function(index, image) {
       data.push({
-        'title': image.title
+        'title': image.title,
+        'id': image.id
       });
     });
 

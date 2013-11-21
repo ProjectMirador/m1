@@ -37,12 +37,13 @@
       jQuery(document).on('click', selectorUl, function(event) {
         var elemTarget = jQuery(event.target),
             manifestId,
+            imageId,
             openAt;
 
         manifestId = elemTarget.data('manifest-id');
-        openAt = elemTarget.text() || '';
+        imageId = elemTarget.data('image-id');
 
-        $.viewer.loadImageView(manifestId, openAt);
+        $.viewer.loadImageView(manifestId, imageId);
       });
 
       // attach click event for thumbnails view icon

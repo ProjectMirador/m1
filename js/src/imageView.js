@@ -11,6 +11,7 @@
       width:            400,
       units:            "mm",
       unitsLong:        "Millimetres",
+      imageId:          null,
       imagesList:       [],
       leading:          false,
       locked:           false,
@@ -29,6 +30,10 @@
       imageViewBgCls:   'mirador-image-view-bg'
     }, options);
 
+
+    if (this.imageId !== null) {
+      this.currentImgIndex = this.getImageIndexById(this.imageId);
+    }
 
     if (this.openAt !== null) {
       this.currentImgIndex = this.getImageIndexByTitle(this.openAt);
@@ -239,6 +244,20 @@
 
       jQuery.each(this.imagesList, function(index, img) {
         if ($.trimString(img.title) === $.trimString(title)) {
+          imgIndex = index;
+        }
+      });
+
+      return imgIndex;
+    },
+
+
+    getImageIndexById: function(id) {
+      var _this = this,
+          imgIndex = 0;
+
+      jQuery.each(this.imagesList, function(index, img) {
+        if ($.trimString(img.id) === $.trimString(id)) {
           imgIndex = index;
         }
       });

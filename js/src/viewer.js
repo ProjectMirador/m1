@@ -108,43 +108,44 @@
     },
 
 
-    loadImageView: function(manifestId, openAt) {
+    loadImageView: function(manifestId, imageId, openAt) {
       $.viewer.addWidget({
-        height: $.DEFAULT_SETTINGS.imageView.height,
+        height:     $.DEFAULT_SETTINGS.imageView.height,
         manifestId: manifestId,
-        openAt: openAt,
-        type: 'imageView',
-        width: $.DEFAULT_SETTINGS.imageView.width
+        openAt:     openAt,
+        imageId:    imageId,
+        type:       'imageView',
+        width:      $.DEFAULT_SETTINGS.imageView.width
       });
     },
 
 
     loadScrollView: function(manifestId) {
       $.viewer.addWidget({
-        height: $.DEFAULT_SETTINGS.scrollView.height,
+        height:     $.DEFAULT_SETTINGS.scrollView.height,
         manifestId: manifestId,
-        type: 'scrollView',
-        width: $.DEFAULT_SETTINGS.scrollView.width
+        type:       'scrollView',
+        width:      $.DEFAULT_SETTINGS.scrollView.width
       });
     },
 
 
     loadThumbnailsView: function(manifestId) {
       $.viewer.addWidget({
-        height: $.DEFAULT_SETTINGS.thumbnailsView.height,
+        height:     $.DEFAULT_SETTINGS.thumbnailsView.height,
         manifestId: manifestId,
-        type: 'thumbnailsView',
-        width: $.DEFAULT_SETTINGS.thumbnailsView.width
+        type:       'thumbnailsView',
+        width:      $.DEFAULT_SETTINGS.thumbnailsView.width
       });
     },
 
 
     loadMetadataView: function(manifestId) {
       $.viewer.addWidget({
-        height: $.DEFAULT_SETTINGS.metadataView.height,
+        height:     $.DEFAULT_SETTINGS.metadataView.height,
         manifestId: manifestId,
-        type: 'metadataView',
-        width: $.DEFAULT_SETTINGS.metadataView.width
+        type:       'metadataView',
+        width:      $.DEFAULT_SETTINGS.metadataView.width
       });
     },
 
@@ -200,7 +201,7 @@
           groupedList[location].push({
             manifestId:       manifestId,
             collectionTitle:  $.trimStringBy($.getCollectionTitle(manifest.metadata), 60),
-            imageTitles:      $.getImageTitles(manifest.sequences[0].imagesList)
+            imageData:        $.getImageTitlesAndIds(manifest.sequences[0].imagesList)
           });
         });
       }
