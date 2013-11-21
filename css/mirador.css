@@ -141,6 +141,7 @@
 
 .mirador-listing-collections ul {
   display: none;
+  height: 300px;
   overflow: auto;
   padding: 0;
 }

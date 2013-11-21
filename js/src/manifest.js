@@ -181,7 +181,7 @@
 
 
     isDetailImage: function(on) {
-      return /#xywh/.test(on);
+      return (/#xywh/).test(on);
     },
 
 

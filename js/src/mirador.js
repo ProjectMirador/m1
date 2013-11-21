@@ -140,9 +140,10 @@ window.Mirador = window.Mirador || function(config) {
     return (typeof obj === 'string') ? [obj] : obj;
   };
 
+
   $.cls = function(name) {
     return '.' + name;
-  }
+  };
 
 
   // Removes duplicates from an array.
