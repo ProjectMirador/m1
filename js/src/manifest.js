@@ -82,7 +82,10 @@
               imageObj = _this.getImageObject(image);
 
               imageObj.title = canvas.label || '';
-              imagesList.push(imageObj);
+
+              if (!_this.isDetailImage(image.on)) {
+                imagesList.push(imageObj);
+              }
             }
           });
 
@@ -116,6 +119,7 @@
       var imageObj = {
         height:       image.height || 0,
         width:        image.width || 0,
+        id:           image.service['@id'],
         imageUrl:     image.service['@id'].replace(/\/$/, ''),
         choices:      [],
         choiceLabel:  image.label || 'Default'
@@ -173,6 +177,11 @@
         choiceLabel:  'No Image',
         aspectRatio:  1
       };
+    },
+
+
+    isDetailImage: function(on) {
+      return /#xywh/.test(on);
     },
 
 

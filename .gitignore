@@ -8,3 +8,4 @@ js/discovery
 node_modules/
 npm-debug.log
 reports/
+data/ecodices
