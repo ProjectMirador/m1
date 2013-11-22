@@ -8,31 +8,36 @@
       content: null
     }, options);
 
-
     this.create();
   };
 
   $.AnnotationListing.prototype = {
 
     create: function() {
-      var _this = this, 
+      this.render();
+    },
+
+    append: function(item) {
+      this.parent.listShell.append(item);
+    },
+
+    render: function() {
       templateData = {
         id: this.id,
         title: this.title,
         content: this.content
       };
-      console.log("listing created");
 
-      this.element = jQuery($,Templates.AnnotationListing(templateData));
-      this.append();
+      this.element = jQuery($.Templates.imageView.annotationListing(templateData));
+      this.append(this.element);
+      this.bindEvents();
     },
 
-    append: function(item) {
-      this.parent.listShell.append(this.element);
-    },
-
-    render: function() {
-
+    bindEvents: function() {
+      var _this = this;
+      this.element.on('click', function() { _this.parent.parent.set('selectedAnnotation', _this.id, 'listing');} );
+      this.element.on('mouseover', function() { _this.parent.parent.set('hoveredAnnotation', _this.id, 'listing');} );
+      this.element.on('mouseleave', function() { _this.parent.parent.set('hoveredAnnotation', null, 'listing');} );
     },
 
     show: function() {
@@ -42,7 +47,6 @@
     hide: function() {
       this.element.fadeOut();
     }
-
 
   };
 

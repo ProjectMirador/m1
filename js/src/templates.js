@@ -156,7 +156,7 @@
           '</select>',
           '</div>',
         '</div>',
-          '<ul class="annotationlist">',
+          '<ul class="annotationList">',
           '{{#each annotations}}',
             '{{> annotationListing}}',
           '{{/each}}',
@@ -166,7 +166,7 @@
 
       annotationListing: (function() {
         var templateString = 
-          ['<li id="listing-{{id}}" class="annotationListing">',
+          ['<li id="listing_{{id}}" class="annotationListing">',
               '{{#if title}}',
               '<h3>{{title}}</h3>',
               '{{/if}}',

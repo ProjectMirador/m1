@@ -23,6 +23,8 @@
 
     create: function() {
 
+      var _this = this;
+
       scaleDimensions = this.calculateScaleDimensions();
       visPadding = 10;
 
@@ -81,7 +83,7 @@
     })(),
 
     calculateScaleDimensions: function() {
-      _this = this;
+      var _this = this;
       var scaleSize = null;
       var viewportPercentWidth;
 

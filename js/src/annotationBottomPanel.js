@@ -2,6 +2,7 @@
 
   $.AnnotationBottomPanel = function(options) {
     jQuery.extend(true, this, {
+      visible:true
     }, options);
 
 
@@ -11,7 +12,7 @@
   $.AnnotationBottomPanel.prototype = {
 
     create: function() {
-      // console.log("annotation Bottom Panel created");
+      console.log("annotation Bottom Panel created");
     },
 
     append: function(item) {
@@ -22,11 +23,11 @@
     },
 
     show: function() {
-      this.element.fadeIn();
+      // this.element.fadeIn();
     },
 
     hide: function() {
-      this.element.fadeOut();
+      // this.element.fadeOut();
     }
 
 
