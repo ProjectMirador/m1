@@ -46,7 +46,8 @@
       tplData.thumbs = jQuery.map(this.imagesList, function(image, index) {
         return {
           thumbUrl: $.Iiif.getUriWithHeight(image.imageUrl, _this.thumbsMaxHeight),
-          title:    image.title
+          title:    image.title,
+          id:       image.id
         };
       });
 
@@ -127,10 +128,11 @@
       });
 
       jQuery(selectorImageLinks).on('click', function(event) {
-        var target = jQuery(event.target),
-        openAt = target.attr('title');
+        var elemTarget  = jQuery(event.target),
+            imageId;
 
-        $.viewer.loadImageView(_this.manifestId, openAt);
+        imageId = elemTarget.data('image-id');
+        $.viewer.loadImageView(_this.manifestId, imageId);
       });
 
       navToolbar.on('click', selectorMetadataView, function() {
