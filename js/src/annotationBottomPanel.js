@@ -13,6 +13,8 @@
 
     create: function() {
       console.log("annotation Bottom Panel created");
+      var element = jQuery($.Templates.imageView.annotationDetail( {body: "sample Body, yo"} ));
+      console.log(element);
     },
 
     append: function(item) {

@@ -24,6 +24,7 @@ module.exports = function(grunt) {
     'js/lib/jquery-ui.custom.min.js',
     'js/lib/jquery-ui.touch-punch.min.js',
     'js/lib/jquery-ui.dialogextend.min.js',
+    'js/lib/jquery.scrollTo.min.js',
     'js/lib/handlebars.js',
     'js/lib/openseadragon.min.js',
     'js/lib/jquery.tooltipster.min.js',

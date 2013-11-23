@@ -178,7 +178,7 @@
       })(),
 
       annotationDetail: Handlebars.compile([
-        '<div class="{{annotationDetailClass}}">',
+        '<div class="annotationDetails">',
           '<div class="annotationNumber">{{annotationNumber}}</div>',
           '<div class="annotationType Icon mirador-icon-{{annotationType}}-annotation">ψ</div>',
           '<div class="annotationDetailToggle mirador-btn mirador-icon-annotation-toggle">hide</div>',

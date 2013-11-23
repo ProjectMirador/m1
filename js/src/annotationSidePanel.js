@@ -81,9 +81,7 @@
       _this.lastSelected = selectedElement;
 
       if (source !== 'listing') {
-        _this.listShell.animate({
-          scrollTop: selectedElement.offset().top
-        }, 'slow');
+        _this.listShell.scrollTo(selectedElement, 500);
       } 
 
       console.log("focusing " + id);
