@@ -48,9 +48,7 @@
       this.createOpenSeadragonInstance(this.currentImg.imageUrl);
       this.addStatusbarNav();
       this.attachWindowEvents();
-      if (this.currentImg.annotations ) {
-        this.addAnnotationsLayer();
-      }
+      this.addAnnotationsLayer();
     },
 
 

@@ -17,10 +17,6 @@
       this.render();
     },
 
-    append: function(item) {
-      this.parent.listShell.append(item);
-    },
-
     render: function() {
       templateData = {
         id: this.id,
@@ -29,7 +25,7 @@
       };
 
       this.element = jQuery($.Templates.imageView.annotationListing(templateData));
-      this.append(this.element);
+      this.parent.listShell.append(this.element);
       this.bindEvents();
     },
 

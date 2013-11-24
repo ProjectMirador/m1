@@ -24,16 +24,18 @@
 
     render: function() {
       var _this = this;
-      _this.regions = jQuery();
 
-      jQuery.each(this.parent.get('annotations'), function(index, annotation) {
-        var elemString = '<div class="annotation" id="region_'+ annotation.id + '">',
-        elem = jQuery(elemString)[0];
+      if (_this.parent.get('visible')) {
 
-        _this.parent.parent.osd.drawer.addOverlay(elem, annotation.osdFrame);
-      });
+        jQuery.each(this.parent.get('annotations'), function(index, annotation) {
+          var elemString = '<div class="annotation" id="region_'+ annotation.id + '">',
+          elem = jQuery(elemString)[0];
 
-      setTimeout( function() { _this.bindEvents(); }, 200);
+          _this.parent.parent.osd.drawer.addOverlay(elem, annotation.osdFrame);
+        });
+
+        setTimeout( function() { _this.bindEvents(); }, 200);
+      }
     },
 
     bindEvents: function() {
@@ -94,7 +96,7 @@
     },
 
     hide: function() {
-      this.parent.parent.osd.drawer.clearOverlays();
+        this.parent.parent.osd.drawer.clearOverlays();
     }
 
   };

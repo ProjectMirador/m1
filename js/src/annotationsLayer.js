@@ -37,6 +37,7 @@
         _this.regionController = new $.AnnotationLayerRegionController({parent: _this});
         _this.sidePanel = new $.AnnotationLayerSidePanel({parent: _this});
       });
+
       this.bindEvents();
     },
 
@@ -76,6 +77,15 @@
       requests = [];
 
       _this.set('annotations', []);
+      
+      console.log(_this.annotationUrls);
+      if (_this.annotationUrls === undefined) {
+        _this.annotations = [];
+        _this.sidePanel.hide();
+        _this.bottomPanel.hide();
+
+        return jQuery.when(function() { return; });
+      }
 
       jQuery.each(_this.annotationUrls, function(index, url) {
         var request =  jQuery.ajax(
@@ -156,6 +166,13 @@
 
     changePage: function() {
       var _this = this;
+
+      console.log(_this.annotations);
+      if (_this.annotations === null) {
+        _this.set('visible', false);
+        return;
+      }
+
       _this.getAnnotations().done( function() {
         _this.sidePanel.render();
         _this.regionController.render();

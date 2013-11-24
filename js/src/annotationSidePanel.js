@@ -105,12 +105,10 @@
 
     show: function() {
       this.render();
-      console.log("showing");
       this.element.stop().show();
     },
 
     hide: function() {
-      console.log("hiding");
       this.element.stop().hide();
     }
 
