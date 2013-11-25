@@ -28,11 +28,17 @@
         tplData[type] = [];
 
         jQuery.each(_this.metadata[type], function(key, value) {
+
+          if (typeof value === 'object') {
+            value = $.stringifyObject(value);
+          }
+
           if (value && value !== '') {
             tplData[type].push({
               label: $.extractLabelFromAttribute(key),
               value: _this.addLinksToUris(value)
             });
+
           }
         });
       });
@@ -66,6 +72,7 @@
       });
     },
 
+
     addLinksToUris: function(text) {
       // http://stackoverflow.com/questions/8188645/javascript-regex-to-match-a-url-in-a-field-of-text
       var regexUrl = /(http|ftp|https):\/\/[\w\-]+(\.[\w\-]+)+([\w.,@?\^=%&amp;:\/~+#\-]*[\w@?\^=%&amp;\/~+#\-])?/gi,
@@ -84,6 +91,7 @@
 
       return textWithLinks;
     }
+
 
   };
 

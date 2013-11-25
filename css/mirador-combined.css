@@ -2733,6 +2733,7 @@ button.ui-button::-moz-focus-inner {
 
 .mirador-viewer {
   box-sizing: border-box;
+  -moz-border-sizing: border-box;
   height: 100%;
   width: 100%;
 }
@@ -2862,9 +2863,9 @@ button.ui-button::-moz-focus-inner {
 
 .mirador-listing-collections ul {
   display: none;
-  max-height: 400px;
+  height: 300px;
   overflow: auto;
-  padding: 0 5px;
+  padding: 0;
 }
 
 .mirador-listing-collections ul:first-of-type {
@@ -2876,6 +2877,7 @@ button.ui-button::-moz-focus-inner {
   float: left;
   padding: 4px 2px;
   width: 60px;
+  word-wrap: break-word;
 }
 
 .mirador-listing-collections li a {
@@ -3770,6 +3772,7 @@ html {
   box-shadow: 0px 0px 6px rgba(0,0,0,0.8);
   color: #2c2c2c;
   max-width: 400px;
+  max-height: 80%;
 }
 
 .tooltipster-mirador .tooltipster-content {

@@ -84,14 +84,17 @@
               imageObj.title = canvas.label || '';
               imageObj.canvasWidth = canvas.width; 
               imageObj.canvasHeight = canvas.height; 
-              if (canvas.otherContent) {  imageObj.annotations = jQuery.map(canvas.otherContent, function( annotation ){
-                if(annotation['@id'].indexOf(".json") >= 0) {
-                  return annotation['@id'];
-                }
-                return ( annotation['@id'] + ".json" );
-              });
+              if (canvas.otherContent) {
+                imageObj.annotations = jQuery.map(canvas.otherContent, function( annotation ){
+                  if(annotation['@id'].indexOf(".json") >= 0) {
+                    return annotation['@id'];
+                  }
+                  return ( annotation['@id'] + ".json" );
+                });
               }
-              imagesList.push(imageObj);
+              if (!_this.isDetailImage(image.on)) {
+                imagesList.push(imageObj);
+              }
             }
           });
 
@@ -124,6 +127,7 @@
       var imageObj = {
         height:       image.height || 0,
         width:        image.width || 0,
+        id:           image.service['@id'],
         imageUrl:     image.service['@id'].replace(/\/$/, ''),
         choices:      [],
         choiceLabel:  image.label || 'Default'
@@ -181,6 +185,11 @@
         choiceLabel:  'No Image',
         aspectRatio:  1
       };
+    },
+
+
+    isDetailImage: function(on) {
+      return (/#xywh/).test(on);
     },
 
 
