@@ -25,6 +25,7 @@
 
       this.element = jQuery($.Templates.imageView.annotationPanel(templateData));
       this.listShell = this.element.find('.annotationList');
+      this.listStats = this.element.find('.annotationPanelHeader');
       this.parent.parent.element.append(this.element);
       this.render();
       if (!this.parent.get('visible')) {
@@ -52,6 +53,9 @@
         imageAnnotationCount: this.parent.get('commentAnnotations'), // filtered
         textAnnotationCount: this.parent.get('textAnnotations') // filtered
       };
+      
+      this.listStats.replaceWith($.Templates.imageView.annotationStats(templateData));
+      this.listStats = this.element.find('.annotationPanelHeader');
 
       jQuery.each(this.parent.get('annotations'), function(index, annotation) {
 

@@ -163,7 +163,6 @@
     changePage: function() {
       var _this = this;
 
-      console.log(_this.annotations);
       if (_this.annotations === null) {
         _this.set('visible', false);
         return;

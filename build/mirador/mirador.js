@@ -3630,7 +3630,18 @@ jQuery.fn.scrollStop = function(callback) {
       annotationPanel: Handlebars.compile([
         '<div class="annotationListPanel">',
         '<div class="resizeGrip"></div>',
-        '<div class="annotationPanelHeader">',
+        '{{> annotationStats}}',
+          '<ul class="annotationList">',
+          '{{#each annotations}}',
+            '{{> annotationListing}}',
+          '{{/each}}',
+          '</ul>',
+        '</div>'
+      ].join('')),
+      
+      annotationStats: (function() {
+        var templateString = 
+        ['<div class="annotationPanelHeader">',
           '<h4>Annotation List (<span class="annotationsTotal">{{annotationCount}}</span>)</h4>',
           '<div class="annoSearch">',
           '<select id="annotationTypeSelector" name="annotationTypes">',
@@ -3639,14 +3650,11 @@ jQuery.fn.scrollStop = function(callback) {
           '<option value="All">All (<span class="annotationCount">{{annotationCount}}</span>)</option>',
           '</select>',
           '</div>',
-        '</div>',
-          '<ul class="annotationList">',
-          '{{#each annotations}}',
-            '{{> annotationListing}}',
-          '{{/each}}',
-          '</ul>',
         '</div>'
-      ].join('')),
+        ].join('');
+        Handlebars.registerPartial('annotationStats', templateString);
+        return Handlebars.compile(templateString);
+      })(),
 
       annotationListing: (function() {
         var templateString = 
@@ -4616,7 +4624,6 @@ jQuery.fn.scrollStop = function(callback) {
     changePage: function() {
       var _this = this;
 
-      console.log(_this.annotations);
       if (_this.annotations === null) {
         _this.set('visible', false);
         return;
@@ -6985,6 +6992,7 @@ jQuery.fn.scrollStop = function(callback) {
 
       this.element = jQuery($.Templates.imageView.annotationPanel(templateData));
       this.listShell = this.element.find('.annotationList');
+      this.listStats = this.element.find('.annotationPanelHeader');
       this.parent.parent.element.append(this.element);
       this.render();
       if (!this.parent.get('visible')) {
@@ -7012,6 +7020,9 @@ jQuery.fn.scrollStop = function(callback) {
         imageAnnotationCount: this.parent.get('commentAnnotations'), // filtered
         textAnnotationCount: this.parent.get('textAnnotations') // filtered
       };
+      
+      this.listStats.replaceWith($.Templates.imageView.annotationStats(templateData));
+      this.listStats = this.element.find('.annotationPanelHeader');
 
       jQuery.each(this.parent.get('annotations'), function(index, annotation) {
 

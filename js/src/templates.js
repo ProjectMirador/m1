@@ -144,7 +144,18 @@
       annotationPanel: Handlebars.compile([
         '<div class="annotationListPanel">',
         '<div class="resizeGrip"></div>',
-        '<div class="annotationPanelHeader">',
+        '{{> annotationStats}}',
+          '<ul class="annotationList">',
+          '{{#each annotations}}',
+            '{{> annotationListing}}',
+          '{{/each}}',
+          '</ul>',
+        '</div>'
+      ].join('')),
+      
+      annotationStats: (function() {
+        var templateString = 
+        ['<div class="annotationPanelHeader">',
           '<h4>Annotation List (<span class="annotationsTotal">{{annotationCount}}</span>)</h4>',
           '<div class="annoSearch">',
           '<select id="annotationTypeSelector" name="annotationTypes">',
@@ -153,14 +164,11 @@
           '<option value="All">All (<span class="annotationCount">{{annotationCount}}</span>)</option>',
           '</select>',
           '</div>',
-        '</div>',
-          '<ul class="annotationList">',
-          '{{#each annotations}}',
-            '{{> annotationListing}}',
-          '{{/each}}',
-          '</ul>',
         '</div>'
-      ].join('')),
+        ].join('');
+        Handlebars.registerPartial('annotationStats', templateString);
+        return Handlebars.compile(templateString);
+      })(),
 
       annotationListing: (function() {
         var templateString = 
