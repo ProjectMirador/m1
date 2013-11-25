@@ -78,12 +78,8 @@
 
       _this.set('annotations', []);
       
-      console.log(_this.annotationUrls);
-      if (_this.annotationUrls === undefined) {
+      if (!_this.annotationUrls) {
         _this.annotations = [];
-        _this.sidePanel.hide();
-        _this.bottomPanel.hide();
-
         return jQuery.when(function() { return; });
       }
 
