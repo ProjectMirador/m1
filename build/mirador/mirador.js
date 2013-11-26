@@ -6819,7 +6819,6 @@ jQuery.fn.scrollStop = function(callback) {
       lastHovered: null
     }, options);
 
-
     this.create();
   };
 
@@ -6834,12 +6833,20 @@ jQuery.fn.scrollStop = function(callback) {
       this.element.append(item);
     },
 
+    sortRegionsBySize: function(a, b) {
+      var areaA = parseInt(a.region[2], 10)*parseInt(a.region[3], 10);
+      var areaB = parseInt(b.region[2], 10)*parseInt(b.region[3], 10);
+      return areaB - areaA;
+    },
+
     render: function() {
-      var _this = this;
+      var _this = this,
+      annotationsBySize = this.parent.get('annotations').sort(this.sortRegionsBySize);
+      console.log(annotationsBySize);
 
       if (_this.parent.get('visible')) {
 
-        jQuery.each(this.parent.get('annotations'), function(index, annotation) {
+        jQuery.each(annotationsBySize, function(index, annotation) {
           var elemString = '<div class="annotation" id="region_'+ annotation.id + '">',
           elem = jQuery(elemString)[0];
 
@@ -6908,7 +6915,7 @@ jQuery.fn.scrollStop = function(callback) {
     },
 
     hide: function() {
-        this.parent.parent.osd.drawer.clearOverlays();
+      this.parent.parent.osd.drawer.clearOverlays();
     }
 
   };
