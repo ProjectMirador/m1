@@ -141,6 +141,7 @@
           '</div>',
         '</div>'
       ].join('')),
+      
       annotationPanel: Handlebars.compile([
         '<div class="annotationListPanel">',
         '<div class="resizeGrip"></div>',
@@ -165,6 +166,16 @@
           '</select>',
           '</div>',
         '</div>'
+        ].join('');
+        Handlebars.registerPartial('annotationStats', templateString);
+        return Handlebars.compile(templateString);
+      })(),
+      
+      noAnnotationMessage: (function() {
+        var templateString = 
+        ['<div class="annotationPanelHeader">',
+            '<h4>No Annotations Provided</h4>',
+         '</div>'
         ].join('');
         Handlebars.registerPartial('annotationStats', templateString);
         return Handlebars.compile(templateString);

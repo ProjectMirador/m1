@@ -2,7 +2,8 @@
 
   $.AnnotationBottomPanel = function(options) {
     jQuery.extend(true, this, {
-      visible:true
+      visible:true,
+      parent: null 
     }, options);
 
 
@@ -15,6 +16,8 @@
       console.log("annotation Bottom Panel created");
       var element = jQuery($.Templates.imageView.annotationDetail( {body: "sample Body, yo"} ));
       console.log(element);
+      this.parent.parent.element.find('.mirador-widget-content').append(element);
+      console.log(this.parent.parent.parent.element.find('.mirador-widget-content'));
     },
 
     append: function(item) {

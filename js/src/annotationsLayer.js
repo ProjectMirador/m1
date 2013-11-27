@@ -127,13 +127,17 @@
       _this.event('visible:set').subscribe( function(value) {
         if (value === false) { _this.hide(); } else { _this.show(); }
       });
+      _this.event('disabled:set').subscribe( function(value) {
+        if (value === true) { _this.hide(); } else { _this.show(); }
+      });
       _this.event('selectedAnnotation:set').subscribe( function(value, options) {
         _this.focusSelected(value, options);
       });
       _this.event('hoveredAnnotation:set').subscribe( function(value, options) {
         _this.accentHovered(value, options);
       });
-      _this.event('annotationUrls:set').subscribe( function() {
+      _this.event('annotationUrls:set').subscribe( function(value, options) {
+        if (value) { console.log(value); }
         _this.changePage();
       });
     },
@@ -196,33 +200,18 @@
     },
 
     show: function() {
+      var _this = this;
+      this.parent.parent.element.find('.mirador-widget-content').css('padding-right', _this.width);
       this.sidePanel.show();
       this.regionController.show();
       this.bottomPanel.show();
     },
 
     hide: function() {
+      this.parent.parent.element.find('.mirador-widget-content').css('padding-right', 0);
       this.sidePanel.hide();
       this.regionController.hide();
       this.bottomPanel.hide();
-    },
-
-    render: function() {
-      var _this = this; 
-      var templateData = {
-        annotations: this.annotations,
-        annotationCount: this.annotations.length,
-        imageAnnotationCount: this.commentAnnotations, // filtered
-        textAnnotationCount: this.textAnnotations // filtered
-      };
-
-      jQuery.each(this.annotations, function(index, annotation) {
-        var elemString = '<div class="annotation" id="'+ annotation.id + '">',
-        elem = jQuery(elemString)[0];
-
-        _this.parent.osd.drawer.addOverlay(elem, annotation.osdFrame);
-      });
-      this.bindEvents();
     }
 
   };

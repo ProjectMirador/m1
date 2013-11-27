@@ -215,6 +215,7 @@
   overflow-y: auto;
   width: 100%;
   position:relative;
+  box-sizing: border-box;
 }
 
 
@@ -642,6 +643,14 @@ text {
   width: 20px;
   margin-top: 4px;
   margin-left: 3px;
+}
+
+.mirador-btn.disabled {
+  opacity: 0.5;
+}
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 a.mirador-icon-annotations [class^="icon-"] {

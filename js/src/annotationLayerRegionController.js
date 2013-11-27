@@ -29,8 +29,11 @@
 
     render: function() {
       var _this = this,
-      annotationsBySize = this.parent.get('annotations').sort(this.sortRegionsBySize);
-      console.log(annotationsBySize);
+
+      // using the Array.prototype.slice() below creates a duplicate of the array, 
+      // instead of sorting it in place, which would shuffle the list order of 
+      // annotations, an undesired effect.
+      annotationsBySize = this.parent.get('annotations').slice().sort(this.sortRegionsBySize);
 
       if (_this.parent.get('visible')) {
 
@@ -103,6 +106,9 @@
     },
 
     hide: function() {
+      if (!this.parent.annotationUrls) {
+        return;
+      }
       this.parent.parent.osd.drawer.clearOverlays();
     }
 
