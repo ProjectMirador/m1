@@ -1,4 +1,3 @@
-
 Copyright © 2013 The Board of Trustees of the Leland Stanford Junior University
 
 Licensed under the Apache License, Version 2.0 (the "License");
