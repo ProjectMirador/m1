@@ -51,11 +51,12 @@
     bindEvents: function() {
       var _this = this;
       jQuery('.annotation').on('click', function(event) { _this.clickRegion(event); } );
-      jQuery('.annotation').on('mouseover', function(event) { _this.hoverRegion(event); } );
-      jQuery('.annotation').on('blur', function() { _this.deselect(); } );
+      jQuery('.annotation').on('mouseenter', function(event) { _this.hoverRegion(event); } );
+      jQuery('.annotation').on('mouseleave', function() { _this.leaveRegion(event); } );
     },
 
-    deselect: function() {
+    leaveRegion: function() {
+      this.parent.set('hoveredAnnotation', null, 'region');
     },
 
     clickRegion: function(event) {
@@ -99,6 +100,11 @@
 
       var annotationFrame = jQuery.grep(_this.parent.annotations, function(a) { return a.id === id; } )[0].osdFrame;
       _this.parent.parent.osd.viewport.fitBounds(annotationFrame);
+    },
+
+    deselect: function() {
+      var _this = this;
+      _this.lastSelected.removeClass('selected');
     },
 
     show: function() {

@@ -197,9 +197,14 @@
       annotationDetail: Handlebars.compile([
         '<div class="annotationDetails">',
           '<div class="annotationNumber">{{annotationNumber}}</div>',
-          '<div class="annotationType Icon mirador-icon-{{annotationType}}-annotation">ψ</div>',
-          '<div class="annotationDetailToggle mirador-btn mirador-icon-annotation-toggle">hide</div>',
+          '<a class="annotationDetailToggle mirador-icon-annotationDetail-toggle" title="Hide this detail panel."><i class="icon-eye-close"></i></a>',
           '<p>{{body}}</p>',
+        '</div>'
+      ].join('')),
+      
+      annotationDetailToggle: Handlebars.compile([
+        '<div class="displayBottomPanelButton">',
+          '<a class="annotationDetailToggle mirador-icon-annotationDetail-toggle" title="Display annotation details in bottom panel."><i class="icon-eye-open"></i></a>',
         '</div>'
       ].join('')),
 

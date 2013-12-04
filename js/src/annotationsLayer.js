@@ -77,7 +77,7 @@
       requests = [];
 
       _this.set('annotations', []);
-      
+
       if (!_this.annotationUrls) {
         _this.annotations = [];
         return jQuery.when(function() { return; });
@@ -85,33 +85,33 @@
 
       jQuery.each(_this.annotationUrls, function(index, url) {
         var request =  jQuery.ajax(
-            {
-            url: url,
-            dataType: 'json',
-            async: true,
-            
-            success: function(jsonLd) {
-              jQuery.each(jsonLd.resources, function(index, resource) {
-                var annotation = {
-                  region: $.parseRegion(resource.on),
-                  title: null,
-                  content: resource.resource.full ? resource.resource.full.chars : resource.resource.chars,
-                  type: (resource.motivation).split(':')[1],
-                  id: $.genUUID()
-                };          
+          {
+          url: url,
+          dataType: 'json',
+          async: true,
 
-                annotation.osdFrame = $.getOsdFrame(annotation.region, _this.parent.currentImg);
+          success: function(jsonLd) {
+            jQuery.each(jsonLd.resources, function(index, resource) {
+              var annotation = {
+                region: $.parseRegion(resource.on),
+                title: null,
+                content: resource.resource.full ? resource.resource.full.chars : resource.resource.chars,
+                type: (resource.motivation).split(':')[1],
+                id: $.genUUID()
+              };          
 
-                _this.annotations.push(annotation);
-              });
+              annotation.osdFrame = $.getOsdFrame(annotation.region, _this.parent.currentImg);
 
-              _this.computeAnnotationStats();
-            },
+              _this.annotations.push(annotation);
+            });
 
-            error: function() {
-              console.log('Failed loading ' + uri);
-            }
-          });
+            _this.computeAnnotationStats();
+          },
+
+          error: function() {
+            console.log('Failed loading ' + uri);
+          }
+        });
 
         requests.push(request);
 
@@ -131,6 +131,10 @@
         if (value === true) { _this.hide(); } else { _this.show(); }
       });
       _this.event('selectedAnnotation:set').subscribe( function(value, options) {
+        if (value === null) {
+          _this.deselect(); 
+          return;
+        }
         _this.focusSelected(value, options);
       });
       _this.event('hoveredAnnotation:set').subscribe( function(value, options) {
@@ -172,6 +176,10 @@
         return;
       }
 
+      if ( _this.selectedAnnotation ) {
+        _this.set('selectedAnnotation', null);
+      }
+
       _this.getAnnotations().done( function() {
         _this.sidePanel.render();
         _this.regionController.render();
@@ -180,7 +188,7 @@
 
     accentHovered: function(id, source) {
       var _this = this;
-      
+
       if (source === 'listing') {
         _this.regionController.accentHovered(id);
       } else {
@@ -190,9 +198,16 @@
 
     focusSelected: function(id, source) {
       var _this = this;
-      
+
       _this.sidePanel.focusSelected(id, source);
       _this.regionController.focusSelected(id);
+      _this.bottomPanel.focusSelected(id);
+    },
+
+    deselect: function() {
+      _this.bottomPanel.hide();
+      _this.sidePanel.deselect();
+      _this.regionController.deselect();
     },
 
     append: function(item) {
@@ -212,6 +227,10 @@
       this.sidePanel.hide();
       this.regionController.hide();
       this.bottomPanel.hide();
+      // ensures the user won't accidentally be unable to view annotation details in 
+      // the annotation layer in the future. Resets the default visibility of the 
+      // bottom panel to true.
+      this.bottomPanel.hidden = false;
     }
 
   };

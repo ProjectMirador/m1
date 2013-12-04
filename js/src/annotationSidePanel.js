@@ -88,7 +88,13 @@
         _this.listShell.scrollTo(selectedElement, 500);
       } 
 
-      console.log("focusing " + id);
+    },
+
+    deselect: function() {
+      var _this = this;
+
+      if ( _this.lastSelected === null ) { } else { _this.lastSelected.removeClass('selected'); }
+      _this.lastSelected = null;
     },
 
     accentHovered: function(id) {
@@ -104,7 +110,6 @@
       if (_this.lastHovered === null) { } else { _this.lastHovered.removeClass('hovered'); }
       if ( !hoveredElement.hasClass('selected') ) { hoveredElement.addClass('hovered'); }
       _this.lastHovered = hoveredElement;
-      console.log(id);
     },
 
     show: function() {

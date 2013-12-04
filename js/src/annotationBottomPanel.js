@@ -2,8 +2,9 @@
 
   $.AnnotationBottomPanel = function(options) {
     jQuery.extend(true, this, {
-      visible:true,
-      parent: null 
+      visible: false,
+      parent: null,
+      hidden: false
     }, options);
 
 
@@ -13,28 +14,69 @@
   $.AnnotationBottomPanel.prototype = {
 
     create: function() {
-      console.log("annotation Bottom Panel created");
-      var element = jQuery($.Templates.imageView.annotationDetail( {body: "sample Body, yo"} ));
-      console.log(element);
-      this.parent.parent.element.find('.mirador-widget-content').append(element);
-      console.log(this.parent.parent.parent.element.find('.mirador-widget-content'));
+      var _this = this,
+      templateData = null;
+      this.element = jQuery($.Templates.imageView.annotationDetail(templateData));
+      this.showPanelButton = jQuery($.Templates.imageView.annotationDetailToggle());
+      this.annotationViewport = _this.parent.parent.parent.element.find('.mirador-widget-content');
+      this.annotationViewport.append(_this.element);
+      this.annotationViewport.append(_this.showPanelButton.hide());
+      _this.hide();
+      _this.bindEvents();
     },
 
-    append: function(item) {
+    focusSelected: function(id) {
+      this.visible = true;
+      this.render();
+      this.show();
+    },
+
+    bindEvents: function() {
+      var _this = this;
+      this.element.find('.annotationDetailToggle').on('click', function() { _this.toggleHidden(); });
+      this.showPanelButton.find('.annotationDetailToggle').on('click', function() { _this.toggleHidden(); });
     },
 
     render: function() {
+      var _this = this,
+      id = _this.parent.selectedAnnotation,
 
+      annotationText = jQuery.grep(_this.parent.annotations, function(a) {
+        return a.id === id;
+      })[0].content;
+
+      _this.element.find('p').fadeOut(function() {
+        jQuery(this).text(annotationText).fadeIn();
+      });
+    },
+
+    toggleHidden: function() {
+      var _this = this;
+      console.log("toggle called");
+      
+      if (_this.hidden) {
+        _this.hidden = false;
+        _this.show();
+        return;
+      }
+
+      _this.hidden = true;
+      _this.hide();
     },
 
     show: function() {
-      // this.element.fadeIn();
+      var _this = this;
+      if (this.hidden || !this.visible) return;
+      _this.showPanelButton.fadeOut('fast');
+      this.element.animate({ height: '20%', opacity: 1 });   
     },
 
     hide: function() {
-      // this.element.fadeOut();
+      var _this = this;
+      this.element.animate({ height: 0, opacity: 0 });
+      if (!_this.hidden || !_this.visible) return;
+      _this.showPanelButton.fadeIn('slow');
     }
-
 
   };
 
