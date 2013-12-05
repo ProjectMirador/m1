@@ -85,7 +85,7 @@
       _this.lastSelected = selectedElement;
 
       if (source !== 'listing') {
-        _this.listShell.scrollTo(selectedElement, 500);
+        _this.listShell.stop().scrollTo(selectedElement, 500);
       } 
 
     },
