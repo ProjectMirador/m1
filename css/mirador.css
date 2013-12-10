@@ -725,6 +725,10 @@ a.mirador-icon-annotationDetail-toggle [class^="icon-"] {
   cursor:pointer;
   text-shadow:0 0 10px black;
   font-size: 1.4em;
+  opacity: 1;
+}
+.displayBottomPanelButton a.mirador-icon-annotationDetail-toggle:hover [class^="icon-"] {
+  text-shadow: 1px 1px 07px black;
 }
 
 a.mirador-icon-annotationDetail-toggle [class^="icon-"]:hover {
