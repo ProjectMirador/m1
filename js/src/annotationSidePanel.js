@@ -32,16 +32,10 @@
         this.element.hide();
       }
     },
-
-    append: function(item) {
-    },
-
+    
     bindEvents: function() {
     },
-
-    selectAnno : function(id) {
-    },
-
+    
     render: function() {
       var _this = this;
       this.listings = [];
@@ -53,7 +47,7 @@
         imageAnnotationCount: this.parent.get('commentAnnotations'), // filtered
         textAnnotationCount: this.parent.get('textAnnotations') // filtered
       };
-      
+
       this.listStats.replaceWith($.Templates.imageView.annotationStats(templateData));
       this.listStats = this.element.find('.annotationPanelHeader');
 
@@ -72,13 +66,13 @@
 
       this.bindEvents();
     },
-    
+
     focusSelected: function(id, source) {
       var _this = this;
 
       var selectedElementId = '#listing_' + id,
       selectedElement = jQuery(selectedElementId);
-      
+
       if ( _this.lastSelected === null) { } else { _this.lastSelected.removeClass('selected'); }
       selectedElement.removeClass('hovered');
       selectedElement.addClass('selected');
@@ -106,7 +100,7 @@
 
       var hoveredElementId = '#listing_' + id,
       hoveredElement = jQuery(hoveredElementId);
-      
+
       if (_this.lastHovered === null) { } else { _this.lastHovered.removeClass('hovered'); }
       if ( !hoveredElement.hasClass('selected') ) { hoveredElement.addClass('hovered'); }
       _this.lastHovered = hoveredElement;

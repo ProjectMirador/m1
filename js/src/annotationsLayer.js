@@ -205,7 +205,7 @@
     },
 
     deselect: function() {
-      _this.bottomPanel.hide();
+      _this.bottomPanel.deselect();
       _this.sidePanel.deselect();
       _this.regionController.deselect();
     },

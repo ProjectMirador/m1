@@ -160,9 +160,9 @@
           '<h4>Annotation List (<span class="annotationsTotal">{{annotationCount}}</span>)</h4>',
           '<div class="annoSearch">',
           '<select id="annotationTypeSelector" name="annotationTypes">',
+          '<option value="All">All (<span class="annotationCount">{{annotationCount}}</span>)</option>',
           '<option value="Image Annotations">Image Annotations (<span class="imageAnnotationCount">{{imageAnnotationCount}}</span>)</option>',
           '<option value="text annotations">text annotations (<span class="textAnnotationCount">{{textAnnotationCount}}</span>)</option>',
-          '<option value="All">All (<span class="annotationCount">{{annotationCount}}</span>)</option>',
           '</select>',
           '</div>',
         '</div>'

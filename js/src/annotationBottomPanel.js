@@ -50,6 +50,13 @@
       });
     },
 
+    deselect: function() {
+      var _this = this;
+      _this.visible = false;
+      _this.hidden = false;
+      _this.hide();
+    },
+
     toggleHidden: function() {
       var _this = this;
       console.log("toggle called");
@@ -74,7 +81,10 @@
     hide: function() {
       var _this = this;
       this.element.animate({ height: 0, opacity: 0 });
-      if (!_this.hidden || !_this.visible) return;
+      if (!_this.hidden || !_this.visible) {
+        _this.showPanelButton.fadeOut('fast');
+        return;
+      }
       _this.showPanelButton.fadeIn('slow');
     }
 
