@@ -33,23 +33,23 @@
           _this                 = this;
 
       jQuery(document).on('click', elCascadeAll, function() {
-        $.viewer.layout.cascadeAll();
+        $.viewer.layout.applyLayout('cascade');
       });
 
       jQuery(document).on('click', elTileAllVertically, function() {
-        $.viewer.layout.tileAllVertically();
+        $.viewer.layout.applyLayout('tileAllVertically');
       });
 
       jQuery(document).on('click', elTileAllHorizontally, function() {
-        $.viewer.layout.tileAllHorizontally();
+        $.viewer.layout.applyLayout('tileAllHorizontally');
       });
 
       jQuery(document).on('click', elStackAll2Cols, function() {
-        $.viewer.layout.stackAllByColumns(2);
+        $.viewer.layout.applyLayout('stackAll2Columns');
       });
 
       jQuery(document).on('click', elStackAll3Cols, function() {
-        $.viewer.layout.stackAllByColumns(3);
+        $.viewer.layout.applyLayout('stackAll3Columns');
       });
 
       jQuery(document).on('click', elCloseAll, function() {

@@ -96,28 +96,31 @@
 
       switch (layout) {
         case 'cascade':
-          this.cascadeAll();
-          break;
+        this.cascadeAll();
+        break;
 
       case 'tileAllVertically':
-          this.tileAllVertically();
-          break;
+        this.tileAllVertically();
+        break;
 
       case 'tileAllHorizontally':
-          this.tileAllHorizontally();
-          break;
+        this.tileAllHorizontally();
+        break;
 
       case 'stackAll2Columns':
-          this.stackAllByColumns(2);
-          break;
+        this.stackAllByColumns(2);
+        break;
 
       case 'stackAll3Columns':
-          this.stackAllByColumns(3);
-          break;
+        this.stackAllByColumns(3);
+        break;
 
        default:
+        layout = 'cascade';
         this.cascadeAll();
       }
+
+      $.viewer.saveCurrentLayout(layout);
     }
 
   };
