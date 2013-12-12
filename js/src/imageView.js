@@ -11,6 +11,7 @@
       width:            null,
       units:            "mm",
       unitsLong:        "Millimetres",
+      imageId:          null,
       imagesList:       [],
       leading:          false,
       locked:           false,
@@ -31,6 +32,10 @@
     }, options);
 
 
+    if (this.imageId !== null) {
+      this.currentImgIndex = this.getImageIndexById(this.imageId);
+    }
+
     if (this.openAt !== null) {
       this.currentImgIndex = this.getImageIndexByTitle(this.openAt);
     }
@@ -48,9 +53,7 @@
       this.createOpenSeadragonInstance(this.currentImg.imageUrl);
       this.addStatusbarNav();
       this.attachWindowEvents();
-      if (this.currentImg.annotations ) {
-        this.addAnnotationsLayer();
-      }
+      this.addAnnotationsLayer();
     },
 
 
@@ -262,6 +265,20 @@
     },
 
 
+    getImageIndexById: function(id) {
+      var _this = this,
+          imgIndex = 0;
+
+      jQuery.each(this.imagesList, function(index, img) {
+        if ($.trimString(img.id) === $.trimString(id)) {
+          imgIndex = index;
+        }
+      });
+
+      return imgIndex;
+    },
+
+
     getTitle: function() {
       var titles = [];
 
@@ -295,6 +312,7 @@
       if (this.locked) {
         return;
       }
+      
 
       if (next < this.imagesList.length) {
         this.currentImgIndex = next;
@@ -303,7 +321,7 @@
         infoJsonUrl = this.currentImg.imageUrl;
 
         this.createOpenSeadragonInstance(infoJsonUrl);
-
+        this.annotationsLayer.set('annotationUrls', this.currentImg.annotations);
       }
     },
 
@@ -315,12 +333,14 @@
       if (this.locked) {
         return;
       }
+      
 
       if (prev >= 0) {
         this.currentImgIndex = prev;
         this.currentImg = this.imagesList[prev];
 
         this.createOpenSeadragonInstance(this.currentImg.imageUrl);
+        this.annotationsLayer.set('annotationUrls', this.currentImg.annotations);
       }
     },
 
@@ -394,13 +414,7 @@
       });
 
       navToolbar.on('click', selectorAnnotationsView, function() {
-        if ( _this.annotationsLayer.element.is(':visible') ) {
-          console.log('hidin');
-          _this.annotationsLayer.hide();
-        } else { 
-          _this.annotationsLayer.show(); 
-          console.log('showin');
-        }
+        _this.annotationsLayer.setVisible();
       });
 
     },

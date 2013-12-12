@@ -146,6 +146,11 @@ window.Mirador = window.Mirador || function(config) {
   };
 
 
+  $.cls = function(name) {
+    return '.' + name;
+  };
+
+
   // Removes duplicates from an array.
   $.getUniques = function(arr) {
     var temp = {},
@@ -185,6 +190,49 @@ window.Mirador = window.Mirador || function(config) {
     }
 
     return str;
+  };
+
+
+  // Base code from https://github.com/padolsey/prettyprint.js. Modified to fit Mirador needs
+  $.stringifyObject = function(obj, nestingMargin) {
+    var type = typeof obj,
+        str,
+        first = true,
+        increment = 15,
+        delimiter = '<br/>';
+
+    if (typeof nestingMargin === 'undefined') {
+      nestingMargin = 0;
+    }
+
+    if (obj instanceof Array) {
+      str = '[ ';
+
+      $.each(obj, function (i, item) {
+        str += (i === 0 ? '' : ', ') + $.stringifyObject(item, nestingMargin + increment);
+      });
+
+      return str + ' ]';
+    }
+
+    if (typeof obj === 'object') {
+      str = '<div style="margin-left:' +  nestingMargin + 'px">';
+
+      for (var i in obj) {
+        if (obj.hasOwnProperty(i)) {
+          str += (first ? '' : delimiter) + i + ': ' + $.stringifyObject(obj[i], nestingMargin + increment);
+          first = false;
+        }
+      }
+
+      return str + '</div>';
+    }
+
+    if (type === 'regexp') {
+      return '/' + obj.source + '/';
+    }
+
+    return obj.toString();
   };
 
 
@@ -278,12 +326,13 @@ window.Mirador = window.Mirador || function(config) {
   };
 
 
-  $.getImageTitles = function(images) {
+  $.getImageTitlesAndIds = function(images) {
     var data = [];
 
     jQuery.each(images, function(index, image) {
       data.push({
-        'title': image.title
+        'title': image.title,
+        'id': image.id
       });
     });
 
@@ -356,6 +405,30 @@ window.Mirador = window.Mirador || function(config) {
       if (callNow) result = func.apply(context, args);
       return result;
     };
+  };
+  
+  $.parseRegion  = function(url) {
+    url = new URI(url);
+    var regionString = url.hash(); 
+    regionArray = regionString.split('=')[1].split(',');
+    return regionArray;
+  };
+
+  $.getOsdFrame = function(region, currentImg) {
+    var imgWidth = currentImg.width,
+    imgHeight = currentImg.height,
+    canvasWidth = currentImg.canvasWidth,
+    canvasHeight = currentImg.canvasHeight,
+    widthNormaliser = imgWidth/canvasWidth,
+    heightNormaliser = imgHeight/canvasHeight,
+    rectX = (region[0]*widthNormaliser)/imgWidth,
+    rectY = (region[1]*heightNormaliser)/imgWidth,
+    rectW = (region[2]*widthNormaliser)/imgWidth,
+    rectH = (region[3]*heightNormaliser)/imgWidth;
+
+    var osdFrame = new OpenSeadragon.Rect(rectX,rectY,rectW,rectH);
+
+    return osdFrame;
   };
 
 }(Mirador));

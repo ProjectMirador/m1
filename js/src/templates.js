@@ -53,7 +53,7 @@
             '{{#collections}}',
               '<optgroup label="{{location}}">',
                 '{{#list}}',
-                  '<option value="select-{{manifestId}}">{{collectionTitle}}</option>',
+                  '<option data-manifest-id="{{manifestId}}">{{collectionTitle}}</option>',
                 '{{/list}}',
               '</optgroup>',
             '{{/collections}}',
@@ -64,9 +64,9 @@
           '{{#collections}}',
             '{{#list}}',
               '<ul class="ul-{{manifestId}}">',
-                '{{#imageTitles}}',
-                  '<li><a href="javascript:;" class="image-{{../manifestId}}">{{trimTitlePrefix title}}</a></li>',
-                '{{/imageTitles}}',
+                '{{#imageData}}',
+                  '<li><a href="javascript:;" data-image-id="{{id}}" data-manifest-id="{{../manifestId}}">{{trimTitlePrefix title}}</a></li>',
+                '{{/imageData}}',
               '</ul>',
             '{{/list}}',
           '{{/collections}}',
@@ -114,9 +114,7 @@
       // template for rendering tool bar with nav links
       navToolbar: Handlebars.compile([
         '<div class="{{navToolbarCls}}">',
-        '{{#if hasAnnotations}}',
           '<a href="javascript:;" class="mirador-btn mirador-icon-annotations"><i class="icon-comments"></i></a>',
-        '{{/if}}',
           '<a href="javascript:;" class="mirador-btn mirador-icon-choices"></a>',
           '<a href="javascript:;" class="mirador-btn mirador-icon-metadata-view"></a>',
           '<a href="javascript:;" class="mirador-btn mirador-icon-scroll-view"></a>',
@@ -143,30 +141,49 @@
           '</div>',
         '</div>'
       ].join('')),
+      
       annotationPanel: Handlebars.compile([
         '<div class="annotationListPanel">',
         '<div class="resizeGrip"></div>',
-        '<div class="annotationPanelHeader">',
-          '<h4>Annotation List (<span class="annotationsTotal">{{annotationCount}}</span>)</h4>',
-          '<div class="annoSearch">',
-          '<select id="annotationTypeSelector" name="annotationTypes">',
-          '<option value="Image Annotations">Image Annotations (<span class="imageAnnotationCount">{{imageAnnotationCount}}</span>)</option>',
-          '<option value="text annotations">text annotations (<span class="textAnnotationCount">{{textAnnotationCount}}</span>)</option>',
-          '<option value="All">All (<span class="annotationCount">{{annotationCount}}</span>)</option>',
-          '</select>',
-          '</div>',
-        '</div>',
-          '<ul class="annotationlist">',
+        '{{> annotationStats}}',
+          '<ul class="annotationList">',
           '{{#each annotations}}',
             '{{> annotationListing}}',
           '{{/each}}',
           '</ul>',
         '</div>'
       ].join('')),
+      
+      annotationStats: (function() {
+        var templateString = 
+        ['<div class="annotationPanelHeader">',
+          '<h4>Annotation List (<span class="annotationsTotal">{{annotationCount}}</span>)</h4>',
+          '<div class="annoSearch">',
+          '<select id="annotationTypeSelector" name="annotationTypes">',
+          '<option value="All">All (<span class="annotationCount">{{annotationCount}}</span>)</option>',
+          '<option value="Image Annotations">Image Annotations (<span class="imageAnnotationCount">{{imageAnnotationCount}}</span>)</option>',
+          '<option value="text annotations">text annotations (<span class="textAnnotationCount">{{textAnnotationCount}}</span>)</option>',
+          '</select>',
+          '</div>',
+        '</div>'
+        ].join('');
+        Handlebars.registerPartial('annotationStats', templateString);
+        return Handlebars.compile(templateString);
+      })(),
+      
+      noAnnotationMessage: (function() {
+        var templateString = 
+        ['<div class="annotationPanelHeader">',
+            '<h4>No Annotations Provided</h4>',
+         '</div>'
+        ].join('');
+        Handlebars.registerPartial('annotationStats', templateString);
+        return Handlebars.compile(templateString);
+      })(),
 
       annotationListing: (function() {
         var templateString = 
-          ['<li id="listing-{{id}}" class="annotationListing">',
+          ['<li id="listing_{{id}}" class="annotationListing">',
               '{{#if title}}',
               '<h3>{{title}}</h3>',
               '{{/if}}',
@@ -178,11 +195,16 @@
       })(),
 
       annotationDetail: Handlebars.compile([
-        '<div class="{{annotationDetailClass}}">',
+        '<div class="annotationDetails">',
           '<div class="annotationNumber">{{annotationNumber}}</div>',
-          '<div class="annotationType Icon mirador-icon-{{annotationType}}-annotation">ψ</div>',
-          '<div class="annotationDetailToggle mirador-btn mirador-icon-annotation-toggle">hide</div>',
+          '<a class="annotationDetailToggle mirador-icon-annotationDetail-toggle" title="Hide this detail panel."><i class="icon-eye-close"></i></a>',
           '<p>{{body}}</p>',
+        '</div>'
+      ].join('')),
+      
+      annotationDetailToggle: Handlebars.compile([
+        '<div class="displayBottomPanelButton">',
+          '<a class="annotationDetailToggle mirador-icon-annotationDetail-toggle" title="Display annotation details in bottom panel."><i class="icon-eye-open"></i></a>',
         '</div>'
       ].join('')),
 
@@ -241,7 +263,7 @@
           '{{#thumbs}}',
             '<li>',
               '<a href="javascript:;">',
-                '<img title="{{title}}" src="{{thumbUrl}}" height="{{../defaultHeight}}">',
+                '<img title="{{title}}" data-image-id="{{id}}" src="{{thumbUrl}}" height="{{../defaultHeight}}">',
                 '<div class="thumb-label">{{title}}</div>',
               '</a>',
             '</li>',
