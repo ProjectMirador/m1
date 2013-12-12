@@ -181,18 +181,29 @@
 
 
     setPosition: function(x, y) {
+      x = Math.round(x);
+      y = Math.round(y);
+
       this.element.dialog('option', 'position', [x, y]);
     },
 
 
+    setWidth: function(w) {
+      this.element.dialog('option', 'width', Math.round(w));
+    },
+
+
+    setHeight: function(h) {
+      this.element.dialog('option', 'height', Math.round(h));
+    },
+
+
     setSize: function(w, h) {
-      var widget = this;
-      this.element.dialog('option', 'width', w);
-      this.element.dialog('option', 'height', h);
+      this.setWidth(Math.round(w));
+      this.setHeight(Math.round(h));
 
       this.element.trigger('dialogresize');
       this.element.trigger('dialogresizestop');
-      // setTimeout(function(){if (widget.type === 'imageView') {console.log("type detected");widget.viewObj.osd.viewport.goHome();}},100);
     },
 
 
@@ -202,8 +213,8 @@
     },
 
 
-    moveToTop: function() {
-      this.element.dialog('moveToTop');
+    getPosition: function() {
+      return this.element.dialog('option', 'position');
     },
 
 
@@ -214,6 +225,11 @@
 
     getWidth: function() {
       return this.element.dialog('option', 'width');
+    },
+
+
+    moveToTop: function() {
+      this.element.dialog('moveToTop');
     },
 
 
@@ -231,6 +247,14 @@
       this.element.dialog({
         close: function(event, ui) {
           _this.close();
+        },
+
+        drag: function(event, ui) {
+          $.viewer.saveCurrentLayout(null);
+        },
+
+        resize: function(event, ui) {
+          $.viewer.saveCurrentLayout(null);
         }
       });
     },

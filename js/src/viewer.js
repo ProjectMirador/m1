@@ -9,6 +9,7 @@
       element:                null,
       canvas:                 null,
       initialLayout:          $.DEFAULT_SETTINGS.initialLayout || 'cascade',
+      currentLayout:          null,
       layout:                 null,
       mainMenu:               null,
       numManifestsLoaded:     0,
@@ -18,6 +19,8 @@
       collectionsListingCls:  'mirador-listing-collections',
       mainMenuLoadWindowCls:  '.mirador-main-menu .load-window',
       workspaceAutoSave:      $.DEFAULT_SETTINGS.workspaceAutoSave,
+      windowSize:             {},
+      resizeRatio:            {},
 
       lastWidgetPosition: {
         x: 'left',
@@ -56,17 +59,25 @@
           .addClass('mirador-viewer')
           .appendTo(this.element);
 
-      this.canvas.height(this.canvas.height() - this.mainMenu.element.outerHeight(true));
-
       // add status bar
       if (this.showStatusBar) {
         this.statusBar = new $.StatusBar({ appendTo: this.element });
-        this.canvas.height(this.canvas.height() - this.statusBar.element.outerHeight(true));
       }
 
       // add layout configuration
       this.layout = new $.Layout();
 
+      this.alignViewerElements();
+      this.attachEvents();
+    },
+
+
+    alignViewerElements: function() {
+      this.canvas.height(this.element.height() - this.mainMenu.element.outerHeight(true));
+
+      if (this.showStatusBar) {
+        this.canvas.height(this.canvas.height() - this.statusBar.element.outerHeight(true));
+      }
     },
 
 
@@ -82,6 +93,7 @@
 
       if (typeof this.initialLayout !== 'undefined') {
         $.viewer.layout.applyLayout(this.initialLayout);
+        this.currentLayout = this.initialLayout;
       }
     },
 
@@ -220,9 +232,7 @@
     addStatusBarMessage: function(position, content, delay, hide) {
       var elTextFrame = this.statusBar.element.find('.mirador-status-bar-msg-' + position);
 
-      if (isNaN(delay)) {
-        delay = 0;
-      }
+      delay = isNaN(delay) ? 0 : delay;
 
       if (hide && typeof hide !== 'boolean') {
         hide = true;
@@ -233,7 +243,80 @@
       if (hide) {
         setTimeout(function() { elTextFrame.fadeOut(); }, delay);
       }
+    },
 
+
+    attachEvents: function() {
+      var _this = this;
+
+      jQuery(window).on('resizestart', function(event) {
+        if (event.target == window) {
+          _this.saveCurrentWindowSize();
+        }
+      });
+
+      jQuery(window).on('resizestop', function(event) {
+        if (event.target == window) {
+          _this.resizeViewer();
+        }
+      });
+    },
+
+
+    resizeWidgets: function() {
+      var _this = this;
+
+      // Use current layout if in layout mode (i.e., no resized or dragged widgets)
+      if (this.currentLayout != null) {
+        $.viewer.layout.applyLayout(this.currentLayout);
+
+      // resize and re-position according to new window size
+      } else {
+
+        jQuery.each(this.widgets, function(index, widget) {
+          var currentPosition = widget.getPosition(),
+              x = currentPosition[0],
+              y = currentPosition[1],
+              newX,
+              newY;
+
+          newX = _this.resizeRatio.width * x;
+          newY = _this.resizeRatio.height * y;
+
+          if (_this.resizeRatio.width < 1) {
+            widget.setPosition(newX, y);
+            widget.setWidth(_this.resizeRatio.width * widget.getWidth());
+          }
+
+          if (_this.resizeRatio.height < 1) {
+            widget.setPosition(x, newY);
+            widget.setHeight(_this.resizeRatio.height * widget.getHeight());
+          }
+
+        });
+      }
+
+    },
+
+
+    resizeViewer: function() {
+      this.resizeRatio.width  = (jQuery(window).width() / this.windowSize.width).toFixed(2);
+      this.resizeRatio.height = (jQuery(window).height() / this.windowSize.height).toFixed(2);
+
+      this.alignViewerElements();
+      this.resizeWidgets();
+      this.saveCurrentWindowSize();
+    },
+
+
+    saveCurrentWindowSize: function() {
+      this.windowSize.width  = jQuery(window).width();
+      this.windowSize.height = jQuery(window).height();
+    },
+
+
+    saveCurrentLayout: function(layout) {
+      this.currentLayout = layout;
     }
 
   };
