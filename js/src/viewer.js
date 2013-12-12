@@ -275,7 +275,7 @@
       var _this = this;
 
       // Use current layout if in layout mode (i.e., no resized or dragged widgets)
-      if (this.currentLayout != null) {
+      if (this.currentLayout !== null) {
         $.viewer.layout.applyLayout(this.currentLayout);
 
       // resize and re-position according to new window size
