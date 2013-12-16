@@ -460,9 +460,8 @@
     },
 
     reachedExtent : function (minmax) {
-      console.log('reached: '+minmax);
+      // console.log('reached: '+minmax);
     },
-
 
     lock: function() {
       this.locked = true;
@@ -470,22 +469,20 @@
       $.viewer.lockController.addLockedView(this.parent.viewObj);
     },
 
-
     unlock: function() {
       this.locked = false;
       this.parent.element.parent().removeClass('locked');
       $.viewer.lockController.removeLockedView(this.parent.id);
     },
 
-
     dimensionChange: function(e) {
       // e.target.value = e.target.value.replace(/[^0-9\.]/g,'');
       var valid = (/[0-9]|\./.test(String.fromCharCode(e.keyCode)) && !e.shiftKey);
       // check if the value of the number is an integer 1-9
       // if not, declare invalid
-      console.log(e.type + ' ' + valid);
-      console.log(e);
-      console.log("keyCode:" + " " + e.keyCode);
+      // console.log(e.type + ' ' + valid);
+      // console.log(e);
+      // console.log("keyCode:" + " " + e.keyCode);
       if (!valid) {
         e.preventDefault();
       }
@@ -503,8 +500,13 @@
 
       this.setWidth(width);
       this.setHeight(height);
-      this.scale.render();
 
+      if (width) {
+        this.scale.dimensionsProvided = true;
+      } else {
+        this.scale.dimensionsProvided = false;
+      }
+      this.scale.render();
     },
 
     unitChange: function() {

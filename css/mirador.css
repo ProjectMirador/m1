@@ -332,6 +332,12 @@ text {
   display:block;
 }
 
+/* scale
+----------------*/
+.mirador-image-scale.hidden {
+  display:none;
+}
+
 /* annotation list
 -----------------*/
 .annotationListPanel {

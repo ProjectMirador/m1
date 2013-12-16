@@ -10,6 +10,7 @@
       physicalScaleWidth: null,
       showScale:          false,
       scaleCls:           'mirador-image-scale',
+      dimensionsProvided: false,
       visualisation:      {}
     }, options);
 
@@ -60,13 +61,13 @@
       .text(_this.parent.unitsLong)
       .attr('transform', 'translate(' + visPadding + ',' + ( h - visPadding ) + ')');
 
-      this.hide();
-      if (this.showScale) this.show();
+      _this.visualisation.scale.attr('class', this.scaleCls + ' hidden');
+      if (this.showScale && this.dimensionsProvided ) this.visualisation.scale.attr('class', this.scaleCls);
     },
 
-    append: function(item) {
-      this.element.append(item);
-    },
+    // append: function(item) {
+    //   this.element.append(item);
+    // },
 
     render: (function() {
 
@@ -82,6 +83,9 @@
         .transition()
         .duration(850)
         .call(axis);
+      
+        this.visualisation.scale.attr('class', this.scaleCls + ' hidden');
+        if (this.showScale && this.dimensionsProvided ) this.visualisation.scale.attr('class', this.scaleCls);
       }, 50);
 
     })(),
