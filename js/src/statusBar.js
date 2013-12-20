@@ -25,6 +25,8 @@
         .appendTo(this.appendTo);
 
       this.element.append($.Templates.statusBar.textFrames({}));
+      this.xbox = this.element.find('.x');
+      this.ybox = this.element.find('.y');
     }
 
 

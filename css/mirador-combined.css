@@ -3020,11 +3020,20 @@ text {
 }
 
 .mirador-image-view-physical-dimensions:hover,
-.mirador-image-view-physical-dimensions:focus {
+.mirador-image-view-physical-dimensions:focus,
+.mirador-image-dimensions.noDimensionsSet .mirador-image-view-physical-dimensions {
   border-bottom: 2px solid orangered;
   height: 16px;
   margin-bottom: -2px;
   transition: all .2s ease-out;
+}
+.noDimensionsWarning {
+  display: none;
+  margin-right:10px;
+}
+.mirador-image-dimensions.noDimensionsSet .noDimensionsWarning {
+  color: rgba(0,0,0,0.5);
+  display: inline-block;
 }
 
 .mirador-image-view-physical-dimensions:focus {

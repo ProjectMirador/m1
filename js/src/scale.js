@@ -11,7 +11,8 @@
       showScale:          false,
       scaleCls:           'mirador-image-scale',
       dimensionsProvided: false,
-      visualisation:      {}
+      visualisation:      {},
+      controlElement:     null
     }, options);
 
     jQuery(this.parent.element).find("." + this.scaleCls).remove();
@@ -35,6 +36,8 @@
 
       var w = this.width + visPadding*3;
       var h = this.height;
+
+      _this.controlElement = _this.parent.parent.element.find('.mirador-image-dimensions');
 
       var scale = this.visualisation.scale = d3.select(this.parent.element[0])
       .append('svg')
@@ -61,13 +64,8 @@
       .text(_this.parent.unitsLong)
       .attr('transform', 'translate(' + visPadding + ',' + ( h - visPadding ) + ')');
 
-      _this.visualisation.scale.attr('class', this.scaleCls + ' hidden');
-      if (this.showScale && this.dimensionsProvided ) this.visualisation.scale.attr('class', this.scaleCls);
+      this.render();
     },
-
-    // append: function(item) {
-    //   this.element.append(item);
-    // },
 
     render: (function() {
 
@@ -83,11 +81,15 @@
         .transition()
         .duration(850)
         .call(axis);
-      
-        this.visualisation.scale.attr('class', this.scaleCls + ' hidden');
-        if (this.showScale && this.dimensionsProvided ) this.visualisation.scale.attr('class', this.scaleCls);
-      }, 50);
 
+        if (this.showScale && this.dimensionsProvided )  {
+          this.visualisation.scale.attr('class', this.scaleCls);
+          this.controlElement.removeClass('noDimensionsSet');
+        } else {
+          this.visualisation.scale.attr('class', function() { return this.scaleCls + ' hidden'; });
+          this.controlElement.addClass('noDimensionsSet');
+        }
+      });
     })(),
 
     calculateScaleDimensions: function() {

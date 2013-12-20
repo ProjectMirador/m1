@@ -476,16 +476,18 @@
     },
 
     dimensionChange: function(e) {
-      // e.target.value = e.target.value.replace(/[^0-9\.]/g,'');
-      var valid = (/[0-9]|\./.test(String.fromCharCode(e.keyCode)) && !e.shiftKey);
-      // check if the value of the number is an integer 1-9
+      var valid = (/[0-9]|\./.test(String.fromCharCode(e.keyCode)) && !e.shiftKey),
+      textAreaClass = e.currentTarget.className,
+      dimension = textAreaClass.charAt(textAreaClass.length-1),
+      aspectRatio = this.parent.viewObj.currentImg.aspectRatio,
+      width,
+      height;
+      // check if the value of the number is an integer 0-9
       // if not, declare invalid
-      // console.log(e.type + ' ' + valid);
-      // console.log(e);
-      // console.log("keyCode:" + " " + e.keyCode);
       if (!valid) {
         e.preventDefault();
       }
+      console.log(e.type+ " : " + e.key);
 
       // check if keystroke is "enter"
       // if so, exit or deselect the box
@@ -493,9 +495,31 @@
         e.target.blur();
       }
 
-      var width = this.parent.statusbar.element.find('.x').val(),
-      height = this.parent.statusbar.element.find('.y').val(),
-      aspectRatio = this.parent.viewObj.currentImg.aspectRatio,
+      if (dimension === 'x') {
+        width = this.parent.statusbar.element.find('.x').val();
+        height = Math.floor(aspectRatio * width); 
+        if (!width) {
+          console.log('empty');
+          this.parent.statusbar.element.find('.y').val('');
+        } else {
+          this.parent.statusbar.element.find('.y').val(height);
+        }
+      } else {
+        height = this.parent.statusbar.element.find('.y').val();
+        width = Math.floor(height/aspectRatio);
+        if (!height) {
+          console.log('empty');
+          this.parent.statusbar.element.find('.x').val('');
+        } else {
+          this.parent.statusbar.element.find('.x').val(width);
+        }
+      }
+      console.log(dimension);
+      console.log("width: " + width);
+      console.log(width);
+      console.log("height:" + height);
+      console.log(height);
+      
       unitCls = '.units';
 
       this.setWidth(width);
@@ -514,6 +538,5 @@
     }
 
   };
-
 
 }(Mirador));

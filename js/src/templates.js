@@ -128,6 +128,7 @@
         '<div class="{{statusbarCls}}">',
           '<a href="javascript:;" class="mirador-btn mirador-icon-lock"></a>',
           '<div class="mirador-image-dimensions">',
+          '<span class="noDimensionsWarning">No Dimensions Given</span>',
             '<textarea rows="1" class="mirador-image-view-physical-dimensions x">{{width}}</textarea>',
             '<span>✕</span>',
             '<textarea rows="1" class="mirador-image-view-physical-dimensions y">{{height}}</textarea>',
