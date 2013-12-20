@@ -75,12 +75,12 @@
       var _this = this;
       if (this.hidden || !this.visible) return;
       _this.showPanelButton.fadeOut('fast');
-      this.element.animate({ height: '20%', opacity: 1 });   
+      this.element.animate({ height: '20%', opacity: 1, display:'block' });   
     },
 
     hide: function() {
       var _this = this;
-      this.element.animate({ height: 0, opacity: 0 });
+      this.element.animate({ height: 0, opacity: 0, display: 'none' });
       if (!_this.hidden || !_this.visible) {
         _this.showPanelButton.fadeOut('fast');
         return;

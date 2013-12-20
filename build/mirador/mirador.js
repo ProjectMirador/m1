@@ -5572,10 +5572,12 @@ jQuery.fn.scrollStop = function(callback) {
 
 
     addScale: function() {
-      this.scale = new $.WidgetScale({
-        parent: this,
-        showScale: true
-      });
+      if (!this.scale) {
+        this.scale = new $.WidgetScale({
+          parent: this,
+          showScale: true
+        });
+      }
     },
 
 
@@ -5849,6 +5851,9 @@ jQuery.fn.scrollStop = function(callback) {
         } else {
           this.parent.statusbar.element.find('.x').val(width);
         }
+        this.height = height;
+        this.width = width;
+
       }
       console.log(dimension);
       console.log("width: " + width);
@@ -6612,7 +6617,7 @@ jQuery.fn.scrollStop = function(callback) {
       .attr('class', this.scaleCls)
       .attr('height', h)
       .attr('width', w);
-
+      console.log(this.scaleCls);
       var xScale = this.visualisation.xScaleFunction = d3.scale.linear()
       .domain([0, d3.max(scaleDimensions)])
       .range([visPadding, w - (visPadding*2)]);
@@ -6913,12 +6918,12 @@ jQuery.fn.scrollStop = function(callback) {
       var _this = this;
       if (this.hidden || !this.visible) return;
       _this.showPanelButton.fadeOut('fast');
-      this.element.animate({ height: '20%', opacity: 1 });   
+      this.element.animate({ height: '20%', opacity: 1, display:'block' });   
     },
 
     hide: function() {
       var _this = this;
-      this.element.animate({ height: 0, opacity: 0 });
+      this.element.animate({ height: 0, opacity: 0, display: 'none' });
       if (!_this.hidden || !_this.visible) {
         _this.showPanelButton.fadeOut('fast');
         return;

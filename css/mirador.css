@@ -259,6 +259,7 @@
   bottom:25px;
   display:block;
   position:absolute;
+  z-index:2;
 }
 
 .axis path, .axis line {

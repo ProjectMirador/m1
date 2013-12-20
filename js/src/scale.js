@@ -44,7 +44,7 @@
       .attr('class', this.scaleCls)
       .attr('height', h)
       .attr('width', w);
-
+      console.log(this.scaleCls);
       var xScale = this.visualisation.xScaleFunction = d3.scale.linear()
       .domain([0, d3.max(scaleDimensions)])
       .range([visPadding, w - (visPadding*2)]);

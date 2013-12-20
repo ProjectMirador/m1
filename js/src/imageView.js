@@ -236,10 +236,12 @@
 
 
     addScale: function() {
-      this.scale = new $.WidgetScale({
-        parent: this,
-        showScale: true
-      });
+      if (!this.scale) {
+        this.scale = new $.WidgetScale({
+          parent: this,
+          showScale: true
+        });
+      }
     },
 
 
@@ -513,6 +515,9 @@
         } else {
           this.parent.statusbar.element.find('.x').val(width);
         }
+        this.height = height;
+        this.width = width;
+
       }
       console.log(dimension);
       console.log("width: " + width);
