@@ -51,7 +51,7 @@ The `grunt server` task can be used to start a static server with application ro
 We welcome your inputs and contributions!
 
 ### Release Notes
-#### 1.0.0beta
+#### v1.0.0-beta.1
 Mirador v1.0.0-beta.1 introduces IIIF Metadata API 1.0 annotation viewing, layout adjustments, and numerous bug repairs and performance improvements.
 
 -   Added annotation viewing, supporting synchronised annotation listings, highlighted canvas regions, and detail overlay tracking the canvas and listings 
