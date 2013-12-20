@@ -7,8 +7,8 @@
       currentImgIndex:  0,
       element:          null,
       elemChoice:       null,
-      height:           500,
-      width:            400,
+      height:           null,
+      width:            null,
       units:            "mm",
       unitsLong:        "Millimetres",
       imageId:          null,
@@ -16,6 +16,7 @@
       leading:          false,
       locked:           false,
       navToolbarCls:    'mirador-image-view-nav-toolbar',
+      annotationsLayer:  null,
       openAt:           null,
       zoomLevel:        null,
       osd:              null,
@@ -52,6 +53,7 @@
       this.createOpenSeadragonInstance(this.currentImg.imageUrl);
       this.addStatusbarNav();
       this.attachWindowEvents();
+      this.addAnnotationsLayer();
     },
 
 
@@ -87,7 +89,7 @@
         _this.zoomLevel = _this.osd.viewport.getZoom();
 
         if (typeof osdBounds != 'undefined') {
-          _this.osd.viewport.fitBounds(osdBounds);
+          _this.osd.viewport.fitBounds(osdBounds, true);
         }
       });
 
@@ -211,7 +213,8 @@
 
     addToolbarNav: function() {
       this.parent.toolbar.append($.Templates.imageView.navToolbar({
-        navToolbarCls: this.navToolbarCls
+        navToolbarCls: this.navToolbarCls,
+        hasAnnotations: this.currentImg.annotations
       }));
 
       this.elemChoice = this.parent.toolbar.element.find('.' + this.navToolbarCls + ' .mirador-icon-choices');
@@ -223,7 +226,9 @@
 
     addStatusbarNav: function() {
       this.parent.statusbar.append($.Templates.imageView.statusbar({
-        statusbarCls: this.statusbarCls
+        statusbarCls: this.statusbarCls,
+        width: this.width,
+        height: this.height
       }));
 
       this.attachStatusbarEvents();
@@ -231,9 +236,19 @@
 
 
     addScale: function() {
-      this.scale = new $.WidgetScale({
+      if (!this.scale) {
+        this.scale = new $.WidgetScale({
+          parent: this,
+          showScale: true
+        });
+      }
+    },
+
+
+    addAnnotationsLayer: function() {
+      this.annotationsLayer = new $.AnnotationsLayer({
         parent: this,
-        showScale: true
+        annotationUrls: this.currentImg.annotations
       });
     },
 
@@ -295,16 +310,20 @@
     next: function() {
       var next = this.currentImgIndex + 1,
       infoJsonUrl;
-      
+
       if (this.locked) {
         return;
       }
+      
 
       if (next < this.imagesList.length) {
         this.currentImgIndex = next;
         this.currentImg = this.imagesList[next];
 
-        this.createOpenSeadragonInstance(this.currentImg.imageUrl);
+        infoJsonUrl = this.currentImg.imageUrl;
+
+        this.createOpenSeadragonInstance(infoJsonUrl);
+        this.annotationsLayer.set('annotationUrls', this.currentImg.annotations);
       }
     },
 
@@ -312,16 +331,18 @@
     prev: function() {
       var prev = this.currentImgIndex - 1,
       infoJsonUrl;
-      
+
       if (this.locked) {
         return;
       }
+      
 
       if (prev >= 0) {
         this.currentImgIndex = prev;
         this.currentImg = this.imagesList[prev];
 
         this.createOpenSeadragonInstance(this.currentImg.imageUrl);
+        this.annotationsLayer.set('annotationUrls', this.currentImg.annotations);
       }
     },
 
@@ -366,6 +387,7 @@
 
     attachNavEvents: function() {
       var navToolbar = this.parent.toolbar.element.find('.' + this.navToolbarCls),
+      selectorAnnotationsView = '.mirador-icon-annotations',
       selectorMetadataView    = '.mirador-icon-metadata-view',
       selectorScrollView      = '.mirador-icon-scroll-view',
       selectorThumbnailsView  = '.mirador-icon-thumbnails-view',
@@ -391,6 +413,10 @@
 
       navToolbar.on('click', selectorThumbnailsView, function() {
         $.viewer.loadThumbnailsView(_this.manifestId);
+      });
+
+      navToolbar.on('click', selectorAnnotationsView, function() {
+        _this.annotationsLayer.setVisible();
       });
 
     },
@@ -436,9 +462,8 @@
     },
 
     reachedExtent : function (minmax) {
-      console.log('reached: '+minmax);
+      // console.log('reached: '+minmax);
     },
-
 
     lock: function() {
       this.locked = true;
@@ -446,25 +471,25 @@
       $.viewer.lockController.addLockedView(this.parent.viewObj);
     },
 
-
     unlock: function() {
       this.locked = false;
       this.parent.element.parent().removeClass('locked');
       $.viewer.lockController.removeLockedView(this.parent.id);
     },
 
-
     dimensionChange: function(e) {
-      // e.target.value = e.target.value.replace(/[^0-9\.]/g,'');
-      var valid = (/[0-9]|\./.test(String.fromCharCode(e.keyCode)) && !e.shiftKey);
-      // check if the value of the number is an integer 1-9
+      var valid = (/[0-9]|\./.test(String.fromCharCode(e.keyCode)) && !e.shiftKey),
+      textAreaClass = e.currentTarget.className,
+      dimension = textAreaClass.charAt(textAreaClass.length-1),
+      aspectRatio = this.parent.viewObj.currentImg.aspectRatio,
+      width,
+      height;
+      // check if the value of the number is an integer 0-9
       // if not, declare invalid
-      console.log(e.type + ' ' + valid);
-      console.log(e);
-      console.log("keyCode:" + " " + e.keyCode);
       if (!valid) {
         e.preventDefault();
       }
+      console.log(e.type+ " : " + e.key);
 
       // check if keystroke is "enter"
       // if so, exit or deselect the box
@@ -472,15 +497,45 @@
         e.target.blur();
       }
 
-      var width = this.parent.statusbar.element.find('.x').val(),
-      height = this.parent.statusbar.element.find('.y').val(),
-      aspectRatio = this.parent.viewObj.currentImg.aspectRatio,
+      if (dimension === 'x') {
+        width = this.parent.statusbar.element.find('.x').val();
+        height = Math.floor(aspectRatio * width); 
+        if (!width) {
+          console.log('empty');
+          this.parent.statusbar.element.find('.y').val('');
+        } else {
+          this.parent.statusbar.element.find('.y').val(height);
+        }
+      } else {
+        height = this.parent.statusbar.element.find('.y').val();
+        width = Math.floor(height/aspectRatio);
+        if (!height) {
+          console.log('empty');
+          this.parent.statusbar.element.find('.x').val('');
+        } else {
+          this.parent.statusbar.element.find('.x').val(width);
+        }
+        this.height = height;
+        this.width = width;
+
+      }
+      console.log(dimension);
+      console.log("width: " + width);
+      console.log(width);
+      console.log("height:" + height);
+      console.log(height);
+      
       unitCls = '.units';
 
       this.setWidth(width);
       this.setHeight(height);
-      this.scale.render();
 
+      if (width) {
+        this.scale.dimensionsProvided = true;
+      } else {
+        this.scale.dimensionsProvided = false;
+      }
+      this.scale.render();
     },
 
     unitChange: function() {
@@ -488,6 +543,5 @@
     }
 
   };
-
 
 }(Mirador));

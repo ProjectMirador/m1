@@ -10,7 +10,9 @@
       physicalScaleWidth: null,
       showScale:          false,
       scaleCls:           'mirador-image-scale',
-      visualisation:      {}
+      dimensionsProvided: false,
+      visualisation:      {},
+      controlElement:     null
     }, options);
 
     jQuery(this.parent.element).find("." + this.scaleCls).remove();
@@ -23,18 +25,26 @@
 
     create: function() {
 
+      var _this = this;
+
       scaleDimensions = this.calculateScaleDimensions();
       visPadding = 10;
 
+      if (this.height === null || this.width === null ) {
+        console.log("no dimensions");
+      }
+
       var w = this.width + visPadding*3;
       var h = this.height;
+
+      _this.controlElement = _this.parent.parent.element.find('.mirador-image-dimensions');
 
       var scale = this.visualisation.scale = d3.select(this.parent.element[0])
       .append('svg')
       .attr('class', this.scaleCls)
       .attr('height', h)
       .attr('width', w);
-
+      console.log(this.scaleCls);
       var xScale = this.visualisation.xScaleFunction = d3.scale.linear()
       .domain([0, d3.max(scaleDimensions)])
       .range([visPadding, w - (visPadding*2)]);
@@ -54,12 +64,7 @@
       .text(_this.parent.unitsLong)
       .attr('transform', 'translate(' + visPadding + ',' + ( h - visPadding ) + ')');
 
-      this.hide();
-      if (this.showScale) this.show();
-    },
-
-    append: function(item) {
-      this.element.append(item);
+      this.render();
     },
 
     render: (function() {
@@ -76,12 +81,19 @@
         .transition()
         .duration(850)
         .call(axis);
-      }, 50);
 
+        if (this.showScale && this.dimensionsProvided )  {
+          this.visualisation.scale.attr('class', this.scaleCls);
+          this.controlElement.removeClass('noDimensionsSet');
+        } else {
+          this.visualisation.scale.attr('class', function() { return this.scaleCls + ' hidden'; });
+          this.controlElement.addClass('noDimensionsSet');
+        }
+      }, 50);
     })(),
 
     calculateScaleDimensions: function() {
-      _this = this;
+      var _this = this;
       var scaleSize = null;
       var viewportPercentWidth;
 

@@ -10,6 +10,7 @@ describe('Mirador Main | mirador.js', function() {
     });
 
     $ = Mirador;
+    console.log($);
   });
 
 

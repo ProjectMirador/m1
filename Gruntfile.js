@@ -24,10 +24,12 @@ module.exports = function(grunt) {
     'js/lib/jquery-ui.custom.min.js',
     'js/lib/jquery-ui.touch-punch.min.js',
     'js/lib/jquery-ui.dialogextend.min.js',
+    'js/lib/jquery.scrollTo.min.js',
     'js/lib/handlebars.js',
     'js/lib/openseadragon.min.js',
     'js/lib/jquery.tooltipster.min.js',
     'js/lib/d3.v3.min.js',
+    'js/lib/uri.min.js'
   ],
 
   sources = [
@@ -44,7 +46,7 @@ module.exports = function(grunt) {
     'js/src/manifest.js',
     'js/src/imagesList.js',
     'js/src/normalSequence.js',
-    'js/src/imageAnnotations.js',
+    'js/src/AnnotationsLayer.js',
     'js/src/widget.js',
     'js/src/widgetToolbar.js',
     'js/src/lockController.js',
@@ -58,7 +60,12 @@ module.exports = function(grunt) {
     'js/src/openSeadragon.js',
     'js/src/scale.js',
     'js/src/settingsLoader.js',
-    'js/src/saveController.js'
+    'js/src/saveController.js',
+    'js/src/annotationBottomPanel.js',
+    'js/src/annotationLayerRegionController.js',
+    'js/src/annotationListing.js',
+    'js/src/annotationSidePanel.js',
+
   ],
 
   specs = 'spec/**/*js';
@@ -89,7 +96,7 @@ module.exports = function(grunt) {
         dest: distribution
       },
       css: {
-        src: [ 'css/normalize.css', 'css/jquery-ui.custom.css', 'css/mirador.css', 'css/tooltipster.css', 'css/tooltipster-mirador.css'],
+        src: [ 'css/font-awesome.css', 'css/normalize.css', 'css/jquery-ui.custom.css', 'css/mirador.css', 'css/tooltipster.css', 'css/tooltipster-mirador.css'],
         dest: 'css/mirador-combined.css'
       }
     },
@@ -167,6 +174,7 @@ module.exports = function(grunt) {
         browser: true,
         eqeqeq: false,
         loopfunc: false,
+        jshintrc: '.jshintrc',
         globals: {
           Mirador: true
         },
@@ -213,9 +221,9 @@ module.exports = function(grunt) {
   // Copies the contents of the build folder into the release folder.
   grunt.registerTask('copy:release', function() {
     grunt.file.recurse('build', function(abspath, rootdir, subdir, filename) {
-      var dest = releaseRoot
-      + (subdir ? subdir + '/' : '/')
-      + filename;
+      var dest = releaseRoot +
+      (subdir ? subdir + '/' : '/') +
+      filename;
 
       grunt.file.copy(abspath, dest);
     });

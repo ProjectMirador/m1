@@ -114,6 +114,7 @@
       // template for rendering tool bar with nav links
       navToolbar: Handlebars.compile([
         '<div class="{{navToolbarCls}}">',
+          '<a href="javascript:;" class="mirador-btn mirador-icon-annotations"><i class="icon-comments"></i></a>',
           '<a href="javascript:;" class="mirador-btn mirador-icon-choices"></a>',
           '<a href="javascript:;" class="mirador-btn mirador-icon-metadata-view"></a>',
           '<a href="javascript:;" class="mirador-btn mirador-icon-scroll-view"></a>',
@@ -127,9 +128,10 @@
         '<div class="{{statusbarCls}}">',
           '<a href="javascript:;" class="mirador-btn mirador-icon-lock"></a>',
           '<div class="mirador-image-dimensions">',
-            '<textarea rows="1" class="mirador-image-view-physical-dimensions x">400</textarea>',
+          '<span class="noDimensionsWarning">No Dimensions Given</span>',
+            '<textarea rows="1" class="mirador-image-view-physical-dimensions x">{{width}}</textarea>',
             '<span>✕</span>',
-            '<textarea rows="1" class="mirador-image-view-physical-dimensions y">500</textarea>',
+            '<textarea rows="1" class="mirador-image-view-physical-dimensions y">{{height}}</textarea>',
             '<span class="units">mm',
               '<select class="unit-selector">',
                 '<option value="mm">millimeters</option>',
@@ -138,6 +140,72 @@
               '</select>',
             '</span>',
           '</div>',
+        '</div>'
+      ].join('')),
+      
+      annotationPanel: Handlebars.compile([
+        '<div class="annotationListPanel">',
+        '<div class="resizeGrip"></div>',
+        '{{> annotationStats}}',
+          '<ul class="annotationList">',
+          '{{#each annotations}}',
+            '{{> annotationListing}}',
+          '{{/each}}',
+          '</ul>',
+        '</div>'
+      ].join('')),
+      
+      annotationStats: (function() {
+        var templateString = 
+        ['<div class="annotationPanelHeader">',
+          '<h4>Annotation List (<span class="annotationsTotal">{{annotationCount}}</span>)</h4>',
+          '<div class="annoSearch">',
+          '<select id="annotationTypeSelector" name="annotationTypes">',
+          '<option value="All">All (<span class="annotationCount">{{annotationCount}}</span>)</option>',
+          '<option value="Image Annotations">Image Annotations (<span class="imageAnnotationCount">{{imageAnnotationCount}}</span>)</option>',
+          '<option value="text annotations">text annotations (<span class="textAnnotationCount">{{textAnnotationCount}}</span>)</option>',
+          '</select>',
+          '</div>',
+        '</div>'
+        ].join('');
+        Handlebars.registerPartial('annotationStats', templateString);
+        return Handlebars.compile(templateString);
+      })(),
+      
+      noAnnotationMessage: (function() {
+        var templateString = 
+        ['<div class="annotationPanelHeader">',
+            '<h4>No Annotations Provided</h4>',
+         '</div>'
+        ].join('');
+        Handlebars.registerPartial('annotationStats', templateString);
+        return Handlebars.compile(templateString);
+      })(),
+
+      annotationListing: (function() {
+        var templateString = 
+          ['<li id="listing_{{id}}" class="annotationListing">',
+              '{{#if title}}',
+              '<h3>{{title}}</h3>',
+              '{{/if}}',
+              '<p>{{content}}</p>',
+          '</li>'
+        ].join('');
+        Handlebars.registerPartial('annotationListing', templateString);
+        return Handlebars.compile(templateString);
+      })(),
+
+      annotationDetail: Handlebars.compile([
+        '<div class="annotationDetails">',
+          '<div class="annotationNumber">{{annotationNumber}}</div>',
+          '<a class="annotationDetailToggle mirador-icon-annotationDetail-toggle" title="Hide this detail panel."><i class="icon-eye-close"></i></a>',
+          '<p>{{body}}</p>',
+        '</div>'
+      ].join('')),
+      
+      annotationDetailToggle: Handlebars.compile([
+        '<div class="displayBottomPanelButton">',
+          '<a class="annotationDetailToggle mirador-icon-annotationDetail-toggle" title="Display annotation details in bottom panel."><i class="icon-eye-open"></i></a>',
         '</div>'
       ].join('')),
 

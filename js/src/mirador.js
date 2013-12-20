@@ -87,7 +87,12 @@ window.Mirador = window.Mirador || function(config) {
     // image view
     'imageView': {
       'height': 400,
-      'width': 350
+      'width': 350,
+      'annotationsList': {
+        'display':true,
+        'width': 200
+
+      }
     },
 
     // scroll view
@@ -400,6 +405,30 @@ window.Mirador = window.Mirador || function(config) {
       if (callNow) result = func.apply(context, args);
       return result;
     };
+  };
+  
+  $.parseRegion  = function(url) {
+    url = new URI(url);
+    var regionString = url.hash(); 
+    regionArray = regionString.split('=')[1].split(',');
+    return regionArray;
+  };
+
+  $.getOsdFrame = function(region, currentImg) {
+    var imgWidth = currentImg.width,
+    imgHeight = currentImg.height,
+    canvasWidth = currentImg.canvasWidth,
+    canvasHeight = currentImg.canvasHeight,
+    widthNormaliser = imgWidth/canvasWidth,
+    heightNormaliser = imgHeight/canvasHeight,
+    rectX = (region[0]*widthNormaliser)/imgWidth,
+    rectY = (region[1]*heightNormaliser)/imgWidth,
+    rectW = (region[2]*widthNormaliser)/imgWidth,
+    rectH = (region[3]*heightNormaliser)/imgWidth;
+
+    var osdFrame = new OpenSeadragon.Rect(rectX,rectY,rectW,rectH);
+
+    return osdFrame;
   };
 
 }(Mirador));

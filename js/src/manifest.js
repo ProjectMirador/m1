@@ -52,7 +52,7 @@
 
     parseSequences: function() {
       var _this = this,
-          sequences = [];
+      sequences = [];
 
       jQuery.each(this.jsonLd.sequences, function(index, sequence) {
         if (sequence['@type'] === 'sc:Sequence') {
@@ -69,11 +69,11 @@
 
     getImagesList: function(sequence) {
       var _this = this,
-          imagesList = [];
+      imagesList = [];
 
       jQuery.each(sequence.canvases, function(index, canvas) {
         var images = [],
-            imageObj;
+        imageObj;
 
         if (canvas['@type'] === 'sc:Canvas') {
           images = canvas.resources || canvas.images;
@@ -83,7 +83,16 @@
               imageObj = _this.getImageObject(image);
 
               imageObj.title = canvas.label || '';
-
+              imageObj.canvasWidth = canvas.width; 
+              imageObj.canvasHeight = canvas.height; 
+              if (canvas.otherContent) {
+                imageObj.annotations = jQuery.map(canvas.otherContent, function( annotation ){
+                  if(annotation['@id'].indexOf(".json") >= 0) {
+                    return annotation['@id'];
+                  }
+                  return ( annotation['@id'] + ".json" );
+                });
+              }
               if (!_this.isDetailImage(image.on)) {
                 imagesList.push(imageObj);
               }
@@ -99,8 +108,7 @@
 
     getImageObject: function(image) {
       var resource = image.resource,
-          imageObj;
-
+      imageObj;
       if (resource.hasOwnProperty('@type') && resource['@type'] === 'oa:Choice') {
         imageObj = this.getImageObjWithChoices(image.resource);
 
@@ -134,10 +142,10 @@
 
     getImageObjWithChoices: function(resource) {
       var _this = this,
-          items = [],
-          imageObj,
-          choice,
-          choiceIndex = 1;
+      items = [],
+      imageObj,
+      choice,
+      choiceIndex = 1;
 
       // remove after Rob converts 'item' object to an array
       if (!jQuery.isArray(resource.item)) {
