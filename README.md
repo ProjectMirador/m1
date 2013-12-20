@@ -51,26 +51,35 @@ The `grunt server` task can be used to start a static server with application ro
 We welcome your inputs and contributions!
 
 ### Release Notes
-#### 0.8.0 
-Version 0.8.0 introduces usability improvements, a repaired save-state feature, and brings the viewer in line with IIIF Specificatoin 1.0, and implements image choice for individual canvases.   
+#### 1.0.0beta
+Mirador v1.0.0-beta.1 introduces IIIF Metadata API 1.0 annotation viewing, layout adjustments, and numerous bug repairs and performance improvements.
 
-1. **Image choice**  
-In manuscripts for whose pages multi-spectral and post-processed images have been produced and exposed through the IIIF Metadata 1.0 API, an image view toolbar control has been added to toggle between these
-different images covering the canvases.
-1. **reliable loading restored**  
-A bug in which some of the manuscript sources were being lost in the initialisation, caused by the use of date-seeded non-unique identifiers, was remedied. This bug was
-also preserving winnowed manifests in the state representation, causing successive reloads to present fewer and fewer manuscripts.
-1. **IIIF API compatibility**  
- Updates to the IIIF Image and Metadata APIs were implemented, bringing the viewer to IIIF I-1.0/M-1.1 status.
-1. **scale-factors fix**  
-Developers at the British Library discovered that using alternative IIIF-compliant scale factor parameters resulted in display errors in Mirador. These have been corrected
-to allow all valid scale factor expressions.
-1. **save state restored**  
-As covered above, save-state is now working, and the ability to erase the current saved session and revert to the repository-provided load configuration has been made
-straight-forward with a simple button in the top-right. 
-1. **Hierarchical listings in load list**  
-The "Load Window" menu item has been reorganised to group manuscripts by institution, making the multi-repository nature of the viewer more transparent to viewers.
-=======
+-   Added annotation viewing, supporting synchronised annotation listings, highlighted canvas regions, and detail overlay tracking the canvas and listings 
+
+-   Scale default interaction created to account for the majority case where the image repository does not have physical dimension data for the image
+
+-   Support for Metadata key:value pairs added
+
+-   Updated layout system so that windows have a percentage height and width. When the browser window is resized, windows will now always be accessible, and the saving system can access these new properties so that exported JSON will reproduce the percentage layout on a collaborator’s screen.
+
+-   Added Apache 2 License
+
+-   Fixed display bug in metadata view
+
+-   Added repository fields to manifest listings
+
+-   Browser compatibility updates
+
+-   Memory improvements to locked zooming architecture
+
+-   Upgraded dependencies (tooltipster, handlebars templating)
+
+-   Fixed TileURL issue for Image API 1.1 compliant sources
+
+-   Fixed interaction bugs with top navigation menu
+
+-   Added new icon set
+
 mirador
 =======
 
