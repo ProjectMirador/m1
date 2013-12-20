@@ -11,7 +11,8 @@
         about:    {},
         details:  {},
         rights:   {},
-        links:    {}
+        links:    {},
+        pairs: []
       },
 
       showNoImageChoiceOption: $.DEFAULT_SETTINGS.showNoImageChoiceOption
@@ -190,9 +191,13 @@
       this.parseMetadataDetails();
       this.parseMetadataRights();
       this.parseMetadataLinks();
+      this.parseMetadataPairs();
       ++$.viewer.numManifestsLoaded;
     },
 
+    parseMetadataPairs: function() {
+      this.metadata.pairs = this.jsonLd.metadata || [];
+    },
 
     parseMetadataAbout: function() {
       this.metadata.about = {

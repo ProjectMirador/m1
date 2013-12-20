@@ -8,14 +8,17 @@
   };
 
   $.SaveController.prototype = {
-    buildJSON : function() {
 
+    buildJSON : function() {
       var widgetIndex = {},
-      configData = {
-        id: 'viewer',
-        data: [
-        ]
-      },
+          configData = {
+            id: 'viewer',
+            data: [
+            ]
+          },
+          buildWidgetJSON;
+
+
       buildWidgetJSON = function(widget) {
 
         var widgetState = {
@@ -27,8 +30,8 @@
 
         if (widgetState.type === 'imageView') {
           widgetState.openAt = widget.openAt,
-          widgetState.zoomState = (function(bounds) {
 
+          widgetState.zoomState = (function(bounds) {
             return {
               x: bounds.x,
               y: bounds.y,
@@ -37,15 +40,19 @@
             };
 
           })(widget.viewObj.osd.viewport.getBounds()),
+
           widgetState.dimensions = [],
           widgetState.lockedViews = [];
         }
+
         if (widgetState.type === "thumbnailsView") {
 
         }
+
         if (widgetState.type === "scrollView") {
 
         }
+
         // osdRect: 34,
         // scrollTop: 384,
         // thumbSize: 34,
@@ -61,32 +68,25 @@
         if (!widgetIndex[widget.manifestId]) {
           widgetIndex[widget.manifestId] = [];
         }
+
         widgetIndex[widget.manifestId].push(buildWidgetJSON(widget));
       });
-      // console.log('widgetIndex');
-      // console.log(widgetIndex);
 
       jQuery.each($.manifests, function(item) {
 
         var manifestEntry = {
-          manifestUri: $.manifests[item].uri,
-          title: $.getTitlePrefix($.getMetadataByManifestId(item).details)[0],
-          widgets: [],
-          location: $.manifests[item].location || '-'
+          manifestUri:  $.manifests[item].uri,
+          title:        $.getTitlePrefix($.getMetadataByManifestId(item).details)[0],
+          widgets:      [],
+          location:     $.manifests[item].location || '-'
         };
 
         if ( widgetIndex.hasOwnProperty(item) ) {
-
           manifestEntry.widgets = widgetIndex[item];
-
         }
 
-        configData.data.push( manifestEntry );
-
+        configData.data.push(manifestEntry);
       });
-
-      // console.log('configData');
-      // console.log(configData);
 
       return JSON.stringify(configData);
     },
@@ -96,9 +96,7 @@
         localStorage.setItem('Mirador_data', this.buildJSON());
       }
 
-      // console.log("saved at " + Date.now());
-
-      setTimeout( function(){
+      setTimeout(function() {
         $.viewer.saveController.save();
         $.viewer.addStatusBarMessage('right', 'Workspace saved at ' + (new Date()), 1000, false);
       }, ($.viewer) ? $.viewer.saveController.saveInterval : $.DEFAULT_SETTINGS.saveController.saveInterval);

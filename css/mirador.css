@@ -12,6 +12,7 @@
   box-sizing: border-box;
   -moz-border-sizing: border-box;
   height: 100%;
+  margin: auto;
   width: 100%;
 }
 
