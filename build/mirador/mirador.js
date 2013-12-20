@@ -6657,7 +6657,7 @@ jQuery.fn.scrollStop = function(callback) {
           this.visualisation.scale.attr('class', function() { return this.scaleCls + ' hidden'; });
           this.controlElement.addClass('noDimensionsSet');
         }
-      });
+      }, 50);
     })(),
 
     calculateScaleDimensions: function() {
