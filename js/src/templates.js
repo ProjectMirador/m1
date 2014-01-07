@@ -162,8 +162,8 @@
           '<div class="annoSearch">',
           '<select id="annotationTypeSelector" name="annotationTypes">',
           '<option value="All">All (<span class="annotationCount">{{annotationCount}}</span>)</option>',
-          '<option value="Image Annotations">Image Annotations (<span class="imageAnnotationCount">{{imageAnnotationCount}}</span>)</option>',
-          '<option value="text annotations">text annotations (<span class="textAnnotationCount">{{textAnnotationCount}}</span>)</option>',
+          '<option value="Image Annotations">Commentary (<span class="imageAnnotationCount">{{imageAnnotationCount}}</span>)</option>',
+          '<option value="text annotations">Transcription (<span class="textAnnotationCount">{{textAnnotationCount}}</span>)</option>',
           '</select>',
           '</div>',
         '</div>'
@@ -287,12 +287,7 @@
     metadataView: {
       // template for rendering basic metadata terms
       listTerms: Handlebars.compile([
-        '<div class="sub-title">About (Metadata about this manuscript\'s manifest file):</div>',
-        '<dl class="{{metadataListingCls}}">',
-          '{{#each about}}',
-            '<dt>{{label}}:</dt><dd>{{value}}</dd>',
-          '{{/each}}',
-        '</dl>',
+
         '<div class="sub-title">Details (Metadata about physical object/intellectual work):</div>',
         '<dl class="{{metadataListingCls}}">',
           '{{#each details}}',
@@ -310,7 +305,13 @@
           '{{#each links}}',
             '<dt>{{label}}:</dt><dd>{{value}}</dd>',
           '{{/each}}',
-        '</dl>'
+        '</dl>',
+        '<div class="sub-title">About (Metadata about this manuscript\'s manifest file):</div>',
+        '<dl class="{{metadataListingCls}}">',
+          '{{#each about}}',
+            '<dt>{{label}}:</dt><dd>{{value}}</dd>',
+          '{{/each}}',
+        '</dl>'        
       ].join(''), { noEscape: true }),
 
       // template for rendering tool bar with nav links
