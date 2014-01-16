@@ -132,18 +132,22 @@ describe('Mirador Main | mirador.js', function() {
   describe('Manifest data related methods', function() {
 
     var imagesList = [{
+      'id':     1,
       'title':  '1r',
       'height': 10,
       'width':  20
     }, {
+      'id':     2,
       'title':  '1v',
       'height': 15,
       'width':  25
     }],
 
-    imageTitles = [{
+    imageTitlesAndIds = [{
+      'id':     1,
       'title': '1r'
     }, {
+      'id':     2,
       'title': '1v'
     }];
 
@@ -186,8 +190,8 @@ describe('Mirador Main | mirador.js', function() {
     });
 
 
-    it('should return array of image titles for a given images list', function() {
-      expect($.getImageTitles(imagesList)).toEqual(imageTitles);
+    it('should return array of image titles and ids for a given images list', function() {
+      expect($.getImageTitlesAndIds(imagesList)).toEqual(imageTitlesAndIds);
     });
 
 
