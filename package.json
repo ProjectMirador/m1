@@ -17,5 +17,9 @@
     "grunt-git-describe":     "~2.0.0",
     "grunt-contrib-jasmine": "~0.5.1",
     "grunt-template-jasmine-istanbul":  "~0.2.4"
+  },
+  "scripts": {
+          "test": "grunt test coverage --verbose"
+            
   }
 }
