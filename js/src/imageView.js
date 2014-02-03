@@ -519,11 +519,9 @@
         this.width = width;
 
       }
-      console.log(dimension);
+      console.log("dimension: " + dimension);
       console.log("width: " + width);
-      console.log(width);
-      console.log("height:" + height);
-      console.log(height);
+      console.log("height: " + height);
       
       unitCls = '.units';
 

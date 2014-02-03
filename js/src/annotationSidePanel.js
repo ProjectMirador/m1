@@ -8,6 +8,7 @@
       listings: [],
       lastSelected: null,
       lastHovered: null
+
     }, options);
 
     this.create();
@@ -34,6 +35,7 @@
     },
     
     bindEvents: function() {
+
     },
     
     render: function() {

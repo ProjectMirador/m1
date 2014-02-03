@@ -70,10 +70,12 @@
     render: (function() {
 
       return $.debounce( function(width) {
-        var scale = this.visualisation.scale,
+        var _this = this,
+        scale = this.visualisation.scale,
         axis = this.visualisation.axis,
         xScaleFunction = this.visualisation.xScaleFunction,
         newWidth = this.calculateScaleDimensions();
+      
 
         xScaleFunction.domain([0, d3.max(newWidth)]);
 
@@ -82,11 +84,12 @@
         .duration(850)
         .call(axis);
 
+        console.log(this.dimensionsProvided);
         if (this.showScale && this.dimensionsProvided )  {
           this.visualisation.scale.attr('class', this.scaleCls);
           this.controlElement.removeClass('noDimensionsSet');
         } else {
-          this.visualisation.scale.attr('class', function() { return this.scaleCls + ' hidden'; });
+          this.visualisation.scale.attr('class', function() { console.log(_this); return _this.scaleCls + ' hidden'; });
           this.controlElement.addClass('noDimensionsSet');
         }
       }, 50);
