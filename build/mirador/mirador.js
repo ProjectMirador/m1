@@ -5995,7 +5995,7 @@ jQuery.fn.scrollStop = function(callback) {
       if (!valid) {
         e.preventDefault();
       }
-      console.log(e.type+ " : " + e.key);
+      // console.log(e.type+ " : " + e.key);
 
       // check if keystroke is "enter"
       // if so, exit or deselect the box
@@ -6007,7 +6007,7 @@ jQuery.fn.scrollStop = function(callback) {
         width = this.parent.statusbar.element.find('.x').val();
         height = Math.floor(aspectRatio * width); 
         if (!width) {
-          console.log('empty');
+          // console.log('empty');
           this.parent.statusbar.element.find('.y').val('');
         } else {
           this.parent.statusbar.element.find('.y').val(height);
@@ -6016,7 +6016,7 @@ jQuery.fn.scrollStop = function(callback) {
         height = this.parent.statusbar.element.find('.y').val();
         width = Math.floor(height/aspectRatio);
         if (!height) {
-          console.log('empty');
+          // console.log('empty');
           this.parent.statusbar.element.find('.x').val('');
         } else {
           this.parent.statusbar.element.find('.x').val(width);
@@ -6025,9 +6025,9 @@ jQuery.fn.scrollStop = function(callback) {
         this.width = width;
 
       }
-      console.log("dimension: " + dimension);
-      console.log("width: " + width);
-      console.log("height: " + height);
+      // console.log("dimension: " + dimension);
+      // console.log("width: " + width);
+      // console.log("height: " + height);
       
       unitCls = '.units';
 
@@ -6781,9 +6781,9 @@ jQuery.fn.scrollStop = function(callback) {
       scaleDimensions = this.calculateScaleDimensions();
       visPadding = 10;
 
-      if (this.height === null || this.width === null ) {
-        console.log("no dimensions");
-      }
+      // if (this.height === null || this.width === null ) {
+      //   console.log("no dimensions");
+      // }
 
       var w = this.width + visPadding*3;
       var h = this.height;
@@ -6795,7 +6795,7 @@ jQuery.fn.scrollStop = function(callback) {
       .attr('class', this.scaleCls)
       .attr('height', h)
       .attr('width', w);
-      console.log(this.scaleCls);
+      
       var xScale = this.visualisation.xScaleFunction = d3.scale.linear()
       .domain([0, d3.max(scaleDimensions)])
       .range([visPadding, w - (visPadding*2)]);
@@ -6827,7 +6827,6 @@ jQuery.fn.scrollStop = function(callback) {
         xScaleFunction = this.visualisation.xScaleFunction,
         newWidth = this.calculateScaleDimensions();
       
-
         xScaleFunction.domain([0, d3.max(newWidth)]);
 
         scale.select('.x.axis')
@@ -6835,12 +6834,11 @@ jQuery.fn.scrollStop = function(callback) {
         .duration(850)
         .call(axis);
 
-        console.log(this.dimensionsProvided);
         if (this.showScale && this.dimensionsProvided )  {
           this.visualisation.scale.attr('class', this.scaleCls);
           this.controlElement.removeClass('noDimensionsSet');
         } else {
-          this.visualisation.scale.attr('class', function() { console.log(_this); return _this.scaleCls + ' hidden'; });
+          this.visualisation.scale.attr('class', function() { return _this.scaleCls + ' hidden'; });
           this.controlElement.addClass('noDimensionsSet');
         }
       }, 50);
