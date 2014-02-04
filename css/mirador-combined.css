@@ -3187,6 +3187,7 @@ text {
   padding:inherit;
   padding-top:25px;
   color: white;
+  overflow:hidden;
   height:20%;
   z-index: 2;
   background: -moz-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,0.77) 13%, rgba(0,0,0,0.77) 100%); /* FF3.6+ */
