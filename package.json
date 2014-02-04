@@ -2,7 +2,7 @@
     "name": "Mirador",
     "version": "0.8.0",
     "description": "Multi-window image viewer, a web-based tool to support researcher goals",
-    "repository" : { 
+    "repository" : {
         "type" : "git",
         "url" : "https://github.com/IIIF/mirador"
     },
