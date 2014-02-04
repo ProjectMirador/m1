@@ -128,6 +128,10 @@ module.exports = function(grunt) {
           expand: true,
           src: 'images/**',
           dest: 'build/mirador'
+        }, {
+          expand: true,
+          src: 'font/*',
+          dest: 'build/mirador'
         }]
       }
     },
