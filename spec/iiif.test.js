@@ -15,6 +15,7 @@ describe('Mirador IIIF wrapper | iiif.js', function() {
             "identifier": "f2r",
             "scale_factors": [1, 2, 3, 4, 5, 8, 10, 16, 20],
             "tilesUrl": "http://www.shared-canvas.org/iiif",
+            "profile": "http://iiif.io/api/image-api/1.1/compliance.html"
         };
 
         var preppedJson = {
@@ -23,6 +24,7 @@ describe('Mirador IIIF wrapper | iiif.js', function() {
             "scale_factors": [0, 1, 2, 3, 4, 5, 6, 7, 8],
             "tilesUrl": "http://www.shared-canvas.org/iiif",
             "image_host": "http://www.shared-canvas.org/iiif",
+            "profile": "http://iiif.io/api/image-api/compliance.html"
         };
 
 
