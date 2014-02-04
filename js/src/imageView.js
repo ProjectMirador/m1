@@ -489,7 +489,7 @@
       if (!valid) {
         e.preventDefault();
       }
-      console.log(e.type+ " : " + e.key);
+      // console.log(e.type+ " : " + e.key);
 
       // check if keystroke is "enter"
       // if so, exit or deselect the box
@@ -501,7 +501,7 @@
         width = this.parent.statusbar.element.find('.x').val();
         height = Math.floor(aspectRatio * width); 
         if (!width) {
-          console.log('empty');
+          // console.log('empty');
           this.parent.statusbar.element.find('.y').val('');
         } else {
           this.parent.statusbar.element.find('.y').val(height);
@@ -510,7 +510,7 @@
         height = this.parent.statusbar.element.find('.y').val();
         width = Math.floor(height/aspectRatio);
         if (!height) {
-          console.log('empty');
+          // console.log('empty');
           this.parent.statusbar.element.find('.x').val('');
         } else {
           this.parent.statusbar.element.find('.x').val(width);
@@ -519,11 +519,9 @@
         this.width = width;
 
       }
-      console.log(dimension);
-      console.log("width: " + width);
-      console.log(width);
-      console.log("height:" + height);
-      console.log(height);
+      // console.log("dimension: " + dimension);
+      // console.log("width: " + width);
+      // console.log("height: " + height);
       
       unitCls = '.units';
 

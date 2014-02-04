@@ -30,9 +30,9 @@
       scaleDimensions = this.calculateScaleDimensions();
       visPadding = 10;
 
-      if (this.height === null || this.width === null ) {
-        console.log("no dimensions");
-      }
+      // if (this.height === null || this.width === null ) {
+      //   console.log("no dimensions");
+      // }
 
       var w = this.width + visPadding*3;
       var h = this.height;
@@ -44,7 +44,7 @@
       .attr('class', this.scaleCls)
       .attr('height', h)
       .attr('width', w);
-      console.log(this.scaleCls);
+      
       var xScale = this.visualisation.xScaleFunction = d3.scale.linear()
       .domain([0, d3.max(scaleDimensions)])
       .range([visPadding, w - (visPadding*2)]);
@@ -70,11 +70,12 @@
     render: (function() {
 
       return $.debounce( function(width) {
-        var scale = this.visualisation.scale,
+        var _this = this,
+        scale = this.visualisation.scale,
         axis = this.visualisation.axis,
         xScaleFunction = this.visualisation.xScaleFunction,
         newWidth = this.calculateScaleDimensions();
-
+      
         xScaleFunction.domain([0, d3.max(newWidth)]);
 
         scale.select('.x.axis')
@@ -86,7 +87,7 @@
           this.visualisation.scale.attr('class', this.scaleCls);
           this.controlElement.removeClass('noDimensionsSet');
         } else {
-          this.visualisation.scale.attr('class', function() { return this.scaleCls + ' hidden'; });
+          this.visualisation.scale.attr('class', function() { return _this.scaleCls + ' hidden'; });
           this.controlElement.addClass('noDimensionsSet');
         }
       }, 50);
