@@ -15,8 +15,8 @@ module.exports = function(grunt) {
 
   // ----------
   var distribution = 'build/mirador/mirador.js',
-  minified = 'build/mirador/mirador.min.js',
-  releaseRoot = '../site-build/built-mirador/',
+      minified = 'build/mirador/mirador.min.js',
+      releaseRoot = '../site-build/built-mirador/',
 
   vendors = [
     // libraries/plugins

@@ -25,7 +25,7 @@
     prepJsonForOsd: function(json) {
       json.image_host    = this.getImageHostUrl(json);
       json.scale_factors = this.packageScaleFactors(json);
-      // json.profile        = json.profile.replace(/image-api\/1.\d/, 'image-api');
+      json.profile       = json.profile.replace(/image-api\/1.\d/, 'image-api');
 
       return json;
     },
