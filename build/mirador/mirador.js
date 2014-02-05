@@ -3404,14 +3404,11 @@ jQuery.fn.scrollStop = function(callback) {
     removeWidget: function(id) {
       jQuery.each($.viewer.widgets, function(index, widget) {
 
-        console.log(widget);
-
         if (widget && widget.id === id) {
           if (widget.type === 'imageView') {
             $.viewer.lockController.removeLockedView(widget.id);
-            console.log(widget.type);
-            console.log('removed image view');
           }
+
           $.viewer.widgets.splice(index, 1);
         }
       });
@@ -5843,7 +5840,7 @@ jQuery.fn.scrollStop = function(callback) {
       if (this.locked) {
         return;
       }
-      
+
 
       if (next < this.imagesList.length) {
         this.currentImgIndex = next;
@@ -5864,7 +5861,7 @@ jQuery.fn.scrollStop = function(callback) {
       if (this.locked) {
         return;
       }
-      
+
 
       if (prev >= 0) {
         this.currentImgIndex = prev;
@@ -6028,7 +6025,7 @@ jQuery.fn.scrollStop = function(callback) {
 
       if (dimension === 'x') {
         width = this.parent.statusbar.element.find('.x').val();
-        height = Math.floor(aspectRatio * width); 
+        height = Math.floor(aspectRatio * width);
         if (!width) {
           // console.log('empty');
           this.parent.statusbar.element.find('.y').val('');
@@ -6051,7 +6048,7 @@ jQuery.fn.scrollStop = function(callback) {
       // console.log("dimension: " + dimension);
       // console.log("width: " + width);
       // console.log("height: " + height);
-      
+
       unitCls = '.units';
 
       this.setWidth(width);

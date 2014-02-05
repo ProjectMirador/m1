@@ -114,14 +114,11 @@
     removeWidget: function(id) {
       jQuery.each($.viewer.widgets, function(index, widget) {
 
-        console.log(widget);
-
         if (widget && widget.id === id) {
           if (widget.type === 'imageView') {
             $.viewer.lockController.removeLockedView(widget.id);
-            console.log(widget.type);
-            console.log('removed image view');
           }
+
           $.viewer.widgets.splice(index, 1);
         }
       });
