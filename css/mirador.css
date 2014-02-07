@@ -761,8 +761,6 @@ a.mirador-icon-annotationDetail-toggle.hidden {
   bottom:0;
   left: -25px;
 }
-.showPanelButton {
-}
 
 .mirador-icon-previous { background-position: -80px -40px; }
 .mirador-icon-previous:hover { background-position: -80px -60px; }
