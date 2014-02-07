@@ -83,16 +83,20 @@
               imageObj = _this.getImageObject(image);
 
               imageObj.title = canvas.label || '';
-              imageObj.canvasWidth = canvas.width; 
-              imageObj.canvasHeight = canvas.height; 
+              imageObj.canvasWidth = canvas.width;
+              imageObj.canvasHeight = canvas.height;
+
               if (canvas.otherContent) {
                 imageObj.annotations = jQuery.map(canvas.otherContent, function( annotation ){
-                  if(annotation['@id'].indexOf(".json") >= 0) {
+
+                  if (annotation['@id'].indexOf(".json") >= 0) {
                     return annotation['@id'];
                   }
-                  return ( annotation['@id'] + ".json" );
+
+                  return (annotation['@id'] + ".json");
                 });
               }
+
               if (!_this.isDetailImage(image.on)) {
                 imagesList.push(imageObj);
               }
@@ -203,9 +207,11 @@
       ++$.viewer.numManifestsLoaded;
     },
 
+
     parseMetadataPairs: function() {
       this.metadata.pairs = this.jsonLd.metadata || [];
     },
+
 
     parseMetadataAbout: function() {
       this.metadata.about = {
@@ -223,6 +229,17 @@
         'date':         this.jsonLd.date || '',
         'description':  this.jsonLd.description || ''
       };
+
+      // parse and store metadata pairs (API 1.0)
+      if (typeof this.jsonLd.metadata !== 'undefined') {
+        var mdList = {};
+
+        jQuery.each(this.jsonLd.metadata, function(index, item) {
+          mdList[item.label] = item.value;
+        });
+
+        this.metadata.metadata = mdList;
+      }
     },
 
 
