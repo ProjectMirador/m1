@@ -306,12 +306,6 @@
             '<dt>{{label}}:</dt><dd>{{value}}</dd>',
           '{{/each}}',
         '</dl>',
-        '<div class="sub-title">Metadata:</div>',
-        '<dl class="{{metadataListingCls}}">',
-          '{{#each metadata}}',
-            '<dt>{{label}}:</dt><dd>{{value}}</dd>',
-          '{{/each}}',
-        '</dl>'
         '<div class="sub-title">About (Metadata about this manuscript\'s manifest file):</div>',
         '<dl class="{{metadataListingCls}}">',
           '{{#each about}}',
