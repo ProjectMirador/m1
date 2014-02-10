@@ -2906,7 +2906,7 @@ window.Mirador = window.Mirador || function(config) {
     if (obj instanceof Array) {
       str = '[ ';
 
-      $.each(obj, function (i, item) {
+      jQuery.each(obj, function (i, item) {
         str += (i === 0 ? '' : ', ') + $.stringifyObject(item, nestingMargin + increment);
       });
 
@@ -3104,10 +3104,10 @@ window.Mirador = window.Mirador || function(config) {
       return result;
     };
   };
-  
+
   $.parseRegion  = function(url) {
     url = new URI(url);
-    var regionString = url.hash(); 
+    var regionString = url.hash();
     regionArray = regionString.split('=')[1].split(',');
     return regionArray;
   };
@@ -3404,14 +3404,11 @@ jQuery.fn.scrollStop = function(callback) {
     removeWidget: function(id) {
       jQuery.each($.viewer.widgets, function(index, widget) {
 
-        console.log(widget);
-
         if (widget && widget.id === id) {
           if (widget.type === 'imageView') {
             $.viewer.lockController.removeLockedView(widget.id);
-            console.log(widget.type);
-            console.log('removed image view');
           }
+
           $.viewer.widgets.splice(index, 1);
         }
       });
@@ -3765,7 +3762,7 @@ jQuery.fn.scrollStop = function(callback) {
           '</div>',
         '</div>'
       ].join('')),
-      
+
       annotationPanel: Handlebars.compile([
         '<div class="annotationListPanel">',
         '<div class="resizeGrip"></div>',
@@ -3777,16 +3774,16 @@ jQuery.fn.scrollStop = function(callback) {
           '</ul>',
         '</div>'
       ].join('')),
-      
+
       annotationStats: (function() {
-        var templateString = 
+        var templateString =
         ['<div class="annotationPanelHeader">',
           '<h4>Annotation List (<span class="annotationsTotal">{{annotationCount}}</span>)</h4>',
           '<div class="annoSearch">',
           '<select id="annotationTypeSelector" name="annotationTypes">',
           '<option value="All">All (<span class="annotationCount">{{annotationCount}}</span>)</option>',
-          '<option value="Image Annotations">Image Annotations (<span class="imageAnnotationCount">{{imageAnnotationCount}}</span>)</option>',
-          '<option value="text annotations">text annotations (<span class="textAnnotationCount">{{textAnnotationCount}}</span>)</option>',
+          '<option value="Image Annotations">Commentary (<span class="imageAnnotationCount">{{imageAnnotationCount}}</span>)</option>',
+          '<option value="text annotations">Transcription (<span class="textAnnotationCount">{{textAnnotationCount}}</span>)</option>',
           '</select>',
           '</div>',
         '</div>'
@@ -3794,9 +3791,9 @@ jQuery.fn.scrollStop = function(callback) {
         Handlebars.registerPartial('annotationStats', templateString);
         return Handlebars.compile(templateString);
       })(),
-      
+
       noAnnotationMessage: (function() {
-        var templateString = 
+        var templateString =
         ['<div class="annotationPanelHeader">',
             '<h4>No Annotations Provided</h4>',
          '</div>'
@@ -3806,7 +3803,7 @@ jQuery.fn.scrollStop = function(callback) {
       })(),
 
       annotationListing: (function() {
-        var templateString = 
+        var templateString =
           ['<li id="listing_{{id}}" class="annotationListing">',
               '{{#if title}}',
               '<h3>{{title}}</h3>',
@@ -3825,7 +3822,7 @@ jQuery.fn.scrollStop = function(callback) {
           '<p>{{body}}</p>',
         '</div>'
       ].join('')),
-      
+
       annotationDetailToggle: Handlebars.compile([
         '<div class="displayBottomPanelButton">',
           '<a class="annotationDetailToggle mirador-icon-annotationDetail-toggle" title="Display annotation details in bottom panel."><i class="icon-eye-open"></i></a>',
@@ -3910,12 +3907,7 @@ jQuery.fn.scrollStop = function(callback) {
     metadataView: {
       // template for rendering basic metadata terms
       listTerms: Handlebars.compile([
-        '<div class="sub-title">About (Metadata about this manuscript\'s manifest file):</div>',
-        '<dl class="{{metadataListingCls}}">',
-          '{{#each about}}',
-            '<dt>{{label}}:</dt><dd>{{value}}</dd>',
-          '{{/each}}',
-        '</dl>',
+
         '<div class="sub-title">Details (Metadata about physical object/intellectual work):</div>',
         '<dl class="{{metadataListingCls}}">',
           '{{#each details}}',
@@ -3931,6 +3923,12 @@ jQuery.fn.scrollStop = function(callback) {
         '<div class="sub-title">Linking Metadata:</div>',
         '<dl class="{{metadataListingCls}}">',
           '{{#each links}}',
+            '<dt>{{label}}:</dt><dd>{{value}}</dd>',
+          '{{/each}}',
+        '</dl>',
+        '<div class="sub-title">About (Metadata about this manuscript\'s manifest file):</div>',
+        '<dl class="{{metadataListingCls}}">',
+          '{{#each about}}',
             '<dt>{{label}}:</dt><dd>{{value}}</dd>',
           '{{/each}}',
         '</dl>'
@@ -4462,16 +4460,20 @@ jQuery.fn.scrollStop = function(callback) {
               imageObj = _this.getImageObject(image);
 
               imageObj.title = canvas.label || '';
-              imageObj.canvasWidth = canvas.width; 
-              imageObj.canvasHeight = canvas.height; 
+              imageObj.canvasWidth = canvas.width;
+              imageObj.canvasHeight = canvas.height;
+
               if (canvas.otherContent) {
                 imageObj.annotations = jQuery.map(canvas.otherContent, function( annotation ){
-                  if(annotation['@id'].indexOf(".json") >= 0) {
+
+                  if (annotation['@id'].indexOf(".json") >= 0) {
                     return annotation['@id'];
                   }
-                  return ( annotation['@id'] + ".json" );
+
+                  return (annotation['@id'] + ".json");
                 });
               }
+
               if (!_this.isDetailImage(image.on)) {
                 imagesList.push(imageObj);
               }
@@ -4582,9 +4584,11 @@ jQuery.fn.scrollStop = function(callback) {
       ++$.viewer.numManifestsLoaded;
     },
 
+
     parseMetadataPairs: function() {
       this.metadata.pairs = this.jsonLd.metadata || [];
     },
+
 
     parseMetadataAbout: function() {
       this.metadata.about = {
@@ -4602,6 +4606,17 @@ jQuery.fn.scrollStop = function(callback) {
         'date':         this.jsonLd.date || '',
         'description':  this.jsonLd.description || ''
       };
+
+      // parse and store metadata pairs (API 1.0)
+      if (typeof this.jsonLd.metadata !== 'undefined') {
+        var mdList = {};
+
+        jQuery.each(this.jsonLd.metadata, function(index, item) {
+          mdList[item.label] = item.value;
+        });
+
+        this.metadata.metadata = mdList;
+      }
     },
 
 
@@ -4974,26 +4989,9 @@ jQuery.fn.scrollStop = function(callback) {
 
 
     render: function() {
-      switch (this.type) {
-        case 'imageView':
-          this.renderImageView();
-        break;
-
-        case 'scrollView':
-          this.renderScrollView();
-        break;
-
-        case 'thumbnailsView':
-          this.renderThumbnailsView();
-        break;
-
-        case 'metadataView':
-          this.renderMetadataView();
-        break;
-
-        default:
-          break;
-      }
+      // http://stackoverflow.com/questions/359788/how-to-execute-a-javascript-function-when-i-have-its-name-as-a-string
+      var functionName = "render" + this.type[0].toUpperCase() + this.type.substring(1, 1000);
+      this[functionName]();
     },
 
 
@@ -5823,7 +5821,7 @@ jQuery.fn.scrollStop = function(callback) {
       if (this.locked) {
         return;
       }
-      
+
 
       if (next < this.imagesList.length) {
         this.currentImgIndex = next;
@@ -5844,7 +5842,7 @@ jQuery.fn.scrollStop = function(callback) {
       if (this.locked) {
         return;
       }
-      
+
 
       if (prev >= 0) {
         this.currentImgIndex = prev;
@@ -6008,7 +6006,7 @@ jQuery.fn.scrollStop = function(callback) {
 
       if (dimension === 'x') {
         width = this.parent.statusbar.element.find('.x').val();
-        height = Math.floor(aspectRatio * width); 
+        height = Math.floor(aspectRatio * width);
         if (!width) {
           // console.log('empty');
           this.parent.statusbar.element.find('.y').val('');
@@ -6031,7 +6029,7 @@ jQuery.fn.scrollStop = function(callback) {
       // console.log("dimension: " + dimension);
       // console.log("width: " + width);
       // console.log("height: " + height);
-      
+
       unitCls = '.units';
 
       this.setWidth(width);
@@ -6347,7 +6345,7 @@ jQuery.fn.scrollStop = function(callback) {
 
     render: function() {
       var _this = this,
-          types = [ 'about', 'details', 'rights', 'links' ],
+          types = [ 'about', 'details', 'rights', 'links', 'metadata' ],
           tplData = {
             metadataListingCls: this.metadataListingCls
           };
@@ -6356,12 +6354,11 @@ jQuery.fn.scrollStop = function(callback) {
         tplData[type] = [];
 
         jQuery.each(_this.metadata[type], function(key, value) {
-
           if (typeof value === 'object') {
             value = $.stringifyObject(value);
           }
 
-          if (value && value !== '') {
+          if (typeof value === 'string' && value !== '') {
             tplData[type].push({
               label: $.extractLabelFromAttribute(key),
               value: _this.addLinksToUris(value)
@@ -6372,6 +6369,7 @@ jQuery.fn.scrollStop = function(callback) {
       });
 
       // and process 1.0 metadata pairs
+      /*
       for (var p = 0, len = this.metadata.pairs.length; p < len; p++) {
         var pair = this.metadata.pairs[p];
 
@@ -6380,6 +6378,10 @@ jQuery.fn.scrollStop = function(callback) {
           value: $.stringifyObject(pair.value)
         });
       }
+      jQuery.each(_this.metadata.pairs, function(idx, pair) {
+        tplData.details.push({label: $.stringifyObject(pair.label), value:$.stringifyObject(pair.value)});
+      });
+      */
 
       this.element.append($.Templates.metadataView.listTerms(tplData));
 

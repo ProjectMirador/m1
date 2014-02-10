@@ -142,7 +142,7 @@
           '</div>',
         '</div>'
       ].join('')),
-      
+
       annotationPanel: Handlebars.compile([
         '<div class="annotationListPanel">',
         '<div class="resizeGrip"></div>',
@@ -154,16 +154,16 @@
           '</ul>',
         '</div>'
       ].join('')),
-      
+
       annotationStats: (function() {
-        var templateString = 
+        var templateString =
         ['<div class="annotationPanelHeader">',
           '<h4>Annotation List (<span class="annotationsTotal">{{annotationCount}}</span>)</h4>',
           '<div class="annoSearch">',
           '<select id="annotationTypeSelector" name="annotationTypes">',
           '<option value="All">All (<span class="annotationCount">{{annotationCount}}</span>)</option>',
-          '<option value="Image Annotations">Image Annotations (<span class="imageAnnotationCount">{{imageAnnotationCount}}</span>)</option>',
-          '<option value="text annotations">text annotations (<span class="textAnnotationCount">{{textAnnotationCount}}</span>)</option>',
+          '<option value="Image Annotations">Commentary (<span class="imageAnnotationCount">{{imageAnnotationCount}}</span>)</option>',
+          '<option value="text annotations">Transcription (<span class="textAnnotationCount">{{textAnnotationCount}}</span>)</option>',
           '</select>',
           '</div>',
         '</div>'
@@ -171,9 +171,9 @@
         Handlebars.registerPartial('annotationStats', templateString);
         return Handlebars.compile(templateString);
       })(),
-      
+
       noAnnotationMessage: (function() {
-        var templateString = 
+        var templateString =
         ['<div class="annotationPanelHeader">',
             '<h4>No Annotations Provided</h4>',
          '</div>'
@@ -183,7 +183,7 @@
       })(),
 
       annotationListing: (function() {
-        var templateString = 
+        var templateString =
           ['<li id="listing_{{id}}" class="annotationListing">',
               '{{#if title}}',
               '<h3>{{title}}</h3>',
@@ -202,7 +202,7 @@
           '<p>{{body}}</p>',
         '</div>'
       ].join('')),
-      
+
       annotationDetailToggle: Handlebars.compile([
         '<div class="displayBottomPanelButton">',
           '<a class="annotationDetailToggle mirador-icon-annotationDetail-toggle" title="Display annotation details in bottom panel."><i class="icon-eye-open"></i></a>',
@@ -287,12 +287,7 @@
     metadataView: {
       // template for rendering basic metadata terms
       listTerms: Handlebars.compile([
-        '<div class="sub-title">About (Metadata about this manuscript\'s manifest file):</div>',
-        '<dl class="{{metadataListingCls}}">',
-          '{{#each about}}',
-            '<dt>{{label}}:</dt><dd>{{value}}</dd>',
-          '{{/each}}',
-        '</dl>',
+
         '<div class="sub-title">Details (Metadata about physical object/intellectual work):</div>',
         '<dl class="{{metadataListingCls}}">',
           '{{#each details}}',
@@ -308,6 +303,12 @@
         '<div class="sub-title">Linking Metadata:</div>',
         '<dl class="{{metadataListingCls}}">',
           '{{#each links}}',
+            '<dt>{{label}}:</dt><dd>{{value}}</dd>',
+          '{{/each}}',
+        '</dl>',
+        '<div class="sub-title">About (Metadata about this manuscript\'s manifest file):</div>',
+        '<dl class="{{metadataListingCls}}">',
+          '{{#each about}}',
             '<dt>{{label}}:</dt><dd>{{value}}</dd>',
           '{{/each}}',
         '</dl>'

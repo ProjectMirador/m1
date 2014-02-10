@@ -208,7 +208,7 @@ window.Mirador = window.Mirador || function(config) {
     if (obj instanceof Array) {
       str = '[ ';
 
-      $.each(obj, function (i, item) {
+      jQuery.each(obj, function (i, item) {
         str += (i === 0 ? '' : ', ') + $.stringifyObject(item, nestingMargin + increment);
       });
 
@@ -406,10 +406,10 @@ window.Mirador = window.Mirador || function(config) {
       return result;
     };
   };
-  
+
   $.parseRegion  = function(url) {
     url = new URI(url);
-    var regionString = url.hash(); 
+    var regionString = url.hash();
     regionArray = regionString.split('=')[1].split(',');
     return regionArray;
   };
