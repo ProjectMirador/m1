@@ -52,6 +52,9 @@
           value: $.stringifyObject(pair.value)
         });
       }
+      jQuery.each(_this.metadata.pairs, function(idx, pair) {
+        tplData.details.push({label: $.stringifyObject(pair.label), value:$.stringifyObject(pair.value)});
+      });
       */
 
       this.element.append($.Templates.metadataView.listTerms(tplData));

@@ -108,26 +108,9 @@
 
 
     render: function() {
-      switch (this.type) {
-        case 'imageView':
-          this.renderImageView();
-        break;
-
-        case 'scrollView':
-          this.renderScrollView();
-        break;
-
-        case 'thumbnailsView':
-          this.renderThumbnailsView();
-        break;
-
-        case 'metadataView':
-          this.renderMetadataView();
-        break;
-
-        default:
-          break;
-      }
+      // http://stackoverflow.com/questions/359788/how-to-execute-a-javascript-function-when-i-have-its-name-as-a-string
+      var functionName = "render" + this.type[0].toUpperCase() + this.type.substring(1, 1000);
+      this[functionName]();
     },
 
 
