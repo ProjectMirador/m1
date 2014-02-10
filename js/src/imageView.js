@@ -56,7 +56,6 @@
       this.addAnnotationsLayer();
     },
 
-
     createOpenSeadragonInstance: function(imageUrl, osdBounds) {
       var infoJsonUrl = $.Iiif.getUri(imageUrl) + '/info.json',
       osdId = 'mirador-osd-' + $.genUUID(),

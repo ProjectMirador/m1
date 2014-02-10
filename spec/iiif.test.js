@@ -24,7 +24,9 @@ describe('Mirador IIIF wrapper | iiif.js', function() {
             "scale_factors": [0, 1, 2, 3, 4, 5, 6, 7, 8],
             "tilesUrl": "http://www.shared-canvas.org/iiif",
             "image_host": "http://www.shared-canvas.org/iiif",
-            "profile": "http://iiif.io/api/image-api/compliance.html"
+            "profile": "http://iiif.io/api/image-api/compliance.html",
+            "tile_width": 256,
+            "tile_height": 256
         };
 
 
@@ -44,8 +46,7 @@ describe('Mirador IIIF wrapper | iiif.js', function() {
         it('should make sure IIIF info.json data is backwards compatible with consistent scale_factors', function() {
             expect($.Iiif.prepJsonForOsd(json)).toEqual(preppedJson);
         });
-
-
+        
         it('should return image host URL for a given IIIF info.json response', function() {
             var json = { "image_host": "http://www.shared-canvas.org/iiif" };
 
