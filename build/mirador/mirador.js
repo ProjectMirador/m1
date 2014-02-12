@@ -4873,10 +4873,14 @@ jQuery.fn.scrollStop = function(callback) {
             });
             console.log(_this);
 
-            _this.parent.element.find('.annotation, .annotationListing').show();
+            _this.parent.element.find('.annotation').fadeIn();
+            _this.parent.element.find('.annotationListing').slideDown();
+            _this.bottomPanel.deselect();
+            
+            if (filter === '') { return; }
 
-            jQuery(filteredRegions).map(function() {return this.toArray();}).fadeOut();
-            jQuery(filteredListings).map(function() {return this.toArray();}).hide();
+            jQuery(filteredRegions).map(function() { return this.toArray(); }).fadeOut();
+            jQuery(filteredListings).map(function() { return this.toArray(); }).slideUp();
         },
 
         append: function(item) {
