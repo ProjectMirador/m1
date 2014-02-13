@@ -27,6 +27,7 @@
       jQuery.each(types, function(index, type) {
         tplData[type] = [];
 
+        // alert(type + ' ' + _this.metadata[type]);
         jQuery.each(_this.metadata[type], function(key, value) {
           if (typeof value === 'object') {
             value = $.stringifyObject(value);
@@ -43,19 +44,9 @@
       });
 
       // and process 1.0 metadata pairs
-      /*
-      for (var p = 0, len = this.metadata.pairs.length; p < len; p++) {
-        var pair = this.metadata.pairs[p];
-
-        tplData.details.push({
-          label: $.stringifyObject(pair.label),
-          value: $.stringifyObject(pair.value)
-        });
-      }
-      jQuery.each(_this.metadata.pairs, function(idx, pair) {
-        tplData.details.push({label: $.stringifyObject(pair.label), value:$.stringifyObject(pair.value)});
-      });
-      */
+      //jQuery.each(_this.metadata.pairs, function(idx, pair) {
+      //  tplData.details.push({label: $.stringifyObject(pair.label), value:$.stringifyObject(pair.value)});
+      //});
 
       this.element.append($.Templates.metadataView.listTerms(tplData));
 
