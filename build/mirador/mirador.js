@@ -4353,8 +4353,7 @@ jQuery.fn.scrollStop = function(callback) {
         about:    {},
         details:  {},
         rights:   {},
-        links:    {},
-        pairs: []
+        links:    {}
       },
 
       showNoImageChoiceOption: $.DEFAULT_SETTINGS.showNoImageChoiceOption
@@ -4388,7 +4387,7 @@ jQuery.fn.scrollStop = function(callback) {
         }
       });
 
-      delete this.jsonLd; // clear memory
+      // delete this.jsonLd; // clear memory
     },
 
 
@@ -4413,6 +4412,8 @@ jQuery.fn.scrollStop = function(callback) {
       var _this = this,
       imagesList = [];
 
+      // TODO: Assumes one image per canvas :(
+
       jQuery.each(sequence.canvases, function(index, canvas) {
         var images = [],
         imageObj;
@@ -4427,6 +4428,7 @@ jQuery.fn.scrollStop = function(callback) {
               imageObj.title = canvas.label || '';
               imageObj.canvasWidth = canvas.width;
               imageObj.canvasHeight = canvas.height;
+              imageObj.canvasId = canvas['@id'];
 
               if (canvas.otherContent) {
                 imageObj.annotations = jQuery.map(canvas.otherContent, function( annotation ){
@@ -4545,13 +4547,7 @@ jQuery.fn.scrollStop = function(callback) {
       this.parseMetadataDetails();
       this.parseMetadataRights();
       this.parseMetadataLinks();
-      this.parseMetadataPairs();
       ++$.viewer.numManifestsLoaded;
-    },
-
-
-    parseMetadataPairs: function() {
-      this.metadata.pairs = this.jsonLd.metadata || [];
     },
 
 
@@ -4573,15 +4569,13 @@ jQuery.fn.scrollStop = function(callback) {
       };
 
       // parse and store metadata pairs (API 1.0)
+      var mdList = {};
       if (typeof this.jsonLd.metadata !== 'undefined') {
-        var mdList = {};
-
         jQuery.each(this.jsonLd.metadata, function(index, item) {
           mdList[item.label] = item.value;
         });
-
-        this.metadata.metadata = mdList;
       }
+      this.metadata.metadata = mdList;
     },
 
 
@@ -6308,6 +6302,7 @@ jQuery.fn.scrollStop = function(callback) {
       jQuery.each(types, function(index, type) {
         tplData[type] = [];
 
+        // alert(type + ' ' + _this.metadata[type]);
         jQuery.each(_this.metadata[type], function(key, value) {
           if (typeof value === 'object') {
             value = $.stringifyObject(value);
@@ -6322,21 +6317,6 @@ jQuery.fn.scrollStop = function(callback) {
           }
         });
       });
-
-      // and process 1.0 metadata pairs
-      /*
-      for (var p = 0, len = this.metadata.pairs.length; p < len; p++) {
-        var pair = this.metadata.pairs[p];
-
-        tplData.details.push({
-          label: $.stringifyObject(pair.label),
-          value: $.stringifyObject(pair.value)
-        });
-      }
-      jQuery.each(_this.metadata.pairs, function(idx, pair) {
-        tplData.details.push({label: $.stringifyObject(pair.label), value:$.stringifyObject(pair.value)});
-      });
-      */
 
       this.element.append($.Templates.metadataView.listTerms(tplData));
 
