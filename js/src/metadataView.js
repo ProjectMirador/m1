@@ -43,11 +43,6 @@
         });
       });
 
-      // and process 1.0 metadata pairs
-      //jQuery.each(_this.metadata.pairs, function(idx, pair) {
-      //  tplData.details.push({label: $.stringifyObject(pair.label), value:$.stringifyObject(pair.value)});
-      //});
-
       this.element.append($.Templates.metadataView.listTerms(tplData));
 
       this.addToolbarNav();
