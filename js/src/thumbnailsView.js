@@ -132,15 +132,15 @@
             imageId;
 
         imageId = elemTarget.data('image-id');
-        $.viewer.loadImageView(_this.manifestId, imageId);
+        $.viewer.loadView("imageView", _this.manifestId, imageId);
       });
 
       navToolbar.on('click', selectorMetadataView, function() {
-        $.viewer.loadMetadataView(_this.manifestId);
+        $.viewer.loadView("metadataView", _this.manifestId);
       });
 
       navToolbar.on('click', selectorScrollView, function() {
-        $.viewer.loadScrollView(_this.manifestId);
+        $.viewer.loadView("scrollView", _this.manifestId);
       });
 
     }
