@@ -48,12 +48,11 @@
           json.image_host = json.image_host.replace(regex, '');
 
         } else {
-          regex = new RegExp('(.*\/)(.*)$');
+          regex = new RegExp('(.*)\/(.*)$');
           matches = regex.exec(json.image_host);
 
           if (matches.length > 1) {
             json.image_host = matches[1];
-            json.identifier = matches[2];
           }
         }
       }

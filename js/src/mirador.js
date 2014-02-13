@@ -146,11 +146,6 @@ window.Mirador = window.Mirador || function(config) {
   };
 
 
-  $.cls = function(name) {
-    return '.' + name;
-  };
-
-
   // Removes duplicates from an array.
   $.getUniques = function(arr) {
     var temp = {},
@@ -201,6 +196,10 @@ window.Mirador = window.Mirador || function(config) {
         increment = 15,
         delimiter = '<br/>';
 
+    if (obj instanceof RegExp) {
+      return '/' + obj.source + '/';
+    }
+
     if (typeof nestingMargin === 'undefined') {
       nestingMargin = 0;
     }
@@ -228,9 +227,6 @@ window.Mirador = window.Mirador || function(config) {
       return str + '</div>';
     }
 
-    if (type === 'regexp') {
-      return '/' + obj.source + '/';
-    }
 
     return obj.toString();
   };
@@ -249,7 +245,7 @@ window.Mirador = window.Mirador || function(config) {
       },
 
       error: function(xhr, status, error) {
-        console.log(xhr, status, error);
+        console.error(xhr, status, error);
       }
     });
 

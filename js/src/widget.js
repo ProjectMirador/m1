@@ -77,6 +77,7 @@
         .dialog(this)
         .dialog(this.dialogOptions)
         .dialogExtend(this.dialogExtendOptions)
+        .dialog('option', 'id', this.id)
 
         // Settings that will execute when resized.
         .parent().resizable({
@@ -87,7 +88,7 @@
           containment: this.containerCls // The element the dialog is constrained to.
         });
 
-      this.element.dialog('option', 'id', this.id);
+      // this.element.dialog('option', 'id', this.id);
 
       this.toolbar = new $.WidgetToolbar({
         parent: this,
