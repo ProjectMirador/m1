@@ -403,15 +403,15 @@
       });
 
       navToolbar.on('click', selectorMetadataView, function() {
-        $.viewer.loadMetadataView(_this.manifestId);
+        $.viewer.loadView("metadataView", _this.manifestId);
       });
 
       navToolbar.on('click', selectorScrollView, function() {
-        $.viewer.loadScrollView(_this.manifestId);
+        $.viewer.loadView("scrollView", _this.manifestId);
       });
 
       navToolbar.on('click', selectorThumbnailsView, function() {
-        $.viewer.loadThumbnailsView(_this.manifestId);
+        $.viewer.loadView("thumbnailsView", _this.manifestId);
       });
 
       navToolbar.on('click', selectorAnnotationsView, function() {

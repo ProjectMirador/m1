@@ -43,28 +43,29 @@
         manifestId = elemTarget.data('manifest-id');
         imageId = elemTarget.data('image-id');
 
-        $.viewer.loadImageView(manifestId, imageId);
+        // TODO: This should be configurable
+        $.viewer.loadView("imageView", manifestId, imageId);
       });
 
       // attach click event for thumbnails view icon
       jQuery(document).on('click', selectorThumbnailsView, function() {
         var manifestId = jQuery(selectorSelect).find('option:selected').data('manifest-id');
 
-        $.viewer.loadThumbnailsView(manifestId);
+        $.viewer.loadView("thumbnailsView", manifestId);
       });
 
       // attach click event for scroll view icon
       jQuery(document).on('click', selectorScrollView, function() {
         var manifestId = jQuery(selectorSelect).find('option:selected').data('manifest-id');
 
-        $.viewer.loadScrollView(manifestId);
+        $.viewer.loadView("scrollView", manifestId);
       });
 
       // attach click event for metadata view icon
       jQuery(document).on('click', selectorMetadataView, function() {
         var manifestId = jQuery(selectorSelect).find('option:selected').data('manifest-id');
 
-        $.viewer.loadMetadataView(manifestId);
+        $.viewer.loadView("metadataView", manifestId);
       });
     }
 

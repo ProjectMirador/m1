@@ -124,48 +124,16 @@
       });
     },
 
-
-    loadImageView: function(manifestId, imageId, openAt) {
+    loadView: function(type, manifestId, imageId, openAt) {
       $.viewer.addWidget({
-        height:     $.DEFAULT_SETTINGS.imageView.height,
+        height:     $.DEFAULT_SETTINGS[type].height,
         manifestId: manifestId,
         openAt:     openAt,
         imageId:    imageId,
-        type:       'imageView',
-        width:      $.DEFAULT_SETTINGS.imageView.width
+        type:       type,
+        width:      $.DEFAULT_SETTINGS[type].width
       });
     },
-
-
-    loadScrollView: function(manifestId) {
-      $.viewer.addWidget({
-        height:     $.DEFAULT_SETTINGS.scrollView.height,
-        manifestId: manifestId,
-        type:       'scrollView',
-        width:      $.DEFAULT_SETTINGS.scrollView.width
-      });
-    },
-
-
-    loadThumbnailsView: function(manifestId) {
-      $.viewer.addWidget({
-        height:     $.DEFAULT_SETTINGS.thumbnailsView.height,
-        manifestId: manifestId,
-        type:       'thumbnailsView',
-        width:      $.DEFAULT_SETTINGS.thumbnailsView.width
-      });
-    },
-
-
-    loadMetadataView: function(manifestId) {
-      $.viewer.addWidget({
-        height:     $.DEFAULT_SETTINGS.metadataView.height,
-        manifestId: manifestId,
-        type:       'metadataView',
-        width:      $.DEFAULT_SETTINGS.metadataView.width
-      });
-    },
-
 
     getWidgetPosition: function() {
       var offsetIncrement = 25,
