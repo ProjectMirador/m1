@@ -161,9 +161,9 @@
           '<h4>Annotation List (<span class="annotationsTotal">{{annotationCount}}</span>)</h4>',
           '<div class="annoSearch">',
           '<select id="annotationTypeSelector" name="annotationTypes">',
-          '<option value="All">All (<span class="annotationCount">{{annotationCount}}</span>)</option>',
-          '<option value="Image Annotations">Commentary (<span class="imageAnnotationCount">{{imageAnnotationCount}}</span>)</option>',
-          '<option value="text annotations">Transcription (<span class="textAnnotationCount">{{textAnnotationCount}}</span>)</option>',
+            '<option value="">All (<span class="annotationCount">{{annotationCount}}</span>)</option>',
+            '<option value="commenting">Commentary (<span class="imageAnnotationCount">{{imageAnnotationCount}}</span>)</option>',
+            '<option value="painting">Transcription (<span class="textAnnotationCount">{{textAnnotationCount}}</span>)</option>',
           '</select>',
           '</div>',
         '</div>'

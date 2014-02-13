@@ -109,60 +109,18 @@
 
 
     render: function() {
-      // http://stackoverflow.com/questions/359788/how-to-execute-a-javascript-function-when-i-have-its-name-as-a-string
-      var functionName = "render" + this.type[0].toUpperCase() + this.type.substring(1, 1000);
-      this[functionName]();
-    },
-
-
-    renderImageView: function() {
-      this.viewObj = new $.ImageView({
+      var className = this.type[0].toUpperCase() + this.type.substring(1, 1000);
+      this.viewObj = new $[className]({
+        // standard initialization, not everything will be populated
         imagesList: this.imagesList,
         manifestId: this.manifestId,
-        element:    this.content.element,
-        imageId:    this.imageId,
-        openAt:     this.openAt,
-        parent:     this
+        element: this.content.element,
+        imageId: this.imageId,
+        openAt: this.openAt,
+        parent: this
       });
-
       this.viewObj.render();
     },
-
-
-    renderScrollView: function() {
-      this.viewObj = new $.ScrollView({
-        imagesList: this.imagesList,
-        manifestId: this.manifestId,
-        element:    this.content.element,
-        parent:     this
-      });
-
-      this.viewObj.render();
-    },
-
-
-    renderThumbnailsView: function() {
-      this.viewObj = new $.ThumbnailsView({
-        imagesList: this.imagesList,
-        manifestId: this.manifestId,
-        element:    this.content.element,
-        parent:     this
-      });
-
-      this.viewObj.render();
-    },
-
-
-    renderMetadataView: function() {
-      this.viewObj = new $.MetadataView({
-        manifestId: this.manifestId,
-        element:    this.content.element,
-        parent:     this
-      });
-
-      this.viewObj.render();
-    },
-
 
     setPosition: function(x, y) {
       x = Math.round(x);
