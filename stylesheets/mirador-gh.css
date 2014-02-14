@@ -12,9 +12,10 @@ h1.header {
   list-style-type: none;
   width:132px;
   height:15px;
-  margin-bottom: 12px;
+  margin: 0 auto;
   line-height: 1em;
   padding: 6px 6px 6px 7px;
+  text-align: center;
 
   background: #AF0011;
   background: -moz-linear-gradient(top, #AF0011 0%, #820011 100%);
@@ -45,9 +46,9 @@ h1.header {
 .mirador-demo a.buttons {
   -webkit-font-smoothing: antialiased;
   background-image: none;
-  font-weight: normal;
+  font-weight: bold !important;
   text-shadow: rgba(0, 0, 0, 0.4) 0 -1px 0;
-  padding: 2px 2px 2px 22px;
+  padding: 2px;
   height: 30px;
 }
 
