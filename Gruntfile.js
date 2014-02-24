@@ -12,14 +12,15 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jasmine');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-copy');
+  // grunt.loadNpmTasks('jasmine-jquery');
 
   // ----------
   var distribution = 'build/mirador/mirador.js',
       minified = 'build/mirador/mirador.min.js',
       releaseRoot = '../site-build/built-mirador/',
 
+  // libraries/plugins
   vendors = [
-    // libraries/plugins
     'js/lib/jquery.min.js',
     'js/lib/jquery-ui.custom.min.js',
     'js/lib/jquery-ui.touch-punch.min.js',
@@ -32,8 +33,13 @@ module.exports = function(grunt) {
     'js/lib/uri.min.js'
   ],
 
+  // libraries/plugins for running tests
+  specJs = [
+    'spec/lib/jasmine-jquery.js'
+  ],
+
+  // source files
   sources = [
-    // source files
     'js/src/mirador.js',
     'js/src/manifestsLoader.js',
     'js/src/viewer.js',
@@ -178,6 +184,7 @@ module.exports = function(grunt) {
         browser: true,
         eqeqeq: false,
         loopfunc: false,
+        indent: false,
         jshintrc: '.jshintrc',
         globals: {
           Mirador: true
@@ -201,7 +208,7 @@ module.exports = function(grunt) {
         options: {
           keepRunner: true,
           specs: specs,
-          vendor: vendors
+          vendor: vendors.concat(specJs)
         }
       },
       coverage: {

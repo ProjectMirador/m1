@@ -1,12 +1,23 @@
-describe('Mirador Main | mirador.js', function() {
+describe('Mirador | mirador.js', function() {
   var $;
 
   beforeEach(function() {
+    localStorage.clear();
+
+    // suppress console messages in Jasmine output
+    console.error = function() { return true; }
+    console.log = function() { return true; }
+
+    loadFixtures('mirador.html');
+
     Mirador({
-      id: 'abc',
-      data: [
-        { "manifestUri": "spec/data/Walters/bd183mz0176/manifest.json", "location": "Stanford University", "title": "MS 5", "widgets": [] }
-      ]
+      id: 'viewer',
+      data: [{
+        "manifestUri": "spec/data/Walters/bd183mz0176/manifest.json",
+        "location": "Stanford University",
+        "title": "MS 5",
+        "widgets": []
+      }]
     });
 
     $ = Mirador;
@@ -76,11 +87,19 @@ describe('Mirador Main | mirador.js', function() {
     });
 
 
+    it('should stringify a JavaScript object with padded HTML for printing', function() {
+      expect($.stringifyObject('mirador')).toEqual('mirador');
+      expect($.stringifyObject(new RegExp('ab+c'))).toEqual('/ab+c/');
+      expect($.stringifyObject([1, 2])).toEqual('[ 1, 2 ]');
+      expect($.stringifyObject({'Jan' : 1})).toEqual('<div style="margin-left:0px">Jan: 1</div>');
+    });
+
+
     it('should return JSON data for a given URL via ajax call', function() {
       var data = { 'a': 'b' },
           error; // undefined
 
-      spyOn(jQuery, 'ajax').andCallFake(function(params) {
+      spyOn(jQuery, 'ajax').and.callFake(function(params) {
         if (/success$/.test(params.url)) {
           params.success(data);
         } else {
@@ -99,18 +118,6 @@ describe('Mirador Main | mirador.js', function() {
       expect($.getViewLabel('unavailableView')).toEqual('unavailableView');
     });
 
-
-    /*
-    it('should return a Stanford IIIF URI given a Stanford stacks URI', function() {
-      expect($.getIiifUri('http://stacks.stanford.edu/image/abc/def')).toEqual('https://stacks.stanford.edu/image/iiif/abc%2Fdef');
-      expect($.getIiifUri('http://xyz.edu/image/abc')).toEqual('http://xyz.edu/image/abc');
-    });
-
-
-    it('should return a new IIIF URI given a height', function() {
-      expect($.getIiifUriWithHeight('http://xyz.edu/image', 150)).toEqual('http://xyz.edu/image/full/,150/0/native.jpg');
-    });
-    */
 
     it('should extract label from a property attribute/key and titlecase it', function() {
       expect($.extractLabelFromAttribute('@id')).toEqual('Id');
