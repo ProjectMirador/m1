@@ -113,7 +113,6 @@
 
     removeWidget: function(id) {
       jQuery.each($.viewer.widgets, function(index, widget) {
-
         if (widget && widget.id === id) {
           if (widget.type === 'imageView') {
             $.viewer.lockController.removeLockedView(widget.id);
@@ -122,6 +121,20 @@
           $.viewer.widgets.splice(index, 1);
         }
       });
+    },
+
+    findWidget: function(type, manifestId, imageId) {
+      // filter this.widgets for matching widgets to enable basic
+      // inter-widget-communication
+      var matches = [];
+      jQuery.each($.viewer.widgets, function(index, widget) {
+        if (widget.type == type && widget.manifestId == manifestId) {
+          if (!imageId || (this.imageId == imageId)) {
+            matches.push(widget);
+          }
+        }
+      });
+      return matches;
     },
 
     loadView: function(type, manifestId, imageId, openAt) {
