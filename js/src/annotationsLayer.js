@@ -90,7 +90,7 @@
                     url: url,
                     dataType: 'json',
                     async: true,
-
+                    cache: false,
                     success: function(jsonLd) {
                         jQuery.each(jsonLd.resources, function(index, resource) {
                             var annotation = {
