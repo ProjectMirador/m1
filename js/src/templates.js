@@ -186,9 +186,9 @@
         var templateString =
           ['<li id="listing_{{id}}" class="annotationListing">',
               '{{#if title}}',
-              '<h3>{{title}}</h3>',
+              '<h3>{{{title}}}</h3>',
               '{{/if}}',
-              '<p>{{content}}</p>',
+              '<p>{{{content}}}</p>',
           '</li>'
         ].join('');
         Handlebars.registerPartial('annotationListing', templateString);
@@ -199,7 +199,7 @@
         '<div class="annotationDetails">',
           '<div class="annotationNumber">{{annotationNumber}}</div>',
           '<a class="annotationDetailToggle mirador-icon-annotationDetail-toggle" title="Hide this detail panel."><i class="icon-eye-close"></i></a>',
-          '<p>{{body}}</p>',
+          '<p>{{{body}}}</p>',
         '</div>'
       ].join('')),
 
