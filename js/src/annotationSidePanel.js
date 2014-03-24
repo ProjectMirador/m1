@@ -37,7 +37,7 @@
             var _this = this;
             this.annoSelector.on('change', function() {
                 _this.parent.set('filter', _this.annoSelector.val());
-            }); 
+            });
         },
 
         render: function() {
@@ -55,7 +55,7 @@
             this.listStats.replaceWith($.Templates.imageView.annotationStats(templateData));
             this.listStats = this.element.find('.annotationPanelHeader');
             this.annoSelector = this.element.find('select');
-            console.log(this.annoSelector);
+            // console.log(this.annoSelector);
 
             jQuery.each(this.parent.get('annotations'), function(index, annotation) {
 
@@ -87,7 +87,7 @@
 
             if (source !== 'listing') {
                 _this.listShell.stop().scrollTo(selectedElement, 500);
-            } 
+            }
 
         },
 

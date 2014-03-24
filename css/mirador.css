@@ -688,6 +688,26 @@ text {
 }
 
 
+/* open layers annotorius view
+---------------------------------------------------------------------------- */
+.mirador-viewer .ol-a-view-content {
+  background-color: #000;
+}
+
+.mirador-openlayers-anno-view-toolbar {
+  float: right;
+  margin-right: 5px;
+}
+
+a.map-annotate-button, a:visited.map-annotate-button, a:active.map-annotate-button {
+  margin-top: 3px;
+}
+
+.annotorious-editor a, .annotorious-editor a:visited, .annotorious-editor a:active {
+  color: #fff !important;
+}
+
+
 /* initial loader
 ---------------------------------------------------------------------------- */
 .mirador-loading {
@@ -772,12 +792,6 @@ a.mirador-icon-annotationDetail-toggle.hidden {
 .mirador-icon-metadata-view { background-position: -120px -40px; }
 .mirador-icon-metadata-view:hover { background-position: -120px -60px; }
 
-.mirador-icon-choices { background-position: -320px -40px; }
-.mirador-icon-choices:hover { background-position: -320px -60px; }
-
-.mirador-icon-save { background-position: -340px -40px; }
-.mirador-icon-save:hover { background-position: -340px -60px; }
-
 .mirador-icon-lock { background-position: -181px -41px; }
 .mirador-icon-lock:hover { background-position: -181px -61px; }
 
@@ -787,6 +801,17 @@ a.mirador-icon-annotationDetail-toggle.hidden {
 .mirador-icon-thumbnails-view { background-position: -301px -40px; }
 .mirador-icon-thumbnails-view:hover { background-position: -301px -60px; }
 
+.mirador-icon-choices { background-position: -320px -40px; }
+.mirador-icon-choices:hover { background-position: -320px -60px; }
+
+.mirador-icon-save { background-position: -340px -40px; }
+.mirador-icon-save:hover { background-position: -340px -60px; }
+
+.mirador-icon-annotorius { background-position: -360px -40px; }
+.mirador-icon-annotorius:hover { background-position: -360px -60px; }
+
+.mirador-icon-add-anno { width: 100px; background-position: -380px -40px; }
+.mirador-icon-add-anno:hover { width: 100px; background-position: -380px -60px; }
 
 
 /* jquery-ui css overrides

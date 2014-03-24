@@ -69,6 +69,15 @@
 
       this.alignViewerElements();
       this.attachEvents();
+      this.addParsePluginForAnnotorius();
+    },
+
+
+    addParsePluginForAnnotorius: function() {
+      anno.addPlugin('Parse', {
+        'app_id': $.DEFAULT_SETTINGS.openLayersAnnotoriusView.appId,
+        'js_key': $.DEFAULT_SETTINGS.openLayersAnnotoriusView.jsKey
+      });
     },
 
 
@@ -123,10 +132,12 @@
       });
     },
 
+
     findWidget: function(type, manifestId, imageId) {
       // filter this.widgets for matching widgets to enable basic
       // inter-widget-communication
       var matches = [];
+
       jQuery.each($.viewer.widgets, function(index, widget) {
         if (widget.type == type && widget.manifestId == manifestId) {
           if (!imageId || (this.imageId == imageId)) {
@@ -134,8 +145,19 @@
           }
         }
       });
+
       return matches;
     },
+
+
+    deleteOpenOpenLayersAnnotoriusViews: function() {
+      jQuery.each($.viewer.widgets, function(index, widget) {
+        if (widget.type === "openLayersAnnotoriusView" ) {
+          widget.close();
+        }
+      });
+    },
+
 
     loadView: function(type, manifestId, imageId, openAt) {
       $.viewer.addWidget({
@@ -147,6 +169,7 @@
         width:      $.DEFAULT_SETTINGS[type].width
       });
     },
+
 
     getWidgetPosition: function() {
       var offsetIncrement = 25,

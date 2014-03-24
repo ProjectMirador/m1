@@ -68,6 +68,10 @@
       jQuery.each($.viewer.widgets, function(index, widget) {
         var x = 0, y = 0;
 
+        if (widget.type === 'openLayersAnnotoriusView') {
+          return true;
+        }
+
         columnIndex = index % columns;
 
         if (columnIndex === 0 && index !== 0) {

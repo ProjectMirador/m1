@@ -30,7 +30,10 @@ module.exports = function(grunt) {
     'js/lib/openseadragon.min.js',
     'js/lib/jquery.tooltipster.min.js',
     'js/lib/d3.v3.min.js',
-    'js/lib/uri.min.js'
+    'js/lib/uri.min.js',
+    'js/lib/OpenLayers.js',
+    'js/lib/annotorious.min.js',
+    'js/lib/anno-parse-plugin.js'
   ],
 
   // libraries/plugins for running tests
@@ -50,8 +53,6 @@ module.exports = function(grunt) {
     'js/src/statusBar.js',
     'js/src/layout.js',
     'js/src/manifest.js',
-    'js/src/imagesList.js',
-    'js/src/normalSequence.js',
     'js/src/AnnotationsLayer.js',
     'js/src/widget.js',
     'js/src/widgetToolbar.js',
@@ -61,6 +62,7 @@ module.exports = function(grunt) {
     'js/src/scrollView.js',
     'js/src/metadataView.js',
     'js/src/thumbnailsView.js',
+    'js/src/openLayersAnnotoriusView.js',
     'js/src/widgetStatusBar.js',
     'js/src/widgetContent.js',
     'js/src/openSeadragon.js',
@@ -102,7 +104,16 @@ module.exports = function(grunt) {
         dest: distribution
       },
       css: {
-        src: [ 'css/font-awesome.css', 'css/normalize.css', 'css/jquery-ui.custom.css', 'css/mirador.css', 'css/tooltipster.css', 'css/tooltipster-mirador.css'],
+        src: [
+        'css/font-awesome.css',
+        'css/normalize.css',
+        'css/jquery-ui.custom.css',
+        'css/mirador.css',
+        'css/tooltipster.css',
+        'css/tooltipster-mirador.css',
+        'css/openlayers.css',
+        'css/annotorious-dark.css'
+        ],
         dest: 'css/mirador-combined.css'
       }
     },
@@ -116,7 +127,8 @@ module.exports = function(grunt) {
 
     uglify: {
       options: {
-        preserveComments: 'some'
+        preserveComments: 'some',
+        mangle: false
       },
       mirador: {
         src: [ distribution ],
@@ -132,12 +144,19 @@ module.exports = function(grunt) {
           dest: 'build/mirador/'
         }, {
           expand: true,
+          src: 'css/theme-dark/**',
+          dest: 'build/mirador/'
+        }, {
+          expand: true,
           src: 'images/**',
           dest: 'build/mirador'
         }, {
           expand: true,
           src: 'font/*',
           dest: 'build/mirador'
+        }, {
+          src: 'js/lib/parse.min.js',
+          dest: 'build/mirador/parse.min.js'
         }]
       }
     },
@@ -243,7 +262,7 @@ module.exports = function(grunt) {
   // ----------
   // Build task.
   // Cleans out the build folder and builds the code and images into it, checking lint.
-  grunt.registerTask('build', [ 'clean:build', 'git-describe', 'jshint', 'concat', 'cssmin', 'copy', 'uglify' ]);
+  grunt.registerTask('build', [ 'clean:build', 'git-describe', 'jshint', 'concat', 'cssmin', 'copy' ]);
 
   // ----------
   // Dev Build task.

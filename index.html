@@ -12,11 +12,13 @@
 <body>
   <div id="viewer"></div>
 
-  <script src="build/mirador/mirador.min.js"></script>
+  <script src="build/mirador/parse.min.js"></script>
+  <script src="build/mirador/mirador.js"></script>
   <script type="text/javascript">
     $(function() {
 
       Mirador({
+        "workspaceAutoSave": false,
         "id": "viewer",
         "data": [{
           "manifestUri": "data/Walters/bd183mz0176/Manifest.json",

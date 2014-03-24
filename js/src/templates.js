@@ -121,6 +121,7 @@
           '<a href="javascript:;" class="mirador-btn mirador-icon-thumbnails-view"></a>',
           '<a href="javascript:;" class="mirador-btn mirador-icon-previous"></a>',
           '<a href="javascript:;" class="mirador-btn mirador-icon-next"></a>',
+          '<a href="javascript:;" class="mirador-btn mirador-icon-annotorius"></a>',
         '</div>'
       ].join('')),
 
@@ -287,7 +288,6 @@
     metadataView: {
       // template for rendering basic metadata terms
       listTerms: Handlebars.compile([
-
         '<div class="sub-title">Details (Metadata about physical object/intellectual work):</div>',
         '<dl class="{{metadataListingCls}}">',
           '{{#each details}}',
@@ -321,8 +321,27 @@
           '<a href="javascript:;" class="mirador-btn mirador-icon-thumbnails-view"></a>',
         '</div>'
       ].join(''))
+    },
 
+
+    /* Open Layers Annotorius View
+    ---------------------------------------------------------------------------- */
+    openLayersAnnotoriusView: {
+      // template for rendering open layers with annotorius
+      content: Handlebars.compile([
+        '<div class="ol-map-box" id="{{mapId}}" style="width:100%; height: 100%;"></div>'
+      ].join('')),
+
+      // template for rendering anno tool bar
+      annoToolbar: Handlebars.compile([
+        '<div class="{{annoToolbarCls}}">',
+          '<a class="map-annotate-button mirador-btn mirador-icon-add-anno"></a>',
+          '<a href="javascript:;" class="mirador-btn mirador-icon-previous"></a>',
+          '<a href="javascript:;" class="mirador-btn mirador-icon-next"></a>',
+        '</div>'
+      ].join(''))
     }
+
   };
 
 

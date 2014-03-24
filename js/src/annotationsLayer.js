@@ -31,7 +31,7 @@
             var _this = this;
 
 
-            // returns a promise object constructed using 
+            // returns a promise object constructed using
             // jQuery.when.apply(this, [deferred array]);
             _this.getAnnotations().done( function() {
                 _this.bottomPanel = new $.AnnotationBottomPanel({parent: _this});
@@ -99,7 +99,7 @@
                                 content: resource.resource.full ? resource.resource.full.chars : resource.resource.chars,
                                 type: (resource.motivation).split(':')[1],
                                 id: $.genUUID()
-                            };          
+                            };
 
                             annotation.osdFrame = $.getOsdFrame(annotation.region, _this.parent.currentImg);
 
@@ -133,7 +133,7 @@
             });
             _this.event('selectedAnnotation:set').subscribe( function(value, options) {
                 if (value === null) {
-                    _this.deselect(); 
+                    _this.deselect();
                     return;
                 }
                 _this.focusSelected(value, options);
@@ -142,7 +142,7 @@
                 _this.accentHovered(value, options);
             });
             _this.event('annotationUrls:set').subscribe( function(value, options) {
-                if (value) { console.log(value); }
+                // if (value) { console.log(value); }
                 _this.changePage();
             });
             _this.event('filter:set').subscribe( function(value, options) {
@@ -152,7 +152,7 @@
 
         computeAnnotationStats: function() {
             var comments = 0,
-            transcriptions = 0; 
+            transcriptions = 0;
 
             jQuery.each(_this.annotations, function(index, annotation) {
                 if (annotation.type === 'commenting') { comments ++; } else { transcriptions ++; }
@@ -218,14 +218,14 @@
 
         filterAnnotations: function(filter, options) {
             _this = this;
-            
+
             filteredAnnos = jQuery.grep(_this.annotations, function(a) { return a.type !== filter; } ),
             filteredIds = jQuery.map(filteredAnnos, function(a) { return a.id; }),
-            filteredRegions = jQuery.map(filteredIds, function(id) { 
+            filteredRegions = jQuery.map(filteredIds, function(id) {
                     var idString = '#region_' + id;
                     return jQuery(idString);
             }),
-            filteredListings = jQuery.map(filteredIds, function(id) { 
+            filteredListings = jQuery.map(filteredIds, function(id) {
                     var idString = '#listing_' + id;
                     return jQuery(idString);
             });
@@ -234,7 +234,7 @@
             _this.parent.element.find('.annotation').fadeIn();
             _this.parent.element.find('.annotationListing').slideDown();
             _this.bottomPanel.deselect();
-            
+
             if (filter === '') { return; }
 
             jQuery(filteredRegions).map(function() { return this.toArray(); }).fadeOut();
@@ -258,8 +258,8 @@
             this.sidePanel.hide();
             this.regionController.hide();
             this.bottomPanel.hide();
-            // ensures the user won't accidentally be unable to view annotation details in 
-            // the annotation layer in the future. Resets the default visibility of the 
+            // ensures the user won't accidentally be unable to view annotation details in
+            // the annotation layer in the future. Resets the default visibility of the
             // bottom panel to true.
             this.bottomPanel.hidden = false;
         }

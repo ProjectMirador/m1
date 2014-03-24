@@ -1,0 +1,14 @@
+.annotorious-parse-plugin-load-outer {
+  position:absolute;
+  top:0px;
+  right:0px;
+  background-color:rgba(0,0,0,0.8);
+  padding:2px;
+  z-index:99999;
+}
+
+.annotorious-parse-plugin-load-inner {
+  background-image:url('load.gif');
+  width:18px;
+  height:18px;
+}

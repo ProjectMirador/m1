@@ -36,14 +36,21 @@ window.Mirador = window.Mirador || function(config) {
       'imageView': {
         'label': 'Image View'
       },
+
       'scrollView': {
         'label': 'Scroll View'
       },
+
       'thumbnailsView': {
         'label': 'Thumbnails View'
       },
+
       'metadataView': {
         'label': 'Metadata View'
+      },
+
+      'openLayersAnnotoriusView': {
+        'label': 'Annotate View'
       }
     },
 
@@ -89,9 +96,8 @@ window.Mirador = window.Mirador || function(config) {
       'height': 400,
       'width': 350,
       'annotationsList': {
-        'display':true,
+        'display': true,
         'width': 200
-
       }
     },
 
@@ -116,6 +122,16 @@ window.Mirador = window.Mirador || function(config) {
     'metadataView': {
       'height': 400,
       'width': 600
+    },
+
+    // metadata view
+    'openLayersAnnotoriusView': {
+      'appId': 'lQ9BqPkPRVJR4Qbe652BapTP2JVDNzS0G2k6GCWW', // Parse.com app id
+      'jsKey': 'VbYdon3U70Wi8aht9Y8Z2eRk3FmOsO2n1lQhx1vV', // Parse.com js_key
+      'height': 400,
+      'width': 600,
+      'maxSize': 2500, // max longest side to load in open layers
+      'maxZoomLevel': 4
     },
 
     // parameters of saving system

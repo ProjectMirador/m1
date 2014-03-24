@@ -69,6 +69,10 @@
 
       this.dialogExtendOptions.containerCls  = this.containerCls;
 
+      if (this.type === 'openLayersAnnotoriusView') {
+        this.applyAnnotoriusViewSpecificChanges();
+      }
+
       this.element
         .addClass(this.widgetCls)
         .attr('id', this.id)
@@ -87,8 +91,6 @@
         .draggable({
           containment: this.containerCls // The element the dialog is constrained to.
         });
-
-      // this.element.dialog('option', 'id', this.id);
 
       this.toolbar = new $.WidgetToolbar({
         parent: this,
@@ -110,6 +112,7 @@
 
     render: function() {
       var className = this.type[0].toUpperCase() + this.type.substring(1, 1000);
+
       this.viewObj = new $[className]({
         // standard initialization, not everything will be populated
         imagesList: this.imagesList,
@@ -119,8 +122,19 @@
         openAt: this.openAt,
         parent: this
       });
+
       this.viewObj.render();
     },
+
+
+    applyAnnotoriusViewSpecificChanges: function() {
+      delete this.dialogExtendOptions.maximizable;
+      delete this.dialogExtendOptions.collapsable;
+      delete this.dialogExtendOptions.icons;
+
+      $.viewer.deleteOpenOpenLayersAnnotoriusViews();
+    },
+
 
     setPosition: function(x, y) {
       x = Math.round(x);

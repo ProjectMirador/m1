@@ -314,7 +314,6 @@
         return;
       }
 
-
       if (next < this.imagesList.length) {
         this.currentImgIndex = next;
         this.currentImg = this.imagesList[next];
@@ -335,7 +334,6 @@
         return;
       }
 
-
       if (prev >= 0) {
         this.currentImgIndex = prev;
         this.currentImg = this.imagesList[prev];
@@ -343,6 +341,61 @@
         this.createOpenSeadragonInstance(this.currentImg.imageUrl);
         this.annotationsLayer.set('annotationUrls', this.currentImg.annotations);
       }
+    },
+
+
+    openAnnotoriusWindow: function() {
+      var windowWidth  = jQuery(window).width(),
+          windowHeight = jQuery(window).height(),
+          canvasWidth = this.currentImg.canvasWidth,
+          canvasHeight = this.currentImg.canvasHeight,
+          imgWidth = windowWidth,
+          imgHeight = windowHeight,
+          canvasAspectRatio = 1,
+          win, tplData, server;
+
+      server = window.location.protocol + '//' + window.location.host;
+
+      canvasAspectRatio = parseFloat(canvasHeight / canvasWidth).toFixed(2);
+
+      imgHeight = canvasAspectRatio * imgWidth;
+
+      if (imgHeight > windowHeight) {
+        imgHeight = windowHeight;
+        imgWidth = parseInt(imgHeight / canvasAspectRatio, 10);
+      }
+
+      tplData = {
+        server: server,
+        imageUrl: this.currentImg.imageUrl + '/full/,' + imgHeight + '/0/native.jpg',
+        width: imgWidth,
+        height: imgHeight
+      };
+
+      win = window.open();
+      win.document.write($.Templates.annotoriusWindow.content(tplData));
+
+      var body, head;
+
+      function isLoaded() {
+        body = win.document.getElementsByTagName('body');
+
+        if (body[0] === null) {
+          setTimeout(isLoaded, 10);
+        } else {
+          win.onload();
+          // console.log(666);
+          // jQuery(win.document.getElementsByTagName('head')).append(server + '/css/annotorious.css');
+          // jQuery(win.document.getElementsByTagName('head')).append(server + '/js/lib/annotorious.min.js');
+        }
+
+      }
+
+      isLoaded();
+
+      // win.location.reload();
+
+      win.addEventListener('load', function() { alert(33); }, false);
     },
 
 
@@ -392,6 +445,7 @@
       selectorThumbnailsView  = '.mirador-icon-thumbnails-view',
       selectorNext            = '.mirador-icon-next',
       selectorPrevious        = '.mirador-icon-previous',
+      selectorAnnotorius      = '.mirador-icon-annotorius',
       _this = this;
 
       navToolbar.on('click', selectorPrevious, function() {
@@ -416,6 +470,11 @@
 
       navToolbar.on('click', selectorAnnotationsView, function() {
         _this.annotationsLayer.setVisible();
+      });
+
+      navToolbar.on('click', selectorAnnotorius, function() {
+        // _this.openAnnotoriusWindow();
+        $.viewer.loadView('openLayersAnnotoriusView', _this.manifestId, _this.currentImg.id);
       });
 
     },
@@ -516,11 +575,7 @@
         }
         this.height = height;
         this.width = width;
-
       }
-      // console.log("dimension: " + dimension);
-      // console.log("width: " + width);
-      // console.log("height: " + height);
 
       unitCls = '.units';
 
