@@ -38,6 +38,7 @@
                 uri:        $.trimString(collection.manifestUri),
                 metadata:   manifest.metadata,
                 sequences:  manifest.sequences,
+                ranges: manifest.ranges,
                 location:   collection.location || '-'
               };
 
