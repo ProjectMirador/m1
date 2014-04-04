@@ -90,6 +90,7 @@
         if (typeof osdBounds != 'undefined') {
           _this.osd.viewport.fitBounds(osdBounds, true);
         }
+        var osda = new OpenSeadragonAnnotation($(_this.element),options);       
       });
 
       this.parent.element.dialog('option', 'title', this.getTitle());

@@ -30,7 +30,13 @@ module.exports = function(grunt) {
     'js/lib/openseadragon.min.js',
     'js/lib/jquery.tooltipster.min.js',
     'js/lib/d3.v3.min.js',
-    'js/lib/uri.min.js'
+    'js/lib/uri.min.js',
+    'js/lib/osda/annotator/annotator.min.js',
+    'js/lib/osda/share-annotator/share-annotator.min.js',
+    'js/lib/osda/geolocation-annotator/geolocation-annotator.min.js',
+    'js/lib/osda/richText-annotator/tinymce.min.js',
+    'js/lib/osda/richText-annotator/richText-annotator.min.js',
+    'js/lib/osda/OpenSeaDragonAnnotation.js'
   ],
 
   // libraries/plugins for running tests
@@ -102,7 +108,7 @@ module.exports = function(grunt) {
         dest: distribution
       },
       css: {
-        src: [ 'css/font-awesome.css', 'css/normalize.css', 'css/jquery-ui.custom.css', 'css/mirador.css', 'css/tooltipster.css', 'css/tooltipster-mirador.css'],
+        src: [ 'css/font-awesome.css', 'css/normalize.css', 'css/jquery-ui.custom.css', 'css/mirador.css', 'css/tooltipster.css', 'css/tooltipster-mirador.css', 'js/lib/osda/annotator/annotator.min.css', 'js/lib/osda/share-annotator/share-annotator.min.css', 'js/lib/osda/richText-annotator/richText-annotator.min.css', 'js/lib/osda/geolocation-annotator/geolocation-annotator.min.css'],
         dest: 'css/mirador-combined.css'
       }
     },
@@ -174,7 +180,7 @@ module.exports = function(grunt) {
     watch: {
       all: {
         options: { livereload: true },
-        files: [ 'Gruntfile.js', 'js/src/*.js', 'images/*', 'css/jquery-ui.custom.css', 'css/jquery-ui.custom.min.css', 'css/mirador.css', 'css/normalize.css', 'css/tooltipster-mirador.css', 'css/tooltipster.css' ],
+        files: [ 'Gruntfile.js', 'js/src/*.js', 'images/*', 'css/jquery-ui.custom.css', 'css/jquery-ui.custom.min.css', 'css/mirador.css', 'css/normalize.css', 'css/tooltipster-mirador.css', 'css/tooltipster.css'],
         tasks: 'dev_build'
       }
     },
