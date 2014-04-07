@@ -89,29 +89,57 @@
         },
 
         extractRangeTrees: function(rangeList) {
+            var _this = this;
             var roots = jQuery.grep(rangeList, function(range){
                 return !range.within;
             });
+            var parent;
 
-            var parent = roots[0];
-            var tree;
-            
-            var children = jQuery.grep(rangeList, function(child){ return child.within == parent.id; });
+            // Recursively build tree/table of contents data structure
+            // Begins with the list of topmost categories
+            function unflatten(topRanges, parent, tree) {
+                // To aid recursion, define the tree if it does not exist,
+                // but use the tree that is being recursively built
+                // by the call below.
+                tree = typeof tree !== 'undefined' ? tree : [];
+                parent = typeof parent !== 'undefined' ? parent : { label: 'Table of Contents'};
+                console.log(tree);
+                console.log(parent.label);
+                var children = jQuery.grep(topRanges, function(child){ return child.within === parent['@id']; });
 
-            if( !children[0] ){
-                if( parent.id == 0 ){
-                    tree = children;   
-
-                }else{
-                    parent['children'] = children;
-
+                if( children.length !== 0 ){
+                    if ( !parent['@id'] ) {
+                        // If there are children and their parent's 
+                        // id is a root, bind them to the tree object.
+                        // 
+                        // This begins the construction of the object,
+                        // and all non-top-level children are now
+                        // bound the these base nodes set on the tree
+                        // object.
+                        tree = children;   
+                    } else {
+                        // If the parent does not have a top-level id,
+                        // bind the children to the parent node in this
+                        // recursion level before handing it over for
+                        // another spin. 
+                        //
+                        // Because "child" is passed as 
+                        // the second parameter in the next call, 
+                        // in the next iteration "parent" will be the
+                        // first child bound here.
+                        parent.children = children;
+                    }
+                    // The function cannot continue to the return 
+                    // statement until this line stops being called, 
+                    // which only happens when "children" is empty.
+                    jQuery.each( children, function( child ){ unflatten( topRanges, child ); } );                    
                 }
-                _.each( children, function( child ){ unflatten( array, child ) } );                    
 
+                console.log(tree);
+                return tree;
             }
-            console.log(roots);
-            console.log(tree);
-            return rangeList;
+            var toc = unflatten(rangeList);
+            return toc;
         },
 
         getImagesList: function(sequence) {
