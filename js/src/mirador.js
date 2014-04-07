@@ -1,22 +1,25 @@
 window.Mirador = window.Mirador || function(config) {
 
-  if (Mirador.DEFAULT_SETTINGS.workspaceAutoSave) {
+  // if (Mirador.DEFAULT_SETTINGS.workspaceAutoSave) {
 
-    // retrieve any saved settings or configuration options from
-    // the localstorage database, merging them with the current
-    // settings and configuration.
-    //
-    // acts as a "guard" function in the initialisation process.
-    Mirador.settingsLoader = new Mirador.SettingsLoader(config);
+  //   // retrieve any saved settings or configuration options from
+  //   // the localstorage database, merging them with the current
+  //   // settings and configuration.
+  //   //
+  //   // acts as a "guard" function in the initialisation process.
+  //   Mirador.settingsLoader = new Mirador.SettingsLoader(config);
 
-    config = Mirador.settingsLoader.config;
-  }
+  //   config = Mirador.settingsLoader.config;
+  // }
 
   // Render viewer using loaded manifests data
   Mirador.viewer = new Mirador.Viewer(config);
 
   // Fetch manifest, parse and render widgets from config
   Mirador.manifests = new Mirador.ManifestsLoader(config);
+
+  // Add annotation plugin options.
+  Mirador.DEFAULT_SETTINGS.imageView.osda = config.osda;
 };
 
 (function($) {

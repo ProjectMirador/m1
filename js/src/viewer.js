@@ -21,7 +21,6 @@
       workspaceAutoSave:      $.DEFAULT_SETTINGS.workspaceAutoSave,
       windowSize:             {},
       resizeRatio:            {},
-
       lastWidgetPosition: {
         x: 'left',
         y: 'top',

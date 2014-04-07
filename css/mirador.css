@@ -343,6 +343,10 @@ text {
   display:block;
 }
 
+.annotator-wrapper {
+    height:100%;
+}
+
 /* scale
 ----------------*/
 .mirador-image-scale.hidden {
@@ -787,6 +791,8 @@ a.mirador-icon-annotationDetail-toggle.hidden {
 .mirador-icon-thumbnails-view { background-position: -301px -40px; }
 .mirador-icon-thumbnails-view:hover { background-position: -301px -60px; }
 
+.mirador-icon-annotator { background-position: -360px -40px; }
+.mirador-icon-annotator:hover { background-position: -360px -60px; }
 
 
 /* jquery-ui css overrides

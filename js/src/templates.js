@@ -121,6 +121,7 @@
           '<a href="javascript:;" class="mirador-btn mirador-icon-thumbnails-view"></a>',
           '<a href="javascript:;" class="mirador-btn mirador-icon-previous"></a>',
           '<a href="javascript:;" class="mirador-btn mirador-icon-next"></a>',
+          '<a href="javascript:;" class="mirador-btn mirador-icon-annotator"></a>',
         '</div>'
       ].join('')),
 

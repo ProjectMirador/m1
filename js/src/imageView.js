@@ -90,7 +90,12 @@
         if (typeof osdBounds != 'undefined') {
           _this.osd.viewport.fitBounds(osdBounds, true);
         }
-        var osda = new OpenSeadragonAnnotation($(_this.element),options);       
+
+        console.log(jQuery(_this.element));
+        
+        $.DEFAULT_SETTINGS.imageView.osda.optionsOpenSeadragon.instance = _this.osd;
+
+        _this.osda = new OpenSeadragonAnnotation(jQuery(_this.element), $.DEFAULT_SETTINGS.imageView.osda );       
       });
 
       this.parent.element.dialog('option', 'title', this.getTitle());
@@ -393,6 +398,7 @@
       selectorThumbnailsView  = '.mirador-icon-thumbnails-view',
       selectorNext            = '.mirador-icon-next',
       selectorPrevious        = '.mirador-icon-previous',
+      selectorAnnotator        = '.mirador-icon-annotator',
       _this = this;
 
       navToolbar.on('click', selectorPrevious, function() {
@@ -408,15 +414,20 @@
       });
 
       navToolbar.on('click', selectorScrollView, function() {
-        $.viewer.loadView("scrollView", _this.manifestId);
+          $.viewer.loadView("scrollView", _this.manifestId);
       });
 
       navToolbar.on('click', selectorThumbnailsView, function() {
-        $.viewer.loadView("thumbnailsView", _this.manifestId);
+          $.viewer.loadView("thumbnailsView", _this.manifestId);
       });
 
       navToolbar.on('click', selectorAnnotationsView, function() {
-        _this.annotationsLayer.setVisible();
+          _this.annotationsLayer.setVisible();
+      });
+      
+      navToolbar.on('click', selectorAnnotator, function(e) {
+          _this.osda.annotator.osda._reset();
+          _this.osda.annotator.osda.isAnnotating = !_this.osda.annotator.osda.isAnnotating;
       });
 
     },
