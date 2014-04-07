@@ -21,8 +21,62 @@
 
             Mirador({
                 "id": "viewer",
-                "data": [
-                //     { "manifestUri": "data/Walters/bd183mz0176/Manifest.json",
+                "osda": {
+                    optionsAnnotator: {
+                        permissions: {
+                            user: {
+                                id:3,
+                                name:"dani",
+                            },
+                            userString: function (user) {
+                                if (user && user.name) 
+                                    return user.name;
+                                return user;
+                            },
+                            userId: function (user) {
+                                if (user && user.name) 
+                                    return user.name;
+                                return user;
+                            },
+                        },
+
+                        store: {
+                            prefix: 'http://danielcebrian.com/annotations/api',
+
+                            annotationData: {uri:'http://catool.localhost/ova/open/test/demo/basic.html'},
+
+                            loadFromSearch:{
+                                limit:10000,
+                                uri: 'http://catool.localhost/ova/open/test/demo/basic.html',
+                            },
+                        },
+                        
+                        richText: {
+                            tinymce:{
+                                selector: "li.annotator-item textarea",
+                                plugins: "media image insertdatetime link code",
+                                menubar: false,
+                                toolbar_items_size: 'small',
+                                extended_valid_elements : "iframe[src|frameborder|style|scrolling|class|width|height|name|align|id]",
+                                toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media rubric | code "
+                            }
+                        },
+                        
+                        share: {}, // Share plugin
+                        
+                        annotator: {}, // Annotator core
+                    },
+                    
+                    optionsOpenSeadragon: {
+                        instance: null
+                    },
+                    
+                    optionsOSDA:{}
+                
+                },
+                'workspaceAutoSave': false,
+                "data": [// {
+                //     "manifestUri": "data/Walters/bd183mz0176/Manifest.json",
                 //     "title": "MS 530",
                 //     "widgets": [{
                 //         "height": 600,
@@ -39,6 +93,7 @@
                 //         "width": 500
                 //     }]
                 // },
+                // { "manifestUri": "data/ad_hoc/drs-9827622-parents-canvases.json", "title": "book_of_hours", "widgets": [] },
                 // { "manifestUri": "http://manifests.ydc2.yale.edu/manifest/Admont23.json", "title": "Admont 23", "widgets": [] },
                 // { "manifestUri": "http://dms-data.stanford.edu/Walters/qq440cn7337/manifest.json", "title": "Walters W4", "widgets": [] },
                 // { "manifestUri": "http://manifests.ydc2.yale.edu/manifest/Admont43.json", "title": "Admont 43", "widgets": [] },
@@ -75,30 +130,18 @@
                 // // { "manifestUri": "http://manifests.ydc2.yale.edu/manifest/Osbornfa1.json", "title": "Osborn fa1", "widgets": [] },
                 // { "manifestUri": "http://manifests.ydc2.yale.edu/manifest/Ripoll078.json", "title": "Ripoll 078", "widgets": [] },
                 // { "manifestUri": "http://manifests.ydc2.yale.edu/manifest/SanktGallenStiftsbibliothek673Sg.json", "title": "Sankt Gallen, Stiftsbibliothek 673 Sg", "widgets": [] },
-                // { "manifestUri": "http://www.shared-canvas.org/impl/demo1d/res_human/manifest.json", "location": "Shared Canvas", "title": "Pierpont Morgan MS.804", 
-                //     "widgets": [
-                //         { "height": 600,
-                //             "openAt": "",
-                //             "type": "imageView",
-                //             "width": 500,
-                //             'position': {
-                //                 'my':'left top',
-                //                 'at':'left+300 top+234'
-                //             }
-                //     }] 
-                // },
-                { "manifestUri": "data/ad_hoc/drs-9827622-parents-canvases.json", "location": "local", "title": "Book of Hours", 
+                { "manifestUri": "http://www.shared-canvas.org/impl/demo1d/res_human/manifest.json", "location": "Shared Canvas", "title": "Pierpont Morgan MS.804", 
                     "widgets": [
                         { "height": 600,
                             "openAt": "",
                             "type": "imageView",
-                            "width": 120,
+                            "width": 500,
                             'position': {
                                 'my':'left top',
                                 'at':'left+300 top+234'
                             }
                     }] 
-                },
+                } //,
                 // { "manifestUri": "http://manifests.ydc2.yale.edu/manifest/Admont23.json", "title": "Adomont23", "widgets": [] },
                 ]
 
