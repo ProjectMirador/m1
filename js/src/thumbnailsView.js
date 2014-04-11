@@ -14,6 +14,7 @@
       thumbsDefaultZoom:    $.DEFAULT_SETTINGS.thumbnailsView.thumbsDefaultZoom,
       thumbsDefaultHeight:  this.thumbsMinHeight,
       parent:               null,
+      // ranges:               null,
       navToolbarCls:        'mirador-thumbnails-view-nav-toolbar'
     }, options);
 
@@ -42,6 +43,12 @@
         defaultHeight:  this.thumbsDefaultHeight,
         listingCssCls:  this.thumbsListingCls
       };
+
+      tplData.ranges = (function(contents){
+          console.log('inner ranges:');
+          console.log(contents);
+      })(_this.ranges);
+          console.log(_this);
 
       tplData.thumbs = jQuery.map(this.imagesList, function(image, index) {
         return {

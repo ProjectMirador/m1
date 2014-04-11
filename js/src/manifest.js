@@ -71,7 +71,6 @@
             var _this = this,
             ranges = [];
             if (!this.jsonLd.structures) { return []; }
-            console.log(_this.jsonLd.structures); 
             jQuery.each(this.jsonLd.structures, function(index, range) {
                 if (range['@type'] === 'sc:Range') {
                     ranges.push({
@@ -82,6 +81,7 @@
                     });
                 }
             });
+            console.log(ranges);
 
             ranges = _this.extractRangeTrees(ranges);
 
@@ -89,26 +89,18 @@
         },
 
         extractRangeTrees: function(rangeList) {
-            var _this = this;
-            var roots = jQuery.grep(rangeList, function(range){
-                return !range.within;
-            });
-            var parent;
-
+            var tree, parent;
             // Recursively build tree/table of contents data structure
             // Begins with the list of topmost categories
-            function unflatten(topRanges, parent, tree) {
+            function unflatten(flatRanges, parent, tree) {
                 // To aid recursion, define the tree if it does not exist,
                 // but use the tree that is being recursively built
                 // by the call below.
                 tree = typeof tree !== 'undefined' ? tree : [];
-                parent = typeof parent !== 'undefined' ? parent : { label: 'Table of Contents'};
-                console.log(tree);
-                console.log(parent.label);
-                var children = jQuery.grep(topRanges, function(child){ return child.within === parent['@id']; });
-
-                if( children.length !== 0 ){
-                    if ( !parent['@id'] ) {
+                parent = typeof parent !== 'undefined' ? parent : {id: "root", label: "Table of Contents" };
+                var children = jQuery.grep(flatRanges, function(child) { if (!child.within) { child.within = 'root'; } return child.within == parent.id; });
+                if ( children.length ) {
+                    if ( parent.id === 'root') {
                         // If there are children and their parent's 
                         // id is a root, bind them to the tree object.
                         // 
@@ -116,6 +108,9 @@
                         // and all non-top-level children are now
                         // bound the these base nodes set on the tree
                         // object.
+                        children.forEach(function(child) {
+                            child.level = 0;
+                        });
                         tree = children;   
                     } else {
                         // If the parent does not have a top-level id,
@@ -127,19 +122,20 @@
                         // the second parameter in the next call, 
                         // in the next iteration "parent" will be the
                         // first child bound here.
+                        children.forEach(function(child) { 
+                            child.level = parent.level+1;
+                        });
                         parent.children = children;
                     }
                     // The function cannot continue to the return 
                     // statement until this line stops being called, 
                     // which only happens when "children" is empty.
-                    jQuery.each( children, function( child ){ unflatten( topRanges, child ); } );                    
+                    jQuery.each( children, function( index, child ){ unflatten( flatRanges, child ); } );                    
                 }
-
-                console.log(tree);
                 return tree;
             }
-            var toc = unflatten(rangeList);
-            return toc;
+
+            return unflatten(rangeList);
         },
 
         getImagesList: function(sequence) {

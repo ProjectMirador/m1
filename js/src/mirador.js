@@ -315,6 +315,11 @@ window.Mirador = window.Mirador || function(config) {
   $.getImagesListByManifestId = function(manifestId) {
     return $.manifests[manifestId].sequences[0].imagesList;
   };
+  
+
+  $.getRangesByManifestId = function(manifestId) {
+    return $.manifests[manifestId].ranges;
+  };
 
 
   $.getCollectionTitle = function(metadata) {

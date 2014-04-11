@@ -57,6 +57,7 @@
     this.element          = this.element || jQuery('<div/>');
     this.metadataDetails  = $.getMetadataByManifestId(this.manifestId).details;
     this.imagesList       = $.getImagesListByManifestId(this.manifestId);
+    this.ranges           = $.getRangesByManifestId(this.manifestId);
 
     this.create();
     this.attachEvents();

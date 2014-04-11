@@ -334,6 +334,11 @@
 
     return title;
   });
+  
+  Handlebars.registerHelper('nestedRangeLevel', function(range) {
+      range = range.derp;
+    return range;
+  });
 
 
 }(Mirador));
