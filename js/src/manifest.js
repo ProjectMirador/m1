@@ -81,7 +81,6 @@
                     });
                 }
             });
-            console.log(ranges);
 
             ranges = _this.extractRangeTrees(ranges);
 

@@ -259,17 +259,32 @@
     ---------------------------------------------------------------------------- */
     thumbnailsView: {
       // template for rendering images in thumbnails view
-      listImages: Handlebars.compile([
-        '<ul class="{{listingCssCls}} listing-thumbs">',
-          '{{#thumbs}}',
-            '<li>',
-              '<a href="javascript:;">',
-                '<img title="{{title}}" data-image-id="{{id}}" src="{{thumbUrl}}" height="{{../defaultHeight}}">',
-                '<div class="thumb-label">{{title}}</div>',
-              '</a>',
-            '</li>',
-          '{{/thumbs}}',
-        '</ul>'
+      listTocImages: (function() {
+          var templateString = [
+            '<ul class="{{../../listingCssCls}} listing-thumbs">',
+              '{{#thumbs}}',
+                '<li>',
+                  '<a href="javascript:;">',
+                    '<img title="{{title}}" data-image-id="{{id}}" src="{{thumbUrl}}" height="{{defaultHeight}}">',
+                    '<div class="thumb-label">{{title}}</div>',
+                  '</a>',
+                '</li>',
+              '{{/thumbs}}',
+            '</ul>'
+          ].join('');
+          Handlebars.registerPartial('listTocImages', templateString);
+          return Handlebars.compile(templateString);
+      })(),
+      
+       generateToc: Handlebars.compile([
+          '{{#nestedRangeLevel ranges}}',
+              '{{{tocLevel label level}}}',
+                  '{{#if children}}',
+                          '{{{nestedRangeLevel children}}}',
+                  '{{else}}',
+                  '{{>listTocImages}}',
+                  '{{/if}}',
+          '{{/nestedRangeLevel}}'
       ].join('')),
 
       // template for rendering tool bar with nav links
@@ -334,11 +349,25 @@
 
     return title;
   });
+
+  var previousTemplate;
   
-  Handlebars.registerHelper('nestedRangeLevel', function(range) {
-      range = range.derp;
-    return range;
+  Handlebars.registerHelper('nestedRangeLevel', function(children, options) {
+      var out = '';
+
+      if (options.fn !== undefined) {
+          previousTemplate = options.fn;
+      }
+
+      children.forEach(function(child){
+          out = out + previousTemplate(child);
+      });
+
+      return out;
   });
 
+  Handlebars.registerHelper('tocLevel', function(label, level){
+      return '<h' + (level+1) + '>' + label + '</h' + (level+1) + '>';
+  });
 
 }(Mirador));
