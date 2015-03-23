@@ -1,3 +1,6 @@
+
+# M1 is the previous version of the Mirador image viewing, comparison, and annotation tool, which is now at a 2.0 release. See the [iiif/mirador](http://github.com/IIIF/mirador) repository for more details. This version is no longer maintained, but with persist here for historical purposes. Please submit issues to [iiif/mirador/issues](http://github.com/IIIF/mirador). Thank you.
+
 # Mirador Viewer
 
 An open-source, web-based 'multi-up' viewer that supports zoom-pan-rotate functionality, ability to display/compare simple images, and images with annotations.
